@@ -1,0 +1,10 @@
+{
+  "mysql": {
+    "host": "localhost",
+    "database": "lets_exercise_test",
+    "username": "root",
+    "password": "password",
+    "charset": "utf8mb4",
+    "collation":"utf8mb4_unicode_ci"
+  }
+}
