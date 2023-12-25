@@ -32,10 +32,53 @@ const db = {
       })
     })
   },
-  pool: (config = {}) => {
-    const dbPool = mysql.createPool({ config })
+  init: (config = {}) => {
+  // config as belows
+  // host: 'localhost',
+  // user: 'root',
+  // database: 'test',
+  // waitForConnections: true,
+  // connectionLimit: 10,
+  // maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
+  // idleTimeout: 60000, // idle connections timeout, in milliseconds, the default value 60000
+  // queueLimit: 0,
+  // enableKeepAlive: true,
+  // keepAliveInitialDelay: 0
+
+    global.db = mysql.createPool({ config })
     return this
-  }
+  },
+  handleDisconnect: (config = {}) => { // 待調整
+    // 與資料庫連線
+    const connection = mysql.createConnection(config)
+
+    // 資料庫連線發生錯誤處理
+    connection.connect(function (err) {
+      if (err) {
+        console.log('error when connecting to db:', err)
+        // 2秒後重新連線
+        setTimeout(db.handleDisconnect, 2000)
+      }
+    })
+
+    // 連線發生錯誤處理
+    connection.on('error', function (err) {
+      console.log('db error', err)
+      if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+        // 連線失效處理
+        db.handleDisconnect()
+      } else {
+        throw err
+      }
+    })
+  },
+  query: () => {},
+  insert: () => {
+
+  },
+  select: () => {},
+  update: () => {},
+  delete: () => {}
 
 }
 

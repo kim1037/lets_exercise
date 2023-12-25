@@ -6,6 +6,7 @@
 ## Prerequisites - 開發環境
 * node.js - v18.15.0
 * express
+* mysql2 
 
 ## Installation and execution - 安裝與執行步驟
 1. 開啟 Terminal, Clone 此專案至本機:
@@ -16,8 +17,9 @@
 3. 安裝所需套件 - 請參見 package.json
 `npm install`
 
+4. 修改config中的database資訊，並在terminal中輸入 npm run createDB 建立 Database 
 
-4. 啟動伺服器，執行 app.js 檔案
+5. 啟動伺服器，執行 server.js 檔案
 `npm run dev`
 
 當 terminal 出現以下字樣，表示伺服器已啟動
