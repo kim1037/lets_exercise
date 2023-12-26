@@ -45,7 +45,13 @@ const db = {
   // enableKeepAlive: true,
   // keepAliveInitialDelay: 0
 
-    global.db = mysql.createPool({ config })
+    global.mySQLPool = mysql.createPool({
+      connectionLimit: 10,
+      host: config.host,
+      user: config.user,
+      password: config.password,
+      database: config.database
+    })
     return this
   },
   handleDisconnect: (config = {}) => { // 待調整
@@ -72,7 +78,25 @@ const db = {
       }
     })
   },
-  query: () => {},
+  query: sql => {
+    return new Promise((resolve, reject) => {
+      global.mySQLPool.getConnection((err, conn) => {
+        if (err) {
+          reject(err)
+        } else {
+          conn.query(sql, (err, result) => {
+            if (err) {
+              console.error('SQL error: ', err)// 寫入資料庫有問題時回傳錯誤
+              reject(err)
+            } else {
+              resolve('Query is executed success.')
+            }
+            conn.release()
+          })
+        }
+      })
+    })
+  },
   insert: () => {
 
   },
