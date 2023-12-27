@@ -1,6 +1,28 @@
 const mysql = require('mysql2')
-
+let pool = {}
 const db = {
+  init: (config = {}) => {
+  // config as belows
+  // host: 'localhost',
+  // user: 'root',
+  // database: 'test',
+  // waitForConnections: true,
+  // connectionLimit: 10,
+  // maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
+  // idleTimeout: 60000, // idle connections timeout, in milliseconds, the default value 60000
+  // queueLimit: 0,
+  // enableKeepAlive: true,
+  // keepAliveInitialDelay: 0
+
+    pool = mysql.createPool({
+      connectionLimit: 10,
+      host: config.host,
+      user: config.user,
+      password: config.password,
+      database: config.database
+    })
+    return this
+  },
   createDB: (config = {}) => {
     return new Promise((resolve, reject) => {
       if (!config.database) {
@@ -27,32 +49,10 @@ const db = {
         if (err) {
           reject(err)
         } else {
-          resolve('Database has created')
+          resolve(`Database ${config.database} has created`)
         }
       })
     })
-  },
-  init: (config = {}) => {
-  // config as belows
-  // host: 'localhost',
-  // user: 'root',
-  // database: 'test',
-  // waitForConnections: true,
-  // connectionLimit: 10,
-  // maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
-  // idleTimeout: 60000, // idle connections timeout, in milliseconds, the default value 60000
-  // queueLimit: 0,
-  // enableKeepAlive: true,
-  // keepAliveInitialDelay: 0
-
-    global.mySQLPool = mysql.createPool({
-      connectionLimit: 10,
-      host: config.host,
-      user: config.user,
-      password: config.password,
-      database: config.database
-    })
-    return this
   },
   handleDisconnect: (config = {}) => { // 待調整
     // 與資料庫連線
@@ -78,15 +78,14 @@ const db = {
       }
     })
   },
-  query: sql => {
+  query: (sql = '') => {
     return new Promise((resolve, reject) => {
-      global.mySQLPool.getConnection((err, conn) => {
+      pool.getConnection((err, conn) => {
         if (err) {
           reject(err)
         } else {
           conn.query(sql, (err, result) => {
             if (err) {
-              console.error('SQL error: ', err)// 寫入資料庫有問題時回傳錯誤
               reject(err)
             } else {
               resolve('Query is executed success.')
@@ -102,8 +101,18 @@ const db = {
   },
   select: () => {},
   update: () => {},
-  delete: () => {}
-
+  delete: () => {},
+  end: () => {
+    return new Promise((resolve, reject) => {
+      pool.end(err => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve('DB is closed.')
+        }
+      })
+    })
+  }
 }
 
 module.exports = db

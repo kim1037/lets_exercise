@@ -3,7 +3,7 @@ const config = require('../config/config.json')
 db.init(config.mysql)
 // create user table
 
-const userTable = `CREATE TABLE IF NOT EXISTS users (
+const usersTable = `CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nationalId CHAR(10) NOT NULL,
   email VARCHAR(100) NOT NULL,
@@ -22,7 +22,7 @@ const userTable = `CREATE TABLE IF NOT EXISTS users (
   updatedAt TIMESTAMP NOT NULL
   )`
 
-const arenaTable = `CREATE TABLE IF NOT EXISTS arenas (
+const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
   address VARCHAR(100) NOT NULL,
@@ -74,8 +74,11 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   FOREIGN KEY (shuttlecockId) REFERENCES shuttlecocks(id)
   )`
 
-db.query(userTable).then(r => { console.log('Table users created.') }).catch(err => console.error(err))
-db.query(arenaTable).then(r => {
+// 由於有關聯的順序問題，因此用鏈接方式建立table
+db.query(usersTable).then(r => {
+  console.log('Table users created.')
+  return db.query(arenasTable)
+}).then(r => {
   console.log('Table arenas created.')
   return db.query(branchesTable)
 }).then(r => {
@@ -86,4 +89,7 @@ db.query(arenaTable).then(r => {
   return db.query(activitiesTable)
 }).then(r => {
   console.log('Table activities created.')
+  return db.end()
+}).then(r => {
+  console.log(r)
 }).catch(err => console.error(err))
