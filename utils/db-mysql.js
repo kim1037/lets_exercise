@@ -84,20 +84,40 @@ const db = {
         if (err) {
           reject(err)
         } else {
-          conn.query(sql, (err, result) => {
+          conn.query(sql, (err, results, fields) => {
+            conn.release()
             if (err) {
               reject(err)
             } else {
-              resolve('Query is executed success.')
+              resolve([results, fields])
             }
-            conn.release()
           })
         }
       })
     })
   },
-  insert: () => {
+  insert: (table = '', inserts = {}) => {
+    return new Promise((resolve, reject) => {
+      if (!table) {
+        reject(new Error('Table name is required!'))
+        return
+      }
+      const columns = Object.keys(inserts)
+      let values = ''
+      columns.forEach(c => {
+        if (typeof inserts[c] === 'number') {
+          values += inserts[c]
+        } else {
+          values += `"${inserts[c]}"`
+        }
+        if (columns.indexOf(c) !== columns.length - 1) {
+          values += ', '
+        }
+      })
 
+      const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${values});`
+      db.query(sql).then(r => resolve(r)).catch(e => reject(e))
+    })
   },
   select: () => {},
   update: () => {},
@@ -108,7 +128,7 @@ const db = {
         if (err) {
           reject(err)
         } else {
-          resolve('DB is closed.')
+          resolve('Database is closed.')
         }
       })
     })

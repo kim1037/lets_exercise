@@ -93,3 +93,20 @@ db.query(usersTable).then(r => {
 }).then(r => {
   console.log(r)
 }).catch(err => console.error(err))
+
+function getCurrentDateTime () { // js中沒有指定格式的內建方法
+  const now = new Date()
+
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0') // 月份從0開始，需要加1；並且補齊至兩位數
+  const day = String(now.getDate()).padStart(2, '0') // 日補齊至兩位數
+  const hours = String(now.getHours()).padStart(2, '0')
+  const minutes = String(now.getMinutes()).padStart(2, '0')
+  const seconds = String(now.getSeconds()).padStart(2, '0')
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
+
+db.insert('users', { nationalId: 'A223456789', email: 'test01@test.com', account: 'test01', password: 'Test1111', firstName: 'Jamie', lastName: 'Wu', nickName: 'JJ', gender: 'female', avatar: 'null', introduction: 'Hello', birthdate: '1990/10/10', playSince: '2020/10/01', phoneNumber: '0956123456', createdAt: getCurrentDateTime(), updatedAt: getCurrentDateTime() }).then(r => console.log(r)).catch(e => console.log(e))
+
+db.end()
