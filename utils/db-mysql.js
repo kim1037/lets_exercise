@@ -132,6 +132,19 @@ const db = {
         }
       })
     })
+  },
+  getColumns: (database = '', table = '') => {
+    return new Promise((resolve, reject) => {
+      if (!table || !database) {
+        reject(new Error('Database name and Table name is required!'))
+        return
+      }
+      const sql = `DESCRIBE ${database}.${table};`
+      db.query(sql).then(results => {
+        const columns = results[0].map(r => r.Field)
+        resolve(columns)
+      }).catch(e => reject(e))
+    })
   }
 }
 
