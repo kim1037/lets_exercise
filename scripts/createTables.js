@@ -18,8 +18,8 @@ const usersTable = `CREATE TABLE IF NOT EXISTS users (
   birthdate DATE NOT NULL,
   playSince DATE,
   phoneNumber CHAR(10) NOT NULL,
-  createdAt TIMESTAMP NOT NULL,
-  updatedAt TIMESTAMP NOT NULL
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
   )`
 
 const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
@@ -31,8 +31,8 @@ const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   description VARCHAR(150),
   website VARCHAR(150),
   phone VARCHAR(10),
-  createdAt TIMESTAMP NOT NULL,
-  updatedAt TIMESTAMP NOT NULL
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
   )`
 
 // boc = brand-originating countries
@@ -40,10 +40,10 @@ const branchesTable = `CREATE TABLE IF NOT EXISTS branches (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
   boc VARCHAR(50),
-  logoImg VARCHAR(150),
+  logoImg TEXT,
   description TEXT,
-  createdAt TIMESTAMP NOT NULL,
-  updatedAt TIMESTAMP NOT NULL)`
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL)`
 
 const shuttlecocksTable = `CREATE TABLE IF NOT EXISTS shuttlecocks (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,8 +51,8 @@ const shuttlecocksTable = `CREATE TABLE IF NOT EXISTS shuttlecocks (
   branchId INT NOT NULL,
   fixPrice INT,
   description VARCHAR(150),
-  createdAt TIMESTAMP NOT NULL,
-  updatedAt TIMESTAMP NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (branchId) REFERENCES branches(id)
   )`
 
@@ -67,8 +67,8 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   fee INT NOT NULL,
   numsOfPeople INT NOT NULL,
   description VARCHAR(150),
-  createdAt TIMESTAMP NOT NULL,
-  updatedAt TIMESTAMP NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id),
   FOREIGN KEY (arenaId) REFERENCES arenas(id),
   FOREIGN KEY (shuttlecockId) REFERENCES shuttlecocks(id)
@@ -93,5 +93,3 @@ db.query(usersTable).then(r => {
 }).then(r => {
   console.log(r)
 }).catch(err => console.error(err))
-
-db.end()

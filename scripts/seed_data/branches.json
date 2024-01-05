@@ -1,0 +1,71 @@
+[
+  {    "name": "VICTOR勝利",
+    "boc": "Taiwan",
+    "logoImg": "https://upload.wikimedia.org/wikipedia/commons/1/1a/VICTOR_logo.JPG",
+    "description": "國際羽球運動品牌 VICTOR 1968 年創立於台灣，致力於研發頂級羽球拍、球鞋、服飾及相關羽球運動器材，並攜手世界球后戴資穎、世界冠軍阿山/塞提阿萬、丹麥羽毛球國家隊等頂尖好手，於全世界推廣羽球運動。經銷據點涵蓋全球五大洲、超過 60 個國家。"
+  },
+  {    "name": "YONEX優乃克",
+    "boc": "Japan",
+    "logoImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo-Yonex.svg/2560px-Logo-Yonex.svg.png",
+    "description": "YONEX是一間總部位於東京都的運動用品製造商，一般大家稱它為YY。 1946年米山稔創辦米山木工所，1958年改組為現在的ヨネックス株式會社，1978年引進台灣成立優乃克貿易公司台灣辦事處，1987年在台上市，設立優乃克股份有限公司。"
+  },
+  {    "name": "Gosen",
+    "boc": "Japan",
+    "logoImg": "https://lh5.googleusercontent.com/u3ySSp_gnfYbl1YovmGU9yBpTbrgLSH3B1fqcJKT-Xm42u0BETGn3V7U0bvyd0kTrvwNq-ecbqBrI8iUBb-_IvXNrb58QwGvKBZ7bvMaVGHSVTyo7BpnmZpK5FxE=w1155",
+    "description": "日本GOSEN成立1951年，以球線著稱，其所倡導的張人穿線方法，並受到許多世界級運動員認可。 其代言人為泰國國手文薩。 1986年被國際聯合會正式認可為優質網球線；1996年ＧＯＳＥＮ的羽毛球線首先並是唯一被國際羽聯認可的羽線；ＧＯＳＥＮ的羽毛球線被專家公認為是全球最好的羽毛球線。"
+  },
+  {    "name": "Mizuno美津濃",
+    "boc": "Japan",
+    "logoImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/MIZUNO_logo.svg/2560px-MIZUNO_logo.svg.png",
+    "description": "美津濃（Mizuno），是日本美津濃株式會社於1906年創立的運動品牌，經過一個多世紀的不斷努力現已成為世界領先的運動器具、服裝和鞋類生產商。"
+  },
+  {    "name": "LI-NING李寧",
+    "boc": "China",
+    "logoImg": "https://upload.wikimedia.org/wikipedia/commons/2/26/LiNing_Logo.svg",
+    "description": "由體操王子李寧在1990年創立的運動用品品牌，國際知名運動品牌，大型運動戶外裝備供應商，致力於運動事業的發展"
+  },
+  {    "name": "Bonny波力",
+    "boc": "Taiwan",
+    "logoImg": "https://bonnygo.com.tw/upload/bonnylogo.png",
+    "description": "波力體事器材（深圳）有限公司，是專業生產製造網球拍、壁球拍、羽球拍、高爾夫球桿頭、自行車架等運動器材為主的台資企業，產品90%外銷。 增營運動服裝、網羽運動鞋、旅行包等運動產品，於1992年進入大陸。 波力製造碳纖維網、羽球拍已有二十多年的歷史，在碳纖維產品開發方面已有自己獨特的工藝，曾經與Prince,YONEX,等諸多世界品牌有著良好的生產加工合作關係。"
+  },
+  {    "name": "Kawasaki川崎",
+    "boc": "China",
+    "logoImg": "https://logos-world.net/wp-content/uploads/2020/11/Kawasaki-Logo-1967.png",
+    "description": "kawasaki（川崎）運動用品事業創立於1915年，是全球領導品牌之一。 Kawasaki（川崎）在運動產業已有近百年的歷史，更是研發出世界第一支碳素球拍，公司將以羽網產業為發展重心，充分發揮川崎在羽球產業的品牌影響力，不斷進行產品 創新及產品線延伸，奠定公司在該產業的領導地位。"
+  },
+  {    "name": "Kumpoo薰風",
+    "boc": "China",
+    "logoImg": null,
+    "description": "“TAKE THE CHALLENGE 勇於挑戰”，這是薰風的口號，同時也是品牌文化的精髓之所在展望未來，滿懷信心，充滿理想與激情薰風人將以創百年企業、樹百年品牌為使命。"
+  },
+  {    "name": "RSL",
+    "boc": "UK",
+    "logoImg": null,
+    "description": "Reinfoced Shuttlecoks Limited（簡稱RSL\\亞獅龍），成立於1928年，為英國歷史最悠久，世界羽壇資格最深的羽球品牌。"
+  },
+  {
+    "name": "FZ FORZA",
+    "boc": "Denmark",
+    "logoImg": "https://cdn1-next.cybassets.com/s/files/16024/ckeditor/pictures/content_a8e061ec-f1ec-4bf6-848f-58093e759c1b.jpg",
+    "description": "FZ FORZA來自丹麥的皇室品質的羽毛球品牌，源自丹麥創意與設計的100%歐州羽球品牌，總部位於丹麥北日德蘭半島。 由全英羽球公開賽和世錦賽得主Mark Christiansen(馬克里斯汀森)創立於1990年，FZ FORZA所有的產品均經過世界頂級球員的測評，專注於產品的研發和改進。"
+  },
+  {
+    "name": "FLEET富力特",
+    "boc": "Taiwan",
+    "logoImg": null,
+    "description": "創立於1993年3月，從事體育用品、羽毛球拍等系列產品，並自創「富力特FLEET」品牌，行銷國內市場。"
+  },
+  {
+    "name": "MMOA摩亞",
+    "boc": "Taiwan",
+    "logoImg": null,
+    "description": "由台灣跟日本、韓國三個國家合資的品牌"
+  },
+  {
+    "name": "JNICE久奈司",
+    "boc": "Taiwan",
+    "logoImg": null,
+    "description": "「JNICE」之名，義於台、英共同來表示「非常美好、非常精緻」之意，除了有著濃厚的鄉土味以及跨國界的文化融合，其中也包含了本公司對於產品品質嚴苛控管的自我期許。"
+  }
+]

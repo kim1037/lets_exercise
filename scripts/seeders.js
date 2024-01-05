@@ -1,6 +1,7 @@
 const db = require('../utils/db-mysql.js')
 const faker = require('faker')
 const config = require('../config/config.json')
+const branchesJson = require('./seed_data/branches.json')
 db.init(config.mysql)
 
 function getTimestamp () { // js中沒有指定格式的內建方法
@@ -99,10 +100,45 @@ function usersSeeders (nums) {
     }
   }
   const sql = `INSERT INTO users (${columns.join(', ')}) VALUES ${values}`
-  db.query(sql).then(r => console.log('Seeders created!')).catch(e => console.error(e))
+  db.query(sql).then(r => console.log('User seeders created!')).catch(e => console.error(e))
+}
+
+function branchesSeeders (jsonFile) {
+  const columns = Object.keys(jsonFile[0]).concat(['createdAt', 'updatedAt'])
+  // console.log(columns)
+  let values = ''
+  for (let i = 0; i < jsonFile.length; i++) {
+    const branch = jsonFile[i]
+    branch.createdAt = getTimestamp()
+    branch.updatedAt = getTimestamp()
+    const data = columns.map(c => branch[c])
+    let value = '('
+    let count = 0
+    data.forEach(d => {
+      count += 1
+      if (typeof d === 'number') {
+        value += d
+      } else {
+        value += `"${d}"`
+      }
+      if (count !== data.length) {
+        value += ', '
+      }
+    })
+    if (i === jsonFile.length - 1) {
+      values += value + ')'
+    } else {
+      values += value + '), '
+    }
+  }
+
+  const sql = `INSERT INTO branches (${columns.join(', ')}) VALUES ${values}`
+  // console.log(sql)
+  db.query(sql).then(r => console.log('Branch seeders created!')).catch(e => console.error(e))
 }
 
 usersSeeders(5)
+branchesSeeders(branchesJson)
 // db.getColumns(config.mysql.database, 'users').then(columns => {
 //   console.log(columns)
 // }).catch(e => console.error(e))
