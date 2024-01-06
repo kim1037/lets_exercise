@@ -1,8 +1,8 @@
 {
   "mysql": {
-    "host": "localhost",
-    "database": "lets_exercise_test",
-    "username": "root",
+    "host": "127.0.0.1",
+    "database": "lets_exercise",
+    "user": "root",
     "password": "password",
     "charset": "utf8mb4",
     "collation":"utf8mb4_unicode_ci"
