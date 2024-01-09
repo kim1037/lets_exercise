@@ -1,0 +1,158 @@
+[
+  {
+    "name": "【VICTOR】MASTER NO.1國際比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/bestline_product/Shuttlecocks/Master1_01-250x250.jpg",
+    "fixedPrice": 910,
+    "branchId": 1
+  },
+  {
+    "name": "【VICTOR】B-01N藍蓋 新比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/bestline_product/Shuttlecocks/Champion-B-00-250x250.jpg",
+    "fixedPrice": 710,
+    "branchId": 1
+  },
+  {
+    "name": "【VICTOR】SELECT B-09精選級 羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/bestline_product/Shuttlecocks/B-09-250x250.jpg",
+    "fixedPrice": 510,
+    "branchId": 1
+  },
+  {
+    "name": "【VICTOR】CARBONSONIC NO.2人造碳纖維羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/bestline_product/17NEW/17Q4/CS NO2_01-250x250.jpg",
+    "fixedPrice": 380,
+    "branchId": 1
+  },
+  {
+    "name": "【VICTOR】AS SHUTTLE 戶外羽球",
+    "image": "https://www.bestline.com.tw/image/cache/data/bestline_product/Shuttlecocks/AS_01-250x250.jpg",
+    "fixedPrice": 220,
+    "branchId": 1
+  },
+  {
+    "name": "【VICTOR】AS-AIRSHUTTLE II 戶外羽球二代",
+    "image": "https://www.bestline.com.tw/image/cache/data/bestline_product/V-21N/AS-AIRSHUTTLE-II_01-250x250.jpg",
+    "fixedPrice": 230,
+    "branchId": 1
+  },
+  {
+    "name": "【FLEET】SUPER-1000頂級比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/FLEET_Product/2015_NEW/S_1000_01-250x250.jpg",
+    "fixedPrice": 230,
+    "branchId": 11
+  },
+  {
+    "name": "【FLEET】SUPER-700比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/FLEET_Product/2015_NEW/S_700A-250x250.jpg",
+    "fixedPrice": 230,
+    "branchId": 11
+  },
+  {
+    "name": "【FLEET】SUPER-500 練習級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/FLEET_Product/2015_NEW/S_500_01-250x250.jpg",
+    "fixedPrice": 230,
+    "branchId": 11
+  },
+  {
+    "name": "【LI-NING】G800 國際比賽級一級鵝毛羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/LINING_Product/LI_22N/G800-250x250.jpg",
+    "fixedPrice": 820,
+    "branchId": 5
+  },
+  {
+    "name": "【LI-NING】G700 精選鵝毛比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/LINING_Product/LI_22N/G700-250x250.jpg",
+    "fixedPrice": 700,
+    "branchId": 5
+  },
+  {
+    "name": "【LI-NING】G600 鵝毛比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/LINING_Product/LI_21/G600_01-250x250.jpg",
+    "fixedPrice": 600,
+    "branchId": 5
+  },
+  {
+    "name": "【LI-NING】G500 鵝毛耐打高CP值羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/LINING_Product/LI-23/G500_01-250x250.jpg",
+    "fixedPrice": 550,
+    "branchId": 5
+  },
+  {
+    "name": "【LI-NING】CT-SUPER 比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/LINING_Product/Rac Acc/CT-SUPER_00-250x250.jpg",
+    "fixedPrice": 480,
+    "branchId": 5
+  },
+  {
+    "name": "【LI-NING】A+60 Extra 超高評價15顆鵝毛羽球",
+    "image": "https://www.bestline.com.tw/image/cache/data/LINING_Product/Rac Acc/A+60_00-250x250.JPG",
+    "fixedPrice": 440,
+    "branchId": 5
+  },
+  {
+    "name": "【BONNY】三粒裝尼龍休閒羽毛球(類似軟木球頭)",
+    "image": "https://www.bestline.com.tw/image/cache/data/Bonny_Product/Courts/1SC05003_01-250x250.jpg",
+    "fixedPrice": 120,
+    "branchId": 6
+  },
+  {
+    "name": "【BONNY】波力S-3 鵝毛業餘比賽級羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/Bonny_Product/Courts/S-3_01-250x250.jpg",
+    "fixedPrice": 120,
+    "branchId": 6
+  },
+  {
+    "name": "【YONEX】AS-50 羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/YONEX_product/SHUTTLECOCKS/AS-50-250x250.jpg",
+    "fixedPrice": 120,
+    "branchId": 2
+  },
+  {
+    "name": "【YONEX】AS-30 羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/YONEX_product/17_NEW/AS-30-250x250.jpg",
+    "fixedPrice": 120,
+    "branchId": 2
+  },
+  {
+    "name": "【YONEX】AS-20 羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/YONEX_product/17_NEW/AS-20-250x250.jpg",
+    "fixedPrice": 120,
+    "branchId": 2
+  },
+  {
+    "name": "【YONEX】ACB-33 羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/YONEX_product/SHUTTLECOCKS/ACB-33-250x250.jpg",
+    "fixedPrice": 120,
+    "branchId": 2
+  },
+  {
+    "name": "【YONEX】ACB-TR 羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/YONEX_product/17_NEW/ACB-TR-250x250.jpg",
+    "fixedPrice": 120,
+    "branchId": 2
+  },
+  {
+    "name": "【YONEX】M-600塑膠羽球(日製)",
+    "image": "https://www.bestline.com.tw/image/cache/data/YONEX_product/YY20NEW/M600_01-250x250.jpg",
+    "fixedPrice": 500,
+    "branchId": 2
+  },
+  {
+    "name": "【MIZUNO】TECH FEATHER 03人工羽球",
+    "image": "https://www.bestline.com.tw/image/cache/data/MIZUNO_product/M_Rac Acc/TF03_01-250x250.jpg",
+    "fixedPrice": 1200,
+    "branchId": 4
+  },
+  {
+    "name": "【MIZUNO】TECH FEATHER 03人工羽球6顆裝",
+    "image": "https://www.bestline.com.tw/image/cache/data/MIZUNO_product/M_Rac Acc/TF03-6P_01-250x250.jpg",
+    "fixedPrice": 630,
+    "branchId": 4
+  },
+  {
+    "name": "【MIZUNO】MS70大專盃比賽指定使用羽毛球",
+    "image": "https://www.bestline.com.tw/image/cache/data/MIZUNO_product/M_Rac Acc/MS70_04-250x250.jpg",
+    "fixedPrice": 680,
+    "branchId": 4
+  }
+]
