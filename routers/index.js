@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const users = require('./modules/users')
+const userController = require('../controllers/user-controller')
 
 // 註冊、登入不必驗證
-router.post('/users/signup')
+router.post('/users/signup', userController.signup)
 router.post('/users/signin')
 // 加入驗證
 router.use('/users', users)

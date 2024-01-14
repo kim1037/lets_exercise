@@ -3,12 +3,13 @@ const config = require('../config/config.json')
 db.init(config.mysql)
 // create user table
 
+// password 因為要加密避免長度不夠設為TEXT
 const usersTable = `CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nationalId CHAR(10) NOT NULL,
   email VARCHAR(100) NOT NULL,
   account VARCHAR(50) NOT NULL,
-  password VARCHAR(20) NOT NULL,
+  password TEXT NOT NULL,  
   firstName VARCHAR(20) NOT NULL,
   lastName VARCHAR(20) NOT NULL,
   nickName VARCHAR(20),

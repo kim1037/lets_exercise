@@ -1,5 +1,6 @@
 const db = require('../utils/db-mysql.js')
 const faker = require('faker')
+const bcrypt = require('bcryptjs')
 const config = require('../config/config.json')
 const branchesJson = require('./seed_data/branches.json')
 const shuttlecocksJson = require('./seed_data/shuttlecocks_data.json')
@@ -77,10 +78,10 @@ function createFakeUser (num) {
     nationalId: randomNationalId(gender),
     email: `test${num}@test.com`,
     account: `test${num}`,
-    password: 'Test1111',
+    password: bcrypt.hashSync('Test1111'),
     firstName: faker.name.firstName(gender),
     lastName: faker.name.lastName(),
-    nickName: faker.name.findName(gender),
+    nickName: faker.name.findName(),
     gender,
     avatar: `https://xsgames.co/randomusers/assets/avatars/${gender}/${Math.floor(Math.random() * 71)}.jpg`,
     introduction: faker.lorem.sentence(5),
