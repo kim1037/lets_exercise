@@ -28,7 +28,7 @@ const userController = {
       // check names 字數 <= 20
       if (firstName.length > 20) throw new Error('名字請勿超過20字元')
       if (lastName.length > 20) throw new Error('姓氏請勿超過20字元')
-      if (nickName.length > 20) throw new Error('暱稱請勿超過20字元')
+      if (nickName && nickName.length > 20) throw new Error('暱稱請勿超過20字元')
       // check email 字數 <= 100
       if (email.length > 100) throw new Error('email請勿超過100字元')
       // check phoneNumber === 10
