@@ -3,12 +3,13 @@ const config = require('../config/config.json')
 db.init(config.mysql)
 // create user table
 
+// password 因為要加密避免長度不夠設為TEXT
 const usersTable = `CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nationalId CHAR(10) NOT NULL,
   email VARCHAR(100) NOT NULL,
   account VARCHAR(50) NOT NULL,
-  password VARCHAR(20) NOT NULL,
+  password TEXT NOT NULL,  
   firstName VARCHAR(20) NOT NULL,
   lastName VARCHAR(20) NOT NULL,
   nickName VARCHAR(20),
@@ -24,13 +25,14 @@ const usersTable = `CREATE TABLE IF NOT EXISTS users (
 
 const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL,
-  address VARCHAR(100) NOT NULL,
+  name VARCHAR(80) NOT NULL,
+  address VARCHAR(150),
+  image TEXT,
   hasParking BOOLEAN,
-  openingHour VARCHAR(50),
-  description VARCHAR(150),
-  website VARCHAR(150),
-  phone VARCHAR(10),
+  openingHour TEXT,
+  description TEXT,
+  website TEXT,
+  phone VARCHAR(20),
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
   )`
@@ -38,7 +40,7 @@ const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
 // boc = brand-originating countries
 const branchesTable = `CREATE TABLE IF NOT EXISTS branches (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL,
+  name VARCHAR(80) NOT NULL,
   boc VARCHAR(50),
   logoImg TEXT,
   description TEXT,
@@ -47,9 +49,10 @@ const branchesTable = `CREATE TABLE IF NOT EXISTS branches (
 
 const shuttlecocksTable = `CREATE TABLE IF NOT EXISTS shuttlecocks (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL,
-  branchId INT NOT NULL,
-  fixPrice INT,
+  name VARCHAR(80) NOT NULL,
+  branchId INT,
+  fixedPrice INT,
+  image TEXT,
   description VARCHAR(150),
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
@@ -62,10 +65,11 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   arenaId INT NOT NULL,
   shuttlecockId INT,
   date DATE NOT NULL,
-  shuttlecockProvide BOOLEAN NOT NULL,
+  shuttlecockProvide BOOLEAN,
   level VARCHAR(30) NOT NULL,
   fee INT NOT NULL,
   numsOfPeople INT NOT NULL,
+  totalPeople INT NOT NULL,
   description VARCHAR(150),
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,

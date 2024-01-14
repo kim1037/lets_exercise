@@ -1,6 +1,7 @@
 const express = require('express')
+const routes = require('./routers')
 const app = express()
-const port = 3000
+const PORT = 3000
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -9,6 +10,9 @@ app.get('/', (req, res) => {
   res.send('hi wolrd')
 })
 
-app.listen(port, () => {
-  console.log(`Server is listening on http://127.0.0.1:${port}`)
+// routes
+app.use(routes)
+
+app.listen(PORT, () => {
+  console.log(`Server is listening on http://127.0.0.1:${PORT}`)
 })

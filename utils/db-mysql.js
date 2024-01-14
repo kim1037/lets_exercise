@@ -145,7 +145,18 @@ const db = {
         resolve(columns)
       }).catch(e => reject(e))
     })
+  },
+  dropDB: (database = '') => {
+    return new Promise((resolve, reject) => {
+      if (!database) {
+        reject(new Error('Database name is required!'))
+        return
+      }
+      const sql = `DROP DATABASE ${database};`
+      db.query(sql).then(r => resolve(`${database} has been dropped.`)).catch(e => reject(e))
+    })
   }
+
 }
 
 module.exports = db

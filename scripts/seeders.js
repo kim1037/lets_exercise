@@ -1,7 +1,19 @@
 const db = require('../utils/db-mysql.js')
 const faker = require('faker')
+const bcrypt = require('bcryptjs')
 const config = require('../config/config.json')
 const branchesJson = require('./seed_data/branches.json')
+const shuttlecocksJson = require('./seed_data/shuttlecocks_data.json')
+const arenasJson = require('./seed_data/gym_data.json').map(a => {
+  return {
+    name: a.name,
+    image: a.image,
+    description: a.hasParking.join(', ') + '\n' + a.openingHours.join(', '),
+    website: a.website,
+    phone: a.phone.replace('tel:', '')
+  }
+})
+
 db.init(config.mysql)
 
 function getTimestamp () { // js中沒有指定格式的內建方法
@@ -50,16 +62,26 @@ function randomBirthdate (minAge, maxAge) {
   return formattedDate
 }
 
+function randomDateFromToday (n) {
+  const today = new Date()
+  const randomDay = Math.floor(Math.random() * n) // 產生一個介於 0 到 n 之間的隨機數
+
+  const targetDate = new Date(today)
+  targetDate.setDate(today.getDate() + randomDay) // 將今天日期加上隨機數，得到目標日期
+
+  return targetDate.toISOString().split('T')[0] // 回傳目標日期的 YYYY-MM-DD 格式
+}
+
 function createFakeUser (num) {
   const gender = ['male', 'female'][Math.floor(Math.random() * 2)]
   const user = {
     nationalId: randomNationalId(gender),
     email: `test${num}@test.com`,
     account: `test${num}`,
-    password: 'Test1111',
+    password: bcrypt.hashSync('Test1111'),
     firstName: faker.name.firstName(gender),
     lastName: faker.name.lastName(),
-    nickName: faker.name.findName(gender),
+    nickName: faker.name.findName(),
     gender,
     avatar: `https://xsgames.co/randomusers/assets/avatars/${gender}/${Math.floor(Math.random() * 71)}.jpg`,
     introduction: faker.lorem.sentence(5),
@@ -100,31 +122,37 @@ function usersSeeders (nums) {
     }
   }
   const sql = `INSERT INTO users (${columns.join(', ')}) VALUES ${values}`
-  db.query(sql).then(r => console.log('User seeders created!')).catch(e => console.error(e))
+  return sql
 }
 
-function branchesSeeders (jsonFile) {
+function sqlFormatter (table = '', jsonFile = []) {
+  // 從object的keys取出columns, 由於json中沒有createdAt和updatedAt屬性，要額外補上
   const columns = Object.keys(jsonFile[0]).concat(['createdAt', 'updatedAt'])
-  // console.log(columns)
   let values = ''
+
+  // 將每一個物件的values彙整成sql語法中的 (val1, val2, ...)
   for (let i = 0; i < jsonFile.length; i++) {
     const branch = jsonFile[i]
-    branch.createdAt = getTimestamp()
+    branch.createdAt = getTimestamp() // 手動補上timestamp的值
     branch.updatedAt = getTimestamp()
+    // 將value存成array [val1, val2,...]
     const data = columns.map(c => branch[c])
     let value = '('
-    let count = 0
+    let count = 0 // 計算迭代次數
     data.forEach(d => {
       count += 1
+      // 非數值型態都要加上""引號包住value
       if (typeof d === 'number') {
         value += d
       } else {
         value += `"${d}"`
       }
+      // 若不是最後一個元素則加上逗號
       if (count !== data.length) {
         value += ', '
       }
     })
+    // 若為最後一組資料，加上 ")"，否則要加上逗號"),"繼續跑for迴圈
     if (i === jsonFile.length - 1) {
       values += value + ')'
     } else {
@@ -132,13 +160,55 @@ function branchesSeeders (jsonFile) {
     }
   }
 
-  const sql = `INSERT INTO branches (${columns.join(', ')}) VALUES ${values}`
-  // console.log(sql)
-  db.query(sql).then(r => console.log('Branch seeders created!')).catch(e => console.error(e))
+  const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ${values}`
+  return sql
 }
 
-usersSeeders(5)
-branchesSeeders(branchesJson)
+function activtySeeders (n) {
+  const arenaAmounts = arenasJson.length
+  const levelList = ['新手', '初階', '初中階', '中階', '中高階', '高階', '不限']
+  const people = Math.floor(Math.random() * 7 + 1)
+  const activity = []
+
+  for (let i = 0; i < n; i++) {
+    activity.push({
+      userId: Math.floor(Math.random() * 5 + 1),
+      arenaId: Math.floor(Math.random() * arenaAmounts + 1),
+      shuttlecockId: Math.floor(Math.random() * 10 + 1),
+      date: randomDateFromToday(7),
+      shuttlecockProvide: 1,
+      level: levelList[Math.floor(Math.random() * levelList.length)],
+      fee: 100 + Math.floor(Math.random() * 80 + 1),
+      numsOfPeople: people,
+      totalPeople: 8,
+      description: faker.lorem.sentence(5)
+    })
+  }
+  return activity
+}
+
+db.query(usersSeeders(5))
+  .then(r => {
+    console.log('User seeders created!')
+    return db.query(sqlFormatter('branches', branchesJson))
+  }).then(r => {
+    console.log('Branch seeders created!')
+    return db.query(sqlFormatter('shuttlecocks', shuttlecocksJson))
+  }).then(r => {
+    console.log('Shuttlecock seeders created!')
+    return db.query(sqlFormatter('arenas', arenasJson))
+  }).then(r => {
+    console.log('Arena seeders created!')
+    return db.query(sqlFormatter('activities', activtySeeders(5)))
+  }).then(r => {
+    console.log('Activity seeders created!')
+    return db.end()
+  }).then(r => console.log(r))
+  .catch(e => {
+    db.end()
+    console.error(e)
+  })
+
 // db.getColumns(config.mysql.database, 'users').then(columns => {
 //   console.log(columns)
 // }).catch(e => console.error(e))

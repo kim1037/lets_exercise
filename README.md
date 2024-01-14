@@ -7,11 +7,12 @@
 * node.js - v18.15.0
 * express
 * mysql2 
+* bcryptjs
 
 ## Installation and execution - 安裝與執行步驟
 1. 開啟 Terminal, Clone 此專案至本機:
 ```
-git clone https://github.com/kim1037/AC-expense-tracker.git
+git clone https://github.com/kim1037/lets_exercise.git
 ```
 
 2. 開啟終端機(Terminal)，進入存放此專案的資料夾
