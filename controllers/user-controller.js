@@ -15,7 +15,7 @@ const userController = {
     const { nationalId, email, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
     try {
       // 檢查必填欄位是否有資料
-      if (!nationalId || !email || !account || !password || !checkPassword || !firstName || !lastName || !gender || !birthdate || !phoneNumber) throw new Error('請輸入完整資訊!')
+      if (!nationalId || !email || !account || !password || !checkPassword || !firstName || !lastName || !gender || !birthdate || !phoneNumber) throw new Error('資料格式錯誤：請輸入完整資訊!')
       // check password
       if (password !== checkPassword) throw new Error('資料格式錯誤：確認密碼輸入不一致!')
       if (password.length > 20) throw new Error('資料格式錯誤：密碼不得超過20字元')
@@ -23,7 +23,7 @@ const userController = {
       if (!passwordRegex.test(password)) throw new Error('資料格式錯誤：密碼必須包含至少一個大寫英文及一個小寫英文和數字的組合，且最少為8字元')
       // 檢查身分證字號是否正確
       const nationalIdRegex = /^[A-Z]{1}[1-2]{1}[0-9]{8}$/
-      if (!nationalIdRegex.test(nationalId) || nationalId.length !== 10) throw new Error('身分證字號輸入錯誤')
+      if (!nationalIdRegex.test(nationalId) || nationalId.length !== 10) throw new Error('資料格式錯誤：身分證字號輸入錯誤')
       // check account 字數 <= 50
       if (account.length > 50) throw new Error('資料格式錯誤：帳號請勿超過50字元')
       // check names 字數 <= 20
@@ -42,6 +42,7 @@ const userController = {
       // playSince日期不得晚於birthdate
       if (pd.getTime() < bd.getTime()) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
       if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
+      
       // 檢查 account, email, nationalId, phoneNumber是否重複
       const connection = await pool.getConnection()
       if (!connection) throw new Error('DB connection fails.')

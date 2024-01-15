@@ -27,22 +27,31 @@ passport.use(new LocalStrategy({
 }, async(account, password, done)=> {
   try{
     const connection = await pool.getConnection()
-    // check user exist 
-    const [user] = await connection.query('SELECT account, nickName, avatar, introduction FROM users WHERE account = ?', [account])
+    // it can use account or email for login
+    let mainColumn = 'account'
+    if (account.includes('@') && account.includes('.')){
+      mainColumn = 'email'
+    }
+    // search users table
+    const [user] = await connection.query(`SELECT account, email, nickName,  password, avatar, introduction FROM users WHERE ${mainColumn} = ?`, [account])
     connection.release();
+    
+    // check user exist
     if(!user || user.length === 0){
       const error = new Error('帳號不存在！');
       error.status = 401;
       return done(error, false);
     }
+    
     // compare password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user[0].password);
     if (!isMatch) {
       const error = new Error('帳號或是密碼錯誤！');
       error.status = 401;
       return done(error, false);
     }else{
       // authenticated, return user
+      delete user[0].password
       return done(null, user[0]);
     }
 
