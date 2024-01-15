@@ -1,7 +1,7 @@
 const passport = require('passport')
 
-module.exports = { 
-  authenticated:(req, res, next)=> {
+module.exports = {
+  authenticated: (req, res, next) => {
     passport.authenticate('jwt', { session: false }, (err, user, info) => {
       if (err || !user) {
         return res.status(401).json({ status: 'error', message: 'unauthorized' })
@@ -9,5 +9,5 @@ module.exports = {
       req.user = user
       next()
     })(req, res, next)
-  } 
+  }
 }

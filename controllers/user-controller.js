@@ -42,7 +42,7 @@ const userController = {
       // playSince日期不得晚於birthdate
       if (pd.getTime() < bd.getTime()) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
       if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
-      
+
       // 檢查 account, email, nationalId, phoneNumber是否重複
       const connection = await pool.getConnection()
       if (!connection) throw new Error('DB connection fails.')
@@ -58,38 +58,39 @@ const userController = {
         } else if (existingUser[0].phoneNumber === phoneNumber) {
           throw new Error('Phone number already exists!')
         }
-      }else{
-        // 資料庫找不到重複項目才能新增使用者 
+      } else {
+        // 資料庫找不到重複項目才能新增使用者
         const hashedPassword = bcrypt.hashSync(password) // 密碼加密
         const valuePlaceholder = [nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber].map(a => '?').join(', ')
         // 儲存使用者資料到資料庫
         await pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
-  
+
         return res.status(201).json({ message: 'User registered successfully.' })
       }
     } catch (err) {
-      if (err.message.includes('資料格式錯誤')){
-        err.stauts = 400
-      } else if (err.message.includes('already exists!')){
+      if (err.message.includes('資料格式錯誤')) {
+        console.log(err.message)
+        err.status = 400
+      } else if (err.message.includes('already exists!')) {
         err.status = 409
       }
       next(err)
     }
   },
-  signin: async (req, res, next)=>{
-    try{
+  signin: async (req, res, next) => {
+    try {
       const user = req.user
       // create a token
-      const token = await jwt.sign(user, process.env.JWT_SECRET, {expiresIn: '30d'})
+      const token = await jwt.sign(user, global.config.JWT_SECRET, { expiresIn: '30d' })
 
       res.status(200).json({
         status: 'success',
-        data:{
+        data: {
           token,
           user
         }
       })
-    }catch(err){
+    } catch (err) {
       next(err)
     }
   },
