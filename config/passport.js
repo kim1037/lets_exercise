@@ -16,8 +16,8 @@ const pool = mysql.createPool({
 })
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),   // 在req的何處尋找token
+  secretOrKey: process.env.JWT_SECRET // 自訂密鑰
 }
 
 // set local strategy => to verify user account and password
@@ -27,8 +27,8 @@ passport.use(new LocalStrategy({
 }, async(account, password, done)=> {
   try{
     const connection = await pool.getConnection()
-    // check user exist
-    const [user] = await connection.query('SELECT * FROM users WHERE account = ?', [account])
+    // check user exist 
+    const [user] = await connection.query('SELECT account, nickName, avatar, introduction FROM users WHERE account = ?', [account])
     connection.release();
     if(!user || user.length === 0){
       const error = new Error('帳號不存在！');
@@ -56,7 +56,7 @@ passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
   try{
     const connection = await pool.getConnection();
     // use user id to search
-    const [user] = await connection.query('SELECT * FROM users WHERE id = ?', [jwtPayload.id])
+    const [user] = await connection.query('SELECT account, nickName, avatar, introduction FROM users WHERE id = ?', [jwtPayload.id])
     connection.release();
 
     if(!user || user.length === 0){
