@@ -54,13 +54,29 @@ const userController = {
         } else if (existingUser[0].phoneNumber === phoneNumber) {
           throw new Error('Phone number already exists!')
         }
+      }else{
+        // 資料庫找不到重複項目才能新增使用者 
+        const hashedPassword = bcrypt.hashSync(password) // 密碼加密
+        const valuePlaceholder = [nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber].map(a => '?').join(', ')
+        // 儲存使用者資料到資料庫
+        await pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
+  
+        return res.status(201).json({ message: 'User registered successfully.' })
       }
-      const hashedPassword = bcrypt.hashSync(password)
-      const valuePlaceholder = [nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber].map(a => '?').join(', ')
-      // 儲存使用者資料到資料庫
-      await pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
+    } catch (err) {
+      next(err)
+    }
+  },
+  signin: async (req, res, next)=>{
+    try{
 
-      return res.status(201).json({ message: 'User registered successfully.' })
+    }catch(err){
+      next(err)
+    }
+  },
+  sample: async (req, res, next) => {
+    try {
+
     } catch (err) {
       next(err)
     }
