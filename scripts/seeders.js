@@ -8,11 +8,16 @@ const arenasJson = require('./seed_data/gym_data.json').map(a => {
   return {
     name: a.name,
     image: a.image,
+    address: a.address,
+    region: a.region,
     description: a.hasParking.join(', ') + '\n' + a.openingHours.join(', '),
     website: a.website,
     phone: a.phone.replace('tel:', '')
   }
 })
+
+const USER_AMOUNT = 10
+const ACTIVITY_AMOUNT = 10
 
 db.init(config.mysql)
 
@@ -81,7 +86,7 @@ function createFakeUser (num) {
     password: bcrypt.hashSync('Test1111'),
     firstName: faker.name.firstName(gender),
     lastName: faker.name.lastName(),
-    nickName: faker.name.findName(),
+    nickName: faker.name.findName().slice(0, 20),
     gender,
     avatar: `https://xsgames.co/randomusers/assets/avatars/${gender}/${Math.floor(Math.random() * 71)}.jpg`,
     introduction: faker.lorem.sentence(5),
@@ -125,18 +130,19 @@ function usersSeeders (nums) {
   return sql
 }
 
-function sqlFormatter (table = '', jsonFile = []) {
+// 將[{c1:v1,...},...] => format成 sql 語法格式
+function sqlInsertFormatter (table = '', jsonFile = []) {
   // 從object的keys取出columns, 由於json中沒有createdAt和updatedAt屬性，要額外補上
   const columns = Object.keys(jsonFile[0]).concat(['createdAt', 'updatedAt'])
   let values = ''
 
   // 將每一個物件的values彙整成sql語法中的 (val1, val2, ...)
   for (let i = 0; i < jsonFile.length; i++) {
-    const branch = jsonFile[i]
-    branch.createdAt = getTimestamp() // 手動補上timestamp的值
-    branch.updatedAt = getTimestamp()
+    const jsonData = jsonFile[i]
+    jsonData.createdAt = getTimestamp() // 手動補上timestamp的值
+    jsonData.updatedAt = getTimestamp()
     // 將value存成array [val1, val2,...]
-    const data = columns.map(c => branch[c])
+    const data = columns.map(c => jsonData[c])
     let value = '('
     let count = 0 // 計算迭代次數
     data.forEach(d => {
@@ -187,21 +193,82 @@ function activtySeeders (n) {
   return activity
 }
 
-db.query(usersSeeders(5))
+function followshipSeeders (followAmount = 2) {
+  // 預設每個人會追蹤兩名其他使用者
+  const followships = []
+  const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1)
+  userId.forEach(id => {
+    const excludeSlef = userId.filter(u => u !== id) // 排除自己, 不能追蹤自己
+    for (let i = 0; i < followAmount; i++) {
+      const randomIndex = Math.floor(Math.random() * excludeSlef.length)
+      followships.push({ followerId: id, followingId: excludeSlef[randomIndex] })
+      excludeSlef.splice(randomIndex, 1) // 移除已追蹤id
+    }
+  })
+  return followships
+}
+
+function userReviewSeeders (reviewsAmount = 3) {
+  // 預設每個人會留下三筆reviews
+  const reviews = []
+  const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1) // [1,2,3,4,5...]
+  // 不能對自己寫評論, 不能重複對同一個人評價但可以修改
+  userId.forEach(id => {
+    const excludeSelf = userId.filter(u => u !== id)
+    for (let i = 0; i < reviewsAmount; i++) {
+      const randomIndex = Math.floor(Math.random() * excludeSelf.length)
+      reviews.push({
+        userId: excludeSelf[i],
+        reviewerId: id,
+        rating: Math.floor(Math.random() * 5 + 1), // 評分為整數1-5
+        review: faker.lorem.sentence(3)
+      })
+      excludeSelf.splice(randomIndex, 1) // 移除已評論id
+    }
+  })
+
+  return reviews
+}
+
+function participantSeeders (num = 1) {
+  // 預設每位參加一個活動
+  const partcipants = []
+  const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1) // [1,2,3,4,5...]
+  const activityId = Array.from({ length: ACTIVITY_AMOUNT }, (_, i) => i + 1)
+  userId.forEach(id => {
+    partcipants.push({
+      userId: id,
+      activityId: activityId[Math.floor(Math.random() * activityId.length)]
+    })
+  })
+
+  return partcipants
+}
+
+db.query(usersSeeders(USER_AMOUNT))
   .then(r => {
     console.log('User seeders created!')
-    return db.query(sqlFormatter('branches', branchesJson))
+    return db.query(sqlInsertFormatter('branches', branchesJson))
   }).then(r => {
     console.log('Branch seeders created!')
-    return db.query(sqlFormatter('shuttlecocks', shuttlecocksJson))
+    return db.query(sqlInsertFormatter('shuttlecocks', shuttlecocksJson))
   }).then(r => {
     console.log('Shuttlecock seeders created!')
-    return db.query(sqlFormatter('arenas', arenasJson))
+    return db.query(sqlInsertFormatter('arenas', arenasJson))
   }).then(r => {
     console.log('Arena seeders created!')
-    return db.query(sqlFormatter('activities', activtySeeders(5)))
+    return db.query(sqlInsertFormatter('activities', activtySeeders(ACTIVITY_AMOUNT)))
   }).then(r => {
     console.log('Activity seeders created!')
+    return db.query(sqlInsertFormatter('user_reviews', userReviewSeeders(3)))
+  }).then(r => {
+    console.log('User_reviews seeders created!')
+    return db.query(sqlInsertFormatter('participants', participantSeeders(1)))
+  }).then(r => {
+    console.log('Participants seeders created!')
+    return db.query(sqlInsertFormatter('followships', followshipSeeders(2)))
+  }).then(r => {
+    console.log('Followships seeders created!')
     return db.end()
   }).then(r => console.log(r))
   .catch(e => {
