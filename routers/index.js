@@ -1,12 +1,14 @@
 const router = require('express').Router()
 const users = require('./modules/users')
 const userController = require('../controllers/user-controller')
+const passport = require('passport')
+const { authenticated } = require('../middleware/auth')
 
-// 註冊、登入不必驗證
+// 註冊、登入不必驗證token
 router.post('/users/signup', userController.signup)
-router.post('/users/signin')
+router.post('/users/signin', passport.authenticate('local', { session: false }), userController.signin)
 // 加入驗證
-router.use('/users', users)
+router.use('/users', authenticated, users)
 
 // error handle
 router.use('/', function (err, req, res, next) {
