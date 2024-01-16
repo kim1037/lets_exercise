@@ -1,14 +1,14 @@
 const mysql = require('mysql2/promise')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const config = require('../config/config.json').mysql
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: config.host,
-  user: config.user,
-  password: config.password,
-  database: config.database
-})
+// const config = require('../config/config.json').mysql
+// const pool = mysql.createPool({
+//   connectionLimit: 10,
+//   host: config.host,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
+// })
 
 const userController = {
   signup: async (req, res, next) => {
@@ -44,10 +44,10 @@ const userController = {
       if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
 
       // 檢查 account, email, nationalId, phoneNumber是否重複
-      const connection = await pool.getConnection()
+      const connection = await global.pool.getConnection()
       if (!connection) throw new Error('DB connection fails.')
-
       const [existingUser] = await connection.query('SELECT * FROM users WHERE account = ? OR email = ? OR nationalId = ? OR phoneNumber = ?', [account, email, nationalId, phoneNumber])
+      connection.release()
       if (existingUser.length > 0) {
         if (existingUser[0].nationalId === nationalId) {
           throw new Error('National ID already exists!')
@@ -69,7 +69,6 @@ const userController = {
       }
     } catch (err) {
       if (err.message.includes('資料格式錯誤')) {
-        console.log(err.message)
         err.status = 400
       } else if (err.message.includes('already exists!')) {
         err.status = 409
@@ -83,13 +82,37 @@ const userController = {
       // create a token
       const token = await jwt.sign(user, global.config.JWT_SECRET, { expiresIn: '30d' })
 
-      res.status(200).json({
-        status: 'success',
+      return res.status(200).json({
+        status: 'Success',
         data: {
           token,
           user
         }
       })
+    } catch (err) {
+      next(err)
+    }
+  },
+  getUserData: async (req, res, next) => {
+    try {
+      const id = req.params.userId
+      const connection = await global.pool.getConnection()
+
+      const [user] = await connection.query(`SELECT name, account, nickname, avatar, introduction, birthdate, playSince FROM users WHERE id = ?`, [id])
+      connection.release()
+
+      if(!user || user.length === 0){
+        const err = new Error('使用者不存在!')
+        err.status = 404
+        throw err
+      } else {
+        return res.status(200).json({
+          status: 'Success',
+          data:{
+            user:user[0]
+          }
+        })
+      }
     } catch (err) {
       next(err)
     }
