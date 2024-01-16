@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 global.config = require('./config/config')
 const PORT = global.config.PORT || 3000
+
+// connent database
 const mysql = require('mysql2/promise')
 global.pool = mysql.createPool({
   connectionLimit: 10,
@@ -17,6 +19,7 @@ app.use(express.json())
 // set passport
 app.use(require('./config/passport').initialize())
 
+// default
 app.get('/', (req, res) => {
   res.send('hi wolrd')
 })
