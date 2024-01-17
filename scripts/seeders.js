@@ -14,6 +14,9 @@ const arenasJson = require('./seed_data/gym_data.json').map(a => {
   }
 })
 
+const USER_AMOUNT = 10
+const ACTIVITY_AMOUNT = 10
+
 db.init(config.mysql)
 
 function getTimestamp () { // js中沒有指定格式的內建方法
@@ -188,21 +191,59 @@ function activtySeeders (n) {
   return activity
 }
 
-function followshipSeeders(userId = [], followAmount = 2){
+function followshipSeeders(followAmount = 2){
+  // 預設每個人會追蹤兩名其他使用者
   const followsips = []
-
+  const userId = Array.from({ length: USER_AMOUNT }, (_, i)=> i+1)
   userId.forEach(id=>{
-    const excludeSlef = userId.filter( u => u !== id)
+    const excludeSlef = userId.filter( u => u !== id) // 排除自己, 不能追蹤自己
     for(let i = 0; i< followAmount; i++){
       const randomIndex = Math.floor(Math.random()* excludeSlef.length)
       followsips.push({followerId: id, followingId: excludeSlef[randomIndex]})
-      excludeSlef.splice(randomIndex, 1)
+      excludeSlef.splice(randomIndex, 1) // 移除已追蹤id
     }
   })
   return followships
 }
 
-db.query(usersSeeders(10))
+function userReviewSeeders(reviewsAmount = 3){
+  // 預設每個人會留下三筆reviews
+  const reviews = []
+  const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1) // [1,2,3,4,5...]
+  // 不能對自己寫評論, 不能重複對同一個人評價但可以修改
+  userId.forEach(id=>{
+    const excludeSelf = userId.filter(u=> u !== id)
+    for(let i = 0; i< reviewsAmount; i++){
+      const randomIndex = Math.floor(Math.random() * excludeSlef.length)
+      reviews.push({
+        userId: excludeSelf[i],
+        reviewerId: id,
+        rating: Math.floor(Math.random() * 5 + 1), // 評分為整數1-5
+        review: faker.lorem.sentence(3),
+      })
+      excludeSlef.splice(randomIndex, 1) // 移除已評論id
+    }
+  })
+
+  return reviews
+}
+
+function participantSeeders(num = 1){
+  // 預設每位參加一個活動
+  const partcipants = []
+  const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1) // [1,2,3,4,5...]
+  const activityId = Array.from({ length: ACTIVITY_AMOUNT }, (_, i) => i + 1)  
+  userId.forEach(id=>{
+    partcipants.push({
+      userId:id,
+      activityId:activityId[Math.floor(Math.random()*activityId.length)]
+    })
+  })
+
+  return partcipants
+}
+
+db.query(usersSeeders(USER_AMOUNT))
   .then(r => {
     console.log('User seeders created!')
     return db.query(sqlInsertFormatter('branches', branchesJson))
@@ -214,15 +255,12 @@ db.query(usersSeeders(10))
     return db.query(sqlInsertFormatter('arenas', arenasJson))
   }).then(r => {
     console.log('Arena seeders created!')
-    return db.query(sqlInsertFormatter('activities', activtySeeders(8)))
+    return db.query(sqlInsertFormatter('activities', activtySeeders(ACTIVITY_AMOUNT)))
   }).then(r => {
     console.log('Activity seeders created!')
     return db.query('SELECT id FROM users')
   }).then(r=>{ // test here
-    console.log(r)
-    const [result, field] = r
-    const userIdArray = result.map(re=> re.id) 
-    return db.query(sqlInsertFormatter('followships', followshipSeeders(userIdArray, 2)))
+    return db.query(sqlInsertFormatter('followships', followshipSeeders(2)))
   }).then(r => {
     console.log('Followships seeders created!')
     return db.end()
