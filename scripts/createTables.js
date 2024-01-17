@@ -93,6 +93,7 @@ const followshipsTable = `CREATE TABLE IF NOT EXISTS followships (
 const userReviewsTable = `CREATE TABLE IF NOT EXISTS user_reviews (
   id INT AUTO_INCREMENT PRIMARY KEY,
   userId INT NOT NULL,
+  reviewerId INT NOT NULL,
   rating FLOAT NOT NULL,
   review TEXT,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,

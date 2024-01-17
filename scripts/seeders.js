@@ -125,18 +125,19 @@ function usersSeeders (nums) {
   return sql
 }
 
-function sqlFormatter (table = '', jsonFile = []) {
+// 將[{c1:v1,...},...] => format成 sql 語法格式
+function sqlInsertFormatter (table = '', jsonFile = []) {
   // 從object的keys取出columns, 由於json中沒有createdAt和updatedAt屬性，要額外補上
   const columns = Object.keys(jsonFile[0]).concat(['createdAt', 'updatedAt'])
   let values = ''
 
   // 將每一個物件的values彙整成sql語法中的 (val1, val2, ...)
   for (let i = 0; i < jsonFile.length; i++) {
-    const branch = jsonFile[i]
-    branch.createdAt = getTimestamp() // 手動補上timestamp的值
-    branch.updatedAt = getTimestamp()
+    const jsonData = jsonFile[i]
+    jsonData.createdAt = getTimestamp() // 手動補上timestamp的值
+    jsonData.updatedAt = getTimestamp()
     // 將value存成array [val1, val2,...]
-    const data = columns.map(c => branch[c])
+    const data = columns.map(c => jsonData[c])
     let value = '('
     let count = 0 // 計算迭代次數
     data.forEach(d => {
@@ -187,21 +188,43 @@ function activtySeeders (n) {
   return activity
 }
 
-db.query(usersSeeders(5))
+function followshipSeeders(userId = [], followAmount = 2){
+  const followsips = []
+
+  userId.forEach(id=>{
+    const excludeSlef = userId.filter( u => u !== id)
+    for(let i = 0; i< followAmount; i++){
+      const randomIndex = Math.floor(Math.random()* excludeSlef.length)
+      followsips.push({followerId: id, followingId: excludeSlef[randomIndex]})
+      excludeSlef.splice(randomIndex, 1)
+    }
+  })
+  return followships
+}
+
+db.query(usersSeeders(10))
   .then(r => {
     console.log('User seeders created!')
-    return db.query(sqlFormatter('branches', branchesJson))
+    return db.query(sqlInsertFormatter('branches', branchesJson))
   }).then(r => {
     console.log('Branch seeders created!')
-    return db.query(sqlFormatter('shuttlecocks', shuttlecocksJson))
+    return db.query(sqlInsertFormatter('shuttlecocks', shuttlecocksJson))
   }).then(r => {
     console.log('Shuttlecock seeders created!')
-    return db.query(sqlFormatter('arenas', arenasJson))
+    return db.query(sqlInsertFormatter('arenas', arenasJson))
   }).then(r => {
     console.log('Arena seeders created!')
-    return db.query(sqlFormatter('activities', activtySeeders(5)))
+    return db.query(sqlInsertFormatter('activities', activtySeeders(8)))
   }).then(r => {
     console.log('Activity seeders created!')
+    return db.query('SELECT id FROM users')
+  }).then(r=>{ // test here
+    console.log(r)
+    const [result, field] = r
+    const userIdArray = result.map(re=> re.id) 
+    return db.query(sqlInsertFormatter('followships', followshipSeeders(userIdArray, 2)))
+  }).then(r => {
+    console.log('Followships seeders created!')
     return db.end()
   }).then(r => console.log(r))
   .catch(e => {
