@@ -33,7 +33,7 @@ passport.use(new LocalStrategy({
       mainColumn = 'email'
     }
     // search users table
-    const [user] = await connection.query(`SELECT account, email, nickName, password, avatar, introduction FROM users WHERE ${mainColumn} = ?`, [account])
+    const [user] = await connection.query(`SELECT id, account, email, nickName, password, avatar, introduction FROM users WHERE ${mainColumn} = ?`, [account])
     connection.release()
 
     // check user exist
@@ -64,7 +64,7 @@ passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
   try {
     const connection = await global.pool.getConnection()
     // use user id to search
-    const [user] = await connection.query('SELECT account, nickName, avatar, introduction FROM users WHERE id = ?', [jwtPayload.id])
+    const [user] = await connection.query('SELECT id, account, nickName, avatar, introduction FROM users WHERE id = ?', [jwtPayload.id])
     connection.release()
 
     if (!user || user.length === 0) {

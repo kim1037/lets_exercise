@@ -1,14 +1,5 @@
-const mysql = require('mysql2/promise')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-// const config = require('../config/config.json').mysql
-// const pool = mysql.createPool({
-//   connectionLimit: 10,
-//   host: config.host,
-//   user: config.user,
-//   password: config.password,
-//   database: config.database
-// })
 
 const userController = {
   signup: async (req, res, next) => {
@@ -63,7 +54,7 @@ const userController = {
         const hashedPassword = bcrypt.hashSync(password) // 密碼加密
         const valuePlaceholder = [nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber].map(a => '?').join(', ')
         // 儲存使用者資料到資料庫
-        await pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
+        await global.pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
 
         return res.status(201).json({ message: 'User registered successfully.' })
       }
@@ -98,18 +89,17 @@ const userController = {
       const id = req.params.userId
       const connection = await global.pool.getConnection()
 
-      const [user] = await connection.query(`SELECT name, account, nickname, avatar, introduction, birthdate, playSince FROM users WHERE id = ?`, [id])
+      const [user] = await connection.query('SELECT id, account, nickname, avatar, introduction, birthdate, playSince FROM users WHERE id = ?', [id])
       connection.release()
-
-      if(!user || user.length === 0){
+      if (!user || user.length === 0) {
         const err = new Error('使用者不存在!')
         err.status = 404
         throw err
       } else {
         return res.status(200).json({
           status: 'Success',
-          data:{
-            user:user[0]
+          data: {
+            user: user[0]
           }
         })
       }
