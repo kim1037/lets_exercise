@@ -1,11 +1,11 @@
 const followshipController = {
   postFollowship: async (req, res, next) => {
-    const { followingId } = Number(req.params)
+    const { followingId } = req.params
     const currentUserId = req.user.id
     let connection
     try {
       // cannot follow self
-      if (followingId === currentUserId) {
+      if (Number(followingId) === currentUserId) {
         const err = new Error('不可以追蹤及取消追蹤自己!')
         err.status = 409
         throw err
@@ -44,19 +44,18 @@ const followshipController = {
     }
   },
   deleteFollowship: async (req, res, next) => {
-    const { followingId } = Number(req.params)
-    const currentUser = req.user
+    const { followingId } = req.params
+    const currentUserId = req.user.id
     let connection
     try {
       // cannot follow self
-      if (followingId === currentUserId) {
+      if (Number(followingId) === currentUserId) {
         const err = new Error('不可以追蹤及取消追蹤自己!')
         err.status = 409
         throw err
       }
       connection = await global.pool.getConnection()
-      const followship = await connection.query('SELECT * FROM followships WHERE followingId = ? AND followerId = ?', [followingId, currentUser])
-      console.log(followship)
+      const [followship] = await connection.query('SELECT * FROM followships WHERE followingId = ? AND followerId = ?', [followingId, currentUserId])
 
       // check the currnet user has followed
       if (!followship || followship.length === 0) {
@@ -84,21 +83,21 @@ const followshipController = {
     }
   },
   getFollowings: async (req, res, next) => {
-    const { userId } = Number(req.params)
+    const { userId } = req.params
     let connection
     try {
       connection = await global.pool.getConnection()
       const [user] = await connection.query('SELECT id, nickname FROM users WHERE id =?', [userId])
-      // check userId is exist      
+      // check userId is exist
       if (!user || user.length === 0) {
         const err = new Error('使用者不存在!')
         err.status = 404
         throw err
       }
       // find following user list
-      const [followings] = await connection.query('SELECT id, account, nickname, avatar FROM users JOIN followships ON followships.followerId = users.id WHERE users.id =?', [userId])
+      const [followings] = await connection.query('SELECT users.id, account, nickname, avatar FROM users JOIN followships ON followships.followerId = ? WHERE followingId = users.id', [userId])
       if (!followings || followings.length === 0) {
-        return res.status(200).json({ status: 'Success', message: `${user[0].nickname}目前尚未追蹤其他人唷!` })
+        return res.status(200).json({ status: 'Success', message: '目前尚未追蹤其他人唷!' })
       } else {
         return res.status(200).json({ status: 'Success', data: followings })
       }
@@ -111,21 +110,21 @@ const followshipController = {
     }
   },
   getFollowers: async (req, res, next) => {
-    const { userId } = Number(req.params)
+    const { userId } = req.params
     let connection
     try {
       connection = await global.pool.getConnection()
       const [user] = await connection.query('SELECT id, nickname FROM users WHERE id =?', [userId])
-      // check userId is exist      
+      // check userId is exist
       if (!user || user.length === 0) {
         const err = new Error('使用者不存在!')
         err.status = 404
         throw err
       }
       // find followers list
-      const [followers] = await connection.query('SELECT id, account, nickname, avatar FROM users JOIN followships ON followships.followingId = users.id WHERE users.id =?', [userId])
+      const [followers] = await connection.query('SELECT users.id, account, nickname, avatar FROM users JOIN followships ON followships.followingId = ? WHERE followerId = users.id', [userId])
       if (!followers || followers.length === 0) {
-        return res.status(200).json({ status: 'Success', message: `${user[0].nickname}目前尚未被追蹤唷!` })
+        return res.status(200).json({ status: 'Success', message: '目前尚未被追蹤唷!' })
       } else {
         return res.status(200).json({ status: 'Success', data: followers })
       }
