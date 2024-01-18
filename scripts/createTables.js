@@ -27,6 +27,7 @@ const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
   address VARCHAR(150),
+  region VARCHAR(20),
   image TEXT,
   hasParking BOOLEAN,
   openingHour TEXT,
@@ -78,9 +79,46 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   FOREIGN KEY (shuttlecockId) REFERENCES shuttlecocks(id)
   )`
 
+// follower => the person who follow you
+// following => the person who you follow
+const followshipsTable = `CREATE TABLE IF NOT EXISTS followships (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  followerId INT NOT NULL,
+  followingId INT NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  FOREIGN KEY (followerId) REFERENCES users(id),
+  FOREIGN KEY (followingId) REFERENCES users(id)
+  )`
+
+const userReviewsTable = `CREATE TABLE IF NOT EXISTS user_reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  reviewerId INT NOT NULL,
+  rating INT NOT NULL,
+  review TEXT,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (reviewerId) REFERENCES users(id)
+  )`
+
+const participantsTable = `CREATE TABLE IF NOT EXISTS participants (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  activityId INT NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (activityId) REFERENCES activities(id)
+  )`
+
 // 由於有關聯的順序問題，因此用鏈接方式建立table
 db.query(usersTable).then(r => {
   console.log('Table users created.')
+  return db.query(followshipsTable)
+}).then(r => {
+  console.log('Table followships created.')
   return db.query(arenasTable)
 }).then(r => {
   console.log('Table arenas created.')
@@ -93,6 +131,12 @@ db.query(usersTable).then(r => {
   return db.query(activitiesTable)
 }).then(r => {
   console.log('Table activities created.')
+  return db.query(userReviewsTable)
+}).then(r => {
+  console.log('Table user_reviews created.')
+  return db.query(participantsTable)
+}).then(r => {
+  console.log('Table participants created.')
   return db.end()
 }).then(r => {
   console.log(r)
