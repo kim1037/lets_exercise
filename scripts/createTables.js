@@ -27,6 +27,7 @@ const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
   address VARCHAR(150),
+  region VARCHAR(20),
   image TEXT,
   hasParking BOOLEAN,
   openingHour TEXT,
@@ -94,11 +95,12 @@ const userReviewsTable = `CREATE TABLE IF NOT EXISTS user_reviews (
   id INT AUTO_INCREMENT PRIMARY KEY,
   userId INT NOT NULL,
   reviewerId INT NOT NULL,
-  rating FLOAT NOT NULL,
+  rating INT NOT NULL,
   review TEXT,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
-  FOREIGN KEY (userId) REFERENCES users(id)
+  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (reviewerId) REFERENCES users(id)
   )`
 
 const participantsTable = `CREATE TABLE IF NOT EXISTS participants (

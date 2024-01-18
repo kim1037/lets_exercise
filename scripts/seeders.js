@@ -8,6 +8,8 @@ const arenasJson = require('./seed_data/gym_data.json').map(a => {
   return {
     name: a.name,
     image: a.image,
+    address: a.address,
+    region: a.region,
     description: a.hasParking.join(', ') + '\n' + a.openingHours.join(', '),
     website: a.website,
     phone: a.phone.replace('tel:', '')
@@ -84,7 +86,7 @@ function createFakeUser (num) {
     password: bcrypt.hashSync('Test1111'),
     firstName: faker.name.firstName(gender),
     lastName: faker.name.lastName(),
-    nickName: faker.name.findName(),
+    nickName: faker.name.findName().slice(0, 20),
     gender,
     avatar: `https://xsgames.co/randomusers/assets/avatars/${gender}/${Math.floor(Math.random() * 71)}.jpg`,
     introduction: faker.lorem.sentence(5),
@@ -191,52 +193,52 @@ function activtySeeders (n) {
   return activity
 }
 
-function followshipSeeders(followAmount = 2){
+function followshipSeeders (followAmount = 2) {
   // 預設每個人會追蹤兩名其他使用者
-  const followsips = []
-  const userId = Array.from({ length: USER_AMOUNT }, (_, i)=> i+1)
-  userId.forEach(id=>{
-    const excludeSlef = userId.filter( u => u !== id) // 排除自己, 不能追蹤自己
-    for(let i = 0; i< followAmount; i++){
-      const randomIndex = Math.floor(Math.random()* excludeSlef.length)
-      followsips.push({followerId: id, followingId: excludeSlef[randomIndex]})
+  const followships = []
+  const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1)
+  userId.forEach(id => {
+    const excludeSlef = userId.filter(u => u !== id) // 排除自己, 不能追蹤自己
+    for (let i = 0; i < followAmount; i++) {
+      const randomIndex = Math.floor(Math.random() * excludeSlef.length)
+      followships.push({ followerId: id, followingId: excludeSlef[randomIndex] })
       excludeSlef.splice(randomIndex, 1) // 移除已追蹤id
     }
   })
   return followships
 }
 
-function userReviewSeeders(reviewsAmount = 3){
+function userReviewSeeders (reviewsAmount = 3) {
   // 預設每個人會留下三筆reviews
   const reviews = []
   const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1) // [1,2,3,4,5...]
   // 不能對自己寫評論, 不能重複對同一個人評價但可以修改
-  userId.forEach(id=>{
-    const excludeSelf = userId.filter(u=> u !== id)
-    for(let i = 0; i< reviewsAmount; i++){
-      const randomIndex = Math.floor(Math.random() * excludeSlef.length)
+  userId.forEach(id => {
+    const excludeSelf = userId.filter(u => u !== id)
+    for (let i = 0; i < reviewsAmount; i++) {
+      const randomIndex = Math.floor(Math.random() * excludeSelf.length)
       reviews.push({
         userId: excludeSelf[i],
         reviewerId: id,
         rating: Math.floor(Math.random() * 5 + 1), // 評分為整數1-5
-        review: faker.lorem.sentence(3),
+        review: faker.lorem.sentence(3)
       })
-      excludeSlef.splice(randomIndex, 1) // 移除已評論id
+      excludeSelf.splice(randomIndex, 1) // 移除已評論id
     }
   })
 
   return reviews
 }
 
-function participantSeeders(num = 1){
+function participantSeeders (num = 1) {
   // 預設每位參加一個活動
   const partcipants = []
   const userId = Array.from({ length: USER_AMOUNT }, (_, i) => i + 1) // [1,2,3,4,5...]
-  const activityId = Array.from({ length: ACTIVITY_AMOUNT }, (_, i) => i + 1)  
-  userId.forEach(id=>{
+  const activityId = Array.from({ length: ACTIVITY_AMOUNT }, (_, i) => i + 1)
+  userId.forEach(id => {
     partcipants.push({
-      userId:id,
-      activityId:activityId[Math.floor(Math.random()*activityId.length)]
+      userId: id,
+      activityId: activityId[Math.floor(Math.random() * activityId.length)]
     })
   })
 
@@ -258,8 +260,12 @@ db.query(usersSeeders(USER_AMOUNT))
     return db.query(sqlInsertFormatter('activities', activtySeeders(ACTIVITY_AMOUNT)))
   }).then(r => {
     console.log('Activity seeders created!')
-    return db.query('SELECT id FROM users')
-  }).then(r=>{ // test here
+    return db.query(sqlInsertFormatter('user_reviews', userReviewSeeders(3)))
+  }).then(r => {
+    console.log('User_reviews seeders created!')
+    return db.query(sqlInsertFormatter('participants', participantSeeders(1)))
+  }).then(r => {
+    console.log('Participants seeders created!')
     return db.query(sqlInsertFormatter('followships', followshipSeeders(2)))
   }).then(r => {
     console.log('Followships seeders created!')
