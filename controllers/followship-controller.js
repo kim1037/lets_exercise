@@ -1,11 +1,11 @@
 const followshipController = {
   postFollowship: async (req, res, next) => {
-    const { followingId } = req.params
+    const { followingId } = Number(req.params)
     const currentUserId = req.user.id
     let connection
     try {
       // cannot follow self
-      if (Number(followingId) === currentUserId) {
+      if (followingId === currentUserId) {
         const err = new Error('不可以追蹤及取消追蹤自己!')
         err.status = 409
         throw err
@@ -44,12 +44,12 @@ const followshipController = {
     }
   },
   deleteFollowship: async (req, res, next) => {
-    const { followingId } = req.params
+    const { followingId } = Number(req.params)
     const currentUser = req.user
     let connection
     try {
       // cannot follow self
-      if (Number(followingId) === currentUserId) {
+      if (followingId === currentUserId) {
         const err = new Error('不可以追蹤及取消追蹤自己!')
         err.status = 409
         throw err
@@ -84,7 +84,7 @@ const followshipController = {
     }
   },
   getFollowings: async (req, res, next) => {
-    const { userId } = req.params
+    const { userId } = Number(req.params)
     let connection
     try {
       connection = await global.pool.getConnection()
@@ -97,10 +97,10 @@ const followshipController = {
       }
       // find following user list
       const [followings] = await connection.query('SELECT id, account, nickname, avatar FROM users JOIN followships ON followships.followerId = users.id WHERE users.id =?', [userId])
-      if(!followings || followings.length === 0){
+      if (!followings || followings.length === 0) {
         return res.status(200).json({ status: 'Success', message: `${user[0].nickname}目前尚未追蹤其他人唷!` })
-      }else{
-        return res.status(200).json({ status: 'Success', data: followings})
+      } else {
+        return res.status(200).json({ status: 'Success', data: followings })
       }
     } catch (err) {
       next(err)
@@ -111,7 +111,7 @@ const followshipController = {
     }
   },
   getFollowers: async (req, res, next) => {
-    const { userId } = req.params
+    const { userId } = Number(req.params)
     let connection
     try {
       connection = await global.pool.getConnection()
