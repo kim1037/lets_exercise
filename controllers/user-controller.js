@@ -86,8 +86,10 @@ const userController = {
   },
   getUserData: async (req, res, next) => {
     try {
-      const id = req.params.userId
+      const id = Number(req.params.userId)
       const connection = await global.pool.getConnection()
+
+      // 待新增 -- 增加追蹤人數與粉絲的數量、rating平均值、參加過的活動次數
 
       const [user] = await connection.query('SELECT id, account, nickname, avatar, introduction, birthdate, playSince FROM users WHERE id = ?', [id])
       connection.release()
@@ -109,7 +111,6 @@ const userController = {
   },
   sample: async (req, res, next) => {
     try {
-
     } catch (err) {
       next(err)
     }
