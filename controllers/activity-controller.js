@@ -4,7 +4,7 @@ const activityController = {
     const userId = req.uesr.id
     let connection
     try {
-      // 需要加入一些條件判斷避免重複創建
+      // 需要加入一些條件判斷避免重複創建? 待討論
       connection = await global.pool.getConnection()
       const values = [userId, arenaId, shuttlecockId, date, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description]
       const valuesPlacholder = values.map(c => '?').join(', ')
@@ -24,8 +24,19 @@ const activityController = {
     const {activityId} = req.params
     const { arenaId, shuttlecockId, date, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
-    const cloumns = ['arenaId', 'shuttlecockId', 'date', 'shuttlecockProvide', 'level', 'fee', 'numsOfPeople', 'totalPeople', 'description'];
+    // const cloumnsName = ['arenaId', 'shuttlecockId', 'date', 'shuttlecockProvide', 'level', 'fee', 'numsOfPeople', 'totalPeople', 'description'];
+    const columnsObj = {arenaId, shuttlecockId, date, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description}
+    const columnLength = Object.keys(columnsObj).length
     // 過濾出存在的屬性
+    let count = 0
+    let updateColumns = ''
+    for (const [key, value] of Object.entries(columnsObj)){
+      count += 1;
+      if(key){
+        updateColumns += `${key} = ${typeof value === 'number' ? value : `'${value}'`}${count < columnLength ? ',' : ''}`;
+      }
+    }
+    console.log(updateColumns) // 檢查sql是否有誤
 
     try {
       connection = await global.pool.getConnection()
@@ -36,6 +47,14 @@ const activityController = {
         err.status = 404
         throw err
       }
+      // UPDATE orders
+      // SET status = 'Shipped', ship_date = '2023-03-01'
+      // WHERE order_id = 1001;
+
+      let sql = `UPDATE activities SET ${updateColumns} WHERE id = ?`
+      await connection.query(sql, [activity])
+
+      return res.status(200).json({ status: 'Success', message: '成功修改活動!' })
     } catch (err) {
       next(err)
     } finally {
