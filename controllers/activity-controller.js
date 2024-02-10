@@ -82,15 +82,24 @@ const activityController = {
   },
   delete: async (req, res, next) => {
     const { activityId } = req.params
+    const userId = req.user.id
     let connection
     try {
       connection = await global.pool.getConnection()
       // 檢查活動是否存在
-      const [activity] = await connection.query('SELECT * FROM activities WHERE id = ?', [activityId])
+      const [activity] = await connection.query('SELECT * FROM activities WHERE id = ? AND userId = ?', [activityId, userId])
       if (!activity || activity.length === 0) {
         const err = new Error('找不到此活動!')
         err.status = 404
         throw err
+      }
+      const [result] = await connection.query('DELETE FROM activities WHERE id = ? AND userId = ?', [activityId, userId])
+      if (!result || result.length === 0) {
+        const err = new Error('無法刪除此筆資料！')
+        err.status = 404
+        throw err
+      } else {
+        return res.status(200).json({ status: 'Success', message: '已刪除活動!' })
       }
     } catch (err) {
       next(err)
@@ -113,17 +122,21 @@ const activityController = {
     }
   },
   getActivity: async (req, res, next) => {
-    const { activityId } = req.params
     let connection
     try {
+      const { activityId } = req.params
+      const userId = req.user.id
       connection = await global.pool.getConnection()
+      const [activity] = await connection.query('SELECT a.*,  CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin FROM activities AS a LEFT JOIN participants AS p ON a.id = p.activityId  WHERE a.id = ? AND p.userId = ?', [activityId, userId])
       // 檢查活動是否存在
-      const [activity] = await connection.query('SELECT * FROM activities WHERE id = ?', [activityId])
       if (!activity || activity.length === 0) {
         const err = new Error('找不到此活動!')
         err.status = 404
         throw err
       }
+      // 多給一個確認目前登入使用者已報名的值: isCurrentUserJoin
+      activity[0].isCurrentUserJoin = !!activity[0].isCurrentUserJoin
+      return res.status(200).json({ status: 'Success', data: activity[0] })
     } catch (err) {
       next(err)
     } finally {
