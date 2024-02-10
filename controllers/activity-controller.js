@@ -57,8 +57,6 @@ const activityController = {
         updateColumns += `${key} = ${typeof value === 'number' ? value : typeof value === 'string' ? `'${value}'` : value}${count < columnLength ? ',' : ''}`
       }
     }
-    console.log(updateColumns) // 檢查sql是否有誤
-
     try {
       connection = await global.pool.getConnection()
       // 檢查活動是否存在
@@ -112,7 +110,27 @@ const activityController = {
   getAll: async (req, res, next) => {
     let connection
     try {
+      const userId = req.user.id
       connection = await global.pool.getConnection()
+      const [activity] = await connection.query(`SELECT a.*,  
+      CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin 
+      FROM activities AS a 
+      LEFT JOIN  (
+        SELECT *
+        FROM participants
+        WHERE userId = ?
+      ) AS p ON a.id = p.activityId `, [userId])
+      // iscurrent有bug
+      if (!activity || activity.length === 0) {
+        return res.status(200).json({ status: 'Success', message: '目前還沒有任何活動喔!' })
+      } else {
+        const result = activity.map(a=> {
+     a.isCurrentUserJoin = !!a.isCurrentUserJoin
+      a.shuttlecockProvide = !!a.shuttlecockProvide
+          return a
+        })
+        return res.status(200).json({ status: 'Success', data: result })
+      }
     } catch (err) {
       next(err)
     } finally {
@@ -127,7 +145,15 @@ const activityController = {
       const { activityId } = req.params
       const userId = req.user.id
       connection = await global.pool.getConnection()
-      const [activity] = await connection.query('SELECT a.*,  CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin FROM activities AS a LEFT JOIN participants AS p ON a.id = p.activityId  WHERE a.id = ? AND p.userId = ?', [activityId, userId])
+      const [activity] = await connection.query(`SELECT a.*,  
+      CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin
+      FROM activities AS a 
+      LEFT JOIN (
+        SELECT *
+        FROM participants
+        WHERE userId = ?
+      ) AS p ON a.id = p.activityId
+      WHERE a.id = ?`, [userId, activityId])
       // 檢查活動是否存在
       if (!activity || activity.length === 0) {
         const err = new Error('找不到此活動!')
@@ -136,6 +162,7 @@ const activityController = {
       }
       // 多給一個確認目前登入使用者已報名的值: isCurrentUserJoin
       activity[0].isCurrentUserJoin = !!activity[0].isCurrentUserJoin
+      activity[0].shuttlecockProvide = !!activity[0].shuttlecockProvide
       return res.status(200).json({ status: 'Success', data: activity[0] })
     } catch (err) {
       next(err)
