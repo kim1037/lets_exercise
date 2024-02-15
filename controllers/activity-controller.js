@@ -228,9 +228,9 @@ const activityController = {
   },
   deleteParticipant: async (req, res, next) => {
     const { activityId } = req.params
-    const currentUserId = req.user.id
     let connection
     try {
+      const currentUserId = req.user.id
       connection = await global.pool.getConnection()
       // 檢查活動是否存在
       const [activity] = await connection.query('SELECT * FROM activities WHERE id = ?', [activityId])
@@ -241,13 +241,14 @@ const activityController = {
       }
       // 檢查是否已報過這個活動
       const [participant] = await connection.query('SELECT * FROM participants WHERE userId = ? AND activityId = ?', [currentUserId, activityId])
-      if (participant || participant.length > 0) {
+
+      if (!participant || participant.length === 0) {
         const err = new Error('尚未報名過此活動!')
         err.status = 404
         throw err
       }
       // 刪除此活動的報名
-      const [result] = await connection.query('DELETE FROM participants WHERE userId = ? AND acitvityId = ?', [currentUserId, activityId])
+      const [result] = await connection.query('DELETE FROM participants WHERE userId = ? AND activityId = ?', [currentUserId, activityId])
       // 若刪除筆數為0則回傳錯誤訊息
       if (!result || result.length === 0) {
         const err = new Error('無法刪除此筆資料！')
