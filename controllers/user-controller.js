@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const userController = {
   signup: async (req, res, next) => {
     const { nationalId, email, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
+    let connection
     try {
       // 檢查必填欄位是否有資料
       if (!nationalId || !email || !account || !password || !checkPassword || !firstName || !lastName || !gender || !birthdate || !phoneNumber) throw new Error('資料格式錯誤：請輸入完整資訊!')
@@ -35,7 +36,7 @@ const userController = {
       if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
 
       // 檢查 account, email, nationalId, phoneNumber是否重複
-      const connection = await global.pool.getConnection()
+      connection = await global.pool.getConnection()
       if (!connection) throw new Error('DB connection fails.')
       const [existingUser] = await connection.query('SELECT * FROM users WHERE account = ? OR email = ? OR nationalId = ? OR phoneNumber = ?', [account, email, nationalId, phoneNumber])
       connection.release()
@@ -56,7 +57,7 @@ const userController = {
         // 儲存使用者資料到資料庫
         await global.pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
 
-        return res.status(201).json({ message: 'User registered successfully.' })
+        return res.status(201).json({ status: 'Success', message: 'User registered successfully.' })
       }
     } catch (err) {
       if (err.message.includes('資料格式錯誤')) {
@@ -65,6 +66,10 @@ const userController = {
         err.status = 409
       }
       next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
     }
   },
   signin: async (req, res, next) => {
@@ -85,9 +90,10 @@ const userController = {
     }
   },
   getUserData: async (req, res, next) => {
+    let connection
     try {
       const id = Number(req.params.userId)
-      const connection = await global.pool.getConnection()
+      connection = await global.pool.getConnection()
 
       // 待新增 -- 增加追蹤人數與粉絲的數量、rating平均值、參加過的活動次數
 
@@ -107,6 +113,10 @@ const userController = {
       }
     } catch (err) {
       next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
     }
   },
   sample: async (req, res, next) => {

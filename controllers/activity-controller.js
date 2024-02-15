@@ -175,9 +175,12 @@ const activityController = {
     }
   },
   postParticipant: async (req, res, next) => {
-    const { activityId } = req.params
+    let { activityId } = req.params
     let connection
+    activityId = Number(activityId)
     try {
+      const userId = req.user.id
+      connection = await global.pool.getConnection()
       // 檢查活動是否存在
       const [activity] = await connection.query('SELECT * FROM activities WHERE id = ?', [activityId])
       if (!activity || activity.length === 0) {
@@ -185,12 +188,42 @@ const activityController = {
         err.status = 404
         throw err
       }
+      const [participants] = await connection.query('SELECT p.userId AS participantId, a.* FROM participants AS p JOIN activities AS a ON p.activityId = a.id WHERE p.userId = ?', [userId])
       // 檢查是否已報過同一個活動
+      const isJoin = participants.find(p => p.id === activityId)
+      if (isJoin) {
+        const err = new Error('你已報名過此活動!')
+        err.status = 409
+        throw err
+      }
+      let { date, timeStart, timeEnd } = activity[0]
+      date = date.toISOString().substring(0, 10)
+
       // 檢查已報名的活動中是否已有其他活動時間衝突
+      const timeConflict = participants.some(p => {
+        if (date === p.date.toISOString().substring(0, 10)) {
+          if ((p.timeStart < timeEnd && p.timeStart > timeStart) || (p.timeEnd > timeStart || p.timeEnd < timeEnd)) {
+            return true
+          }
+        }
+        return false
+      })
+      if (timeConflict) {
+        const err = new Error('此段時間你已報名其他活動!')
+        err.status = 409
+        throw err
+      }
       // 報名活動
-      connection = await global.pool.getConnection()
+      const postParticipant = await connection.query('INSERT INTO participants (activityId, userId) VALUES(?, ?)', [activityId, userId])
+      console.log(postParticipant)
+
+      return res.status(201).json({ status: 'Success', message: '報名成功!' })
     } catch (err) {
       next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
     }
   },
   deleteParticipant: async (req, res, next) => {
