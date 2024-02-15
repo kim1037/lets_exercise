@@ -72,6 +72,7 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   level VARCHAR(30) NOT NULL,
   fee INT NOT NULL,
   numsOfPeople INT NOT NULL,
+  currentJoinNums INT DEFAULT 0 NOT NULL,
   totalPeople INT NOT NULL,
   description VARCHAR(150),
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,

@@ -209,6 +209,11 @@ const activityController = {
         err.status = 400
         throw err
       }
+      // 報名人數已滿的話不能報名
+      if (activity[0].currentJoinNums === activity[0].numsOfPeople) {
+        return res.status(200).json({ message: '報名失敗，此活動人數已滿!' })
+      }
+
       // 查詢participants table
       const [participants] = await connection.query('SELECT p.userId AS participantId, a.* FROM participants AS p JOIN activities AS a ON p.activityId = a.id WHERE p.userId = ?', [currentUserId])
       // 檢查是否已報過同一個活動
@@ -237,6 +242,7 @@ const activityController = {
       }
       // 報名活動
       await connection.query('INSERT INTO participants (activityId, userId) VALUES(?, ?)', [activityId, currentUserId])
+      await connection.query(`UPDATE activities SET currentJoinNums = ${activity[0].currentJoinNums + 1} WHERE id = ?`, [activityId])
 
       return res.status(201).json({ status: 'Success', message: '報名成功!' })
     } catch (err) {
@@ -282,6 +288,8 @@ const activityController = {
         err.status = 404
         throw err
       } else {
+        await connection.query(`UPDATE activities SET currentJoinNums = ${activity[0].currentJoinNums - 1} WHERE id = ?`, [activityId])
+
         return res.status(200).json({ status: 'Success', message: '已取消報名!' })
       }
     } catch (err) {
