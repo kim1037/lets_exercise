@@ -29,7 +29,7 @@ const activityController = {
       const values = [currentUserId, arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description]
       const valuesPlacholder = values.map(c => '?').join(', ')
       // create activity
-      await connection.query(`INSERT INTO activities (userId, arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description) VALUES(${valuesPlacholder})`, values)
+      await connection.query(`INSERT INTO activities (hostId, arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description) VALUES(${valuesPlacholder})`, values)
 
       return res.status(201).json({ status: 'Success', message: '成功建立活動!' })
     } catch (err) {
@@ -45,6 +45,7 @@ const activityController = {
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
     try {
+      const currentUserId = req.user.id
       if (!shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
       const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description }
       const columnLength = Object.keys(columnsObj).length
@@ -65,6 +66,13 @@ const activityController = {
         err.status = 404
         throw err
       }
+      // 只能編輯自己建立的活動
+      if (activity[0].hostId !== currentUserId) {
+        const err = new Error('你無權編輯此活動!')
+        err.status = 401
+        throw err
+      }
+
       const sql = `UPDATE activities SET ${updateColumns} WHERE id = ?`
       await connection.query(sql, [activityId])
 
@@ -79,18 +87,24 @@ const activityController = {
   },
   delete: async (req, res, next) => {
     const { activityId } = req.params
-    const currentUserId = req.user.id
     let connection
     try {
+      const currentUserId = req.user.id
       connection = await global.pool.getConnection()
       // 檢查活動是否存在
-      const [activity] = await connection.query('SELECT * FROM activities WHERE id = ? AND userId = ?', [activityId, currentUserId])
+      const [activity] = await connection.query('SELECT * FROM activities WHERE id = ?', [activityId])
       if (!activity || activity.length === 0) {
         const err = new Error('找不到此活動!')
         err.status = 404
         throw err
       }
-      const [result] = await connection.query('DELETE FROM activities WHERE id = ? AND userId = ?', [activityId, currentUserId])
+      // 只能刪除自己建立的活動
+      if (activity[0].hostId !== currentUserId) {
+        const err = new Error('你無權刪除此活動!')
+        err.status = 401
+        throw err
+      }
+      const [result] = await connection.query('DELETE FROM activities WHERE id = ? AND hostId = ?', [activityId, currentUserId])
       if (!result || result.length === 0) {
         const err = new Error('無法刪除此筆資料！')
         err.status = 404
@@ -109,7 +123,6 @@ const activityController = {
   getAll: async (req, res, next) => {
     // 揪團資訊可篩選、排序，預設為日期排序：新->舊
     // 待加上關聯：場地、羽球型號、開團者
-    // 篩選，時間留目前為止前七天的資料就好
     let connection
     try {
       const currentUserId = req.user.id
@@ -121,7 +134,9 @@ const activityController = {
         SELECT *
         FROM participants
         WHERE userId = ?
-      ) AS p ON a.id = p.activityId `, [currentUserId])
+      ) AS p ON a.id = p.activityId 
+      WHERE a.date >= CURDATE() - INTERVAL 7 DAY 
+      ORDER BY a.date DESC, a.timeStart ASC`, [currentUserId])
       // iscurrent有bug
       if (!activity || activity.length === 0) {
         return res.status(200).json({ status: 'Success', message: '目前還沒有任何活動喔!' })
@@ -179,7 +194,7 @@ const activityController = {
     let connection
     activityId = Number(activityId)
     try {
-      const userId = req.user.id
+      const currentUserId = req.user.id
       connection = await global.pool.getConnection()
       // 檢查活動是否存在
       const [activity] = await connection.query('SELECT * FROM activities WHERE id = ?', [activityId])
@@ -188,7 +203,14 @@ const activityController = {
         err.status = 404
         throw err
       }
-      const [participants] = await connection.query('SELECT p.userId AS participantId, a.* FROM participants AS p JOIN activities AS a ON p.activityId = a.id WHERE p.userId = ?', [userId])
+      // 不能參加自己開的團
+      if (activity[0].hostId === currentUserId) {
+        const err = new Error('你不能參加自己建立的活動!')
+        err.status = 400
+        throw err
+      }
+      // 查詢participants table
+      const [participants] = await connection.query('SELECT p.userId AS participantId, a.* FROM participants AS p JOIN activities AS a ON p.activityId = a.id WHERE p.userId = ?', [currentUserId])
       // 檢查是否已報過同一個活動
       const isJoin = participants.find(p => p.id === activityId)
       if (isJoin) {
@@ -196,10 +218,10 @@ const activityController = {
         err.status = 409
         throw err
       }
+      // 檢查已報名的活動中是否已有其他活動時間衝突
       let { date, timeStart, timeEnd } = activity[0]
       date = date.toISOString().substring(0, 10)
 
-      // 檢查已報名的活動中是否已有其他活動時間衝突
       const timeConflict = participants.some(p => {
         if (date === p.date.toISOString().substring(0, 10)) {
           if ((p.timeStart < timeEnd && p.timeStart > timeStart) || (p.timeEnd > timeStart || p.timeEnd < timeEnd)) {
@@ -214,8 +236,7 @@ const activityController = {
         throw err
       }
       // 報名活動
-      const postParticipant = await connection.query('INSERT INTO participants (activityId, userId) VALUES(?, ?)', [activityId, userId])
-      console.log(postParticipant)
+      await connection.query('INSERT INTO participants (activityId, userId) VALUES(?, ?)', [activityId, currentUserId])
 
       return res.status(201).json({ status: 'Success', message: '報名成功!' })
     } catch (err) {
@@ -245,6 +266,12 @@ const activityController = {
       if (!participant || participant.length === 0) {
         const err = new Error('尚未報名過此活動!')
         err.status = 404
+        throw err
+      }
+      // 不能刪除不是自己的報名紀錄
+      if (participant[0].userId !== currentUserId) {
+        const err = new Error('不能刪除別人的參加紀錄!')
+        err.status = 401
         throw err
       }
       // 刪除此活動的報名
