@@ -182,6 +182,8 @@ function activtySeeders (n) {
       arenaId: Math.floor(Math.random() * arenaAmounts + 1),
       shuttlecockId: Math.floor(Math.random() * 10 + 1),
       date: randomDateFromToday(7),
+      timeStart: '12:00',
+      timeEnd: '14:00',
       shuttlecockProvide: 1,
       level: levelList[Math.floor(Math.random() * levelList.length)],
       fee: 100 + Math.floor(Math.random() * 80 + 1),

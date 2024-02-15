@@ -66,6 +66,8 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   arenaId INT NOT NULL,
   shuttlecockId INT,
   date DATE NOT NULL,
+  timeStart TIME NOT NULL,
+  timeEnd TIME NOT NULL,
   shuttlecockProvide BOOLEAN,
   level VARCHAR(30) NOT NULL,
   fee INT NOT NULL,
