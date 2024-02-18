@@ -177,11 +177,14 @@ function activtySeeders (n) {
   const activity = []
 
   for (let i = 0; i < n; i++) {
+    const randomHour = Math.floor(Math.random()*22)
     activity.push({
-      userId: Math.floor(Math.random() * 5 + 1),
+      hostId: Math.floor(Math.random() * 5 + 1),
       arenaId: Math.floor(Math.random() * arenaAmounts + 1),
       shuttlecockId: Math.floor(Math.random() * 10 + 1),
       date: randomDateFromToday(7),
+      timeStart: `${randomHour.toString()}:00`,
+      timeEnd: `${(randomHour + 2).toString()}:00`,
       shuttlecockProvide: 1,
       level: levelList[Math.floor(Math.random() * levelList.length)],
       fee: 100 + Math.floor(Math.random() * 80 + 1),
@@ -279,3 +282,4 @@ db.query(usersSeeders(USER_AMOUNT))
 // db.getColumns(config.mysql.database, 'users').then(columns => {
 //   console.log(columns)
 // }).catch(e => console.error(e))
+// db.query(sqlInsertFormatter('activities', activtySeeders(ACTIVITY_AMOUNT))).then(r=>{return db.end()})

@@ -62,19 +62,22 @@ const shuttlecocksTable = `CREATE TABLE IF NOT EXISTS shuttlecocks (
 
 const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  userId INT NOT NULL,
+  hostId INT NOT NULL,
   arenaId INT NOT NULL,
   shuttlecockId INT,
   date DATE NOT NULL,
+  timeStart TIME NOT NULL,
+  timeEnd TIME NOT NULL,
   shuttlecockProvide BOOLEAN,
   level VARCHAR(30) NOT NULL,
   fee INT NOT NULL,
   numsOfPeople INT NOT NULL,
+  currentJoinNums INT DEFAULT 0 NOT NULL,
   totalPeople INT NOT NULL,
   description VARCHAR(150),
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
-  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (hostId) REFERENCES users(id),
   FOREIGN KEY (arenaId) REFERENCES arenas(id),
   FOREIGN KEY (shuttlecockId) REFERENCES shuttlecocks(id)
   )`

@@ -64,7 +64,7 @@ const followshipController = {
         throw err
       } else {
         // delete the followship
-        const result = await connection.query('DELETE FROM followships WHERE followingId = ? AND followerId = ?', [followingId, currentUserId])
+        const [result] = await connection.query('DELETE FROM followships WHERE followingId = ? AND followerId = ?', [followingId, currentUserId])
         // 若刪除筆數為0則回傳錯誤訊息
         if (!result || result.length === 0) {
           const err = new Error('無法刪除此筆資料！')
@@ -134,12 +134,6 @@ const followshipController = {
       if (connection) {
         connection.release()
       }
-    }
-  },
-  sample: async (req, res, next) => {
-    try {
-    } catch (err) {
-      next(err)
     }
   }
 }
