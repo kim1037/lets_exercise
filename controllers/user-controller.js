@@ -26,14 +26,16 @@ const userController = {
       if (email.length > 100) throw new Error('資料格式錯誤：email請勿超過100字元')
       // check phoneNumber === 10
       if (phoneNumber.length !== 10) throw new Error('資料格式錯誤：手機格式輸入錯誤')
-      // birthday & playSince日期不得為未來日
-      const bd = new Date(birthdate)
-      const pd = new Date(playSince)
-      const now = new Date()
-      if (bd.getTime() > now.getTime() || pd.getTime() > now.getTime()) throw new Error('資料格式錯誤：生日&球齡日期不得晚於今天')
-      // playSince日期不得晚於birthdate
-      if (pd.getTime() < bd.getTime()) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
-      if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
+      if(playSince){
+        // birthday & playSince日期不得為未來日
+        const bd = new Date(birthdate)
+        const pd = new Date(playSince)
+        const now = new Date()
+        if (bd.getTime() > now.getTime() || pd.getTime() > now.getTime()) throw new Error('資料格式錯誤：生日&球齡日期不得晚於今天')
+        // playSince日期不得晚於birthdate
+        if (pd.getTime() < bd.getTime()) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
+        if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
+      }
 
       // 檢查 account, email, nationalId, phoneNumber是否重複
       connection = await global.pool.getConnection()
