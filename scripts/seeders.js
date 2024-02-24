@@ -177,7 +177,7 @@ function activtySeeders (n) {
   const activity = []
 
   for (let i = 0; i < n; i++) {
-    const randomHour = Math.floor(Math.random()*22)
+    const randomHour = Math.floor(Math.random() * 22)
     activity.push({
       hostId: Math.floor(Math.random() * 5 + 1),
       arenaId: Math.floor(Math.random() * arenaAmounts + 1),

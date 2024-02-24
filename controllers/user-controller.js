@@ -26,7 +26,7 @@ const userController = {
       if (email.length > 100) throw new Error('資料格式錯誤：email請勿超過100字元')
       // check phoneNumber === 10
       if (phoneNumber.length !== 10) throw new Error('資料格式錯誤：手機格式輸入錯誤')
-      if(playSince){
+      if (playSince) {
         // birthday & playSince日期不得為未來日
         const bd = new Date(birthdate)
         const pd = new Date(playSince)
@@ -122,9 +122,14 @@ const userController = {
     }
   },
   sample: async (req, res, next) => {
+    let connection
     try {
     } catch (err) {
       next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
     }
   }
 }

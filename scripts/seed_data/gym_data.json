@@ -4280,7 +4280,7 @@
   {
     "name": "吳鳳科技大學旭光中心(體育館)",
     "region": "嘉義縣",
-    "address": "62153嘉義縣民雄鄉建國路二段117號",
+    "address": "嘉義縣民雄鄉建國路二段117號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140617090652_旭光中心(體育館 ).jpg",
     "hasParking": [
       "無障礙坡道：1",
@@ -4397,7 +4397,7 @@
   {
     "name": "永華國民運動中心",
     "region": "臺南市",
-    "address": "700臺南市中西區中華西路2段30號",
+    "address": "臺南市中西區中華西路2段30號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20181012174523_20KMHL90C6ICAJYISXH1.jpg",
     "hasParking": [
       "無障礙汽車停車格：2",
@@ -4749,7 +4749,7 @@
   {
     "name": "林園區幸福公園演藝展覽桌球羽球館",
     "region": "高雄市",
-    "address": "83245高雄市林園區沿海路二段250號",
+    "address": "高雄市林園區沿海路二段250號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140715173310_rsz_dsc06632.jpg",
     "hasParking": [
       "無障礙坡道：2"
@@ -4786,7 +4786,7 @@
   {
     "name": "高雄特殊教育學校學生活動中心",
     "region": "高雄市",
-    "address": "[802]高雄市苓雅區憲政路233巷2號",
+    "address": "高雄市苓雅區憲政路233巷2號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140703115145_IMG_0580.JPG",
     "hasParking": [
       "無障礙坡道：2",
@@ -5535,7 +5535,7 @@
   {
     "name": "澎湖縣馬公市文澳國民小學多功能體育館",
     "region": "澎湖縣馬公市",
-    "address": "[880]澎湖縣馬公市西文里文學路221號",
+    "address": "澎湖縣馬公市西文里文學路221號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20160711103930_13632789_1212950968728512_2091545253_o.jpg",
     "hasParking": [
       "無障礙汽車停車格：1",
@@ -5615,7 +5615,7 @@
   {
     "name": "金門縣立體育場",
     "region": "金門縣",
-    "address": "893金門縣金城鎮民族路261號",
+    "address": "金門縣金城鎮民族路261號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140617092342_M4EJ2.PNG",
     "hasParking": [
       "無障礙汽車停車格：3",

@@ -163,7 +163,7 @@ const activityController = {
       const currentUserId = req.user.id
       connection = await global.pool.getConnection()
       const [activity] = await connection.query(`SELECT a.*,  
-      CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin
+      CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin 
       FROM activities AS a 
       LEFT JOIN (
         SELECT *
