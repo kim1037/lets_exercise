@@ -1,11 +1,10 @@
 const { getOffset, getPagination } = require('../utils/paginator-helper')
 const arenaController = {
   getAll: async (req, res, next) => {
-    // 篩選: 依縣市篩
     let connection
     const page = Number(req.query.page) || 1 // 初始預設頁
     const limit = Number(req.query.limit) || 10 // default 每頁10筆
-    const region = req.query.region || ''
+    const region = req.query.region || '' // 篩選: 依縣市篩
     const offset = getOffset(limit, page)
     try {
       connection = await global.pool.getConnection()
@@ -36,7 +35,15 @@ const arenaController = {
     let connection
     const { arenaId } = req.params
     try {
-      connection = await global.pool.connection()
+      connection = await global.pool.getConnection()
+      const [arena] = await connection.query('SELECT * FROM arenas WHERE id = ?', [arenaId])
+      if (!arena || arena.length === 0) {
+        const err = new Error('找不到此場地!')
+        err.status = 404
+        throw err
+      }
+
+      return res.status(200).json({ status: 'Success', data: arena[0]})
     } catch (err) {
       next(err)
     } finally {
