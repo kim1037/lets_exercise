@@ -32,7 +32,6 @@ const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
   address VARCHAR(150),
-  region VARCHAR(20),
   regionId INT,
   image TEXT,
   hasParking BOOLEAN,
