@@ -43,7 +43,7 @@ const arenaController = {
         throw err
       }
 
-      return res.status(200).json({ status: 'Success', data: arena[0]})
+      return res.status(200).json({ status: 'Success', data: arena[0] })
     } catch (err) {
       next(err)
     } finally {
