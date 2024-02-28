@@ -1,3 +1,4 @@
+const { getOffset, getPagination } = require('../utils/paginator-helper')
 const activityController = {
   create: async (req, res, next) => {
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
@@ -122,22 +123,60 @@ const activityController = {
   },
   getAll: async (req, res, next) => {
     // 揪團資訊可篩選、排序，預設為日期排序：新->舊
-    // 待加上關聯：場地、羽球型號、開團者
+    // 已新增地區篩選、顯示每頁筆數篩選
     let connection
+    const page = Number(req.query.page) || 1 // 初始預設頁
+    const limit = Number(req.query.limit) || 10 // default 每頁10筆
+    const regionId = req.query.regionId || '' // 篩選: 依縣市篩
+    const offset = getOffset(limit, page)
     try {
-      const currentUserId = req.user.id
+      const currentUserId = req.user ? req.user.id : 0 // 目前因未通過middleware而無法抓取req.user
       connection = await global.pool.getConnection()
-      const [activity] = await connection.query(`SELECT a.*,  
-      CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin 
-      FROM activities AS a 
-      LEFT JOIN  (
-        SELECT *
-        FROM participants
-        WHERE userId = ?
-      ) AS p ON a.id = p.activityId 
+
+      // find the total numbers of activities
+      const [amount] = await connection.query(`SELECT COUNT(*) AS total FROM activities AS a 
+      JOIN arenas AS ar ON a.arenaId = ar.id 
+      JOIN regions AS r ON ar.regionId = r.id
       WHERE a.date >= CURDATE() - INTERVAL 7 DAY 
-      ORDER BY a.date DESC, a.timeStart ASC`, [currentUserId])
-      // iscurrent有bug
+      ${regionId ? 'AND regionId = ?' : ''}`, (regionId ? [regionId] : []))
+      const totalAmount = amount[0].total
+      if (offset > totalAmount) {
+        const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)
+        err.status = 404
+        throw err
+      }
+
+      let activity = []
+      if (currentUserId) {
+        [activity] = await connection.query(`SELECT a.*, u.nickName AS hostName, u.gender, u.avatar, ar.name AS arenaName, s.name AS shuttlecockName, r.region, r.id AS regionId, 
+        CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin 
+        FROM activities AS a 
+        JOIN users AS u ON u.id = a.hostId
+        JOIN arenas AS ar ON ar.id = a.arenaId
+        JOIN regions AS r ON ar.regionId = r.id
+        JOIN shuttlecocks AS s ON s.id = a.shuttlecockId
+        LEFT JOIN  (
+          SELECT *
+          FROM participants
+          WHERE userId = ?
+        ) AS p ON a.id = p.activityId 
+        WHERE a.date >= CURDATE() - INTERVAL 7 DAY 
+        ${regionId ? 'AND ar.regionId = ?' : ''}
+        ORDER BY a.date DESC, a.timeStart ASC
+        LIMIT ${limit} OFFSET ${offset}`, (regionId ? [currentUserId, regionId] : [currentUserId]))
+      } else {
+        [activity] = await connection.query(`SELECT a.*, u.nickName AS hostName, u.gender, u.avatar, ar.name AS arenaName, r.region, r.id AS regionId,  s.name AS shuttlecockName
+        FROM activities AS a 
+        JOIN users AS u ON u.id = a.hostId
+        JOIN arenas AS ar ON ar.id = a.arenaId
+        JOIN regions AS r ON ar.regionId = r.id
+        JOIN shuttlecocks AS s ON s.id = a.shuttlecockId
+        WHERE a.date >= CURDATE() - INTERVAL 7 DAY 
+        ${regionId ? 'AND ar.regionId = ?' : ''}
+        ORDER BY a.date DESC, a.timeStart ASC
+        LIMIT ${limit} OFFSET ${offset}`, (regionId ? [regionId] : []))
+      }
+
       if (!activity || activity.length === 0) {
         return res.status(200).json({ status: 'Success', message: '目前還沒有任何活動喔!' })
       } else {
@@ -146,7 +185,7 @@ const activityController = {
           a.shuttlecockProvide = !!a.shuttlecockProvide
           return a
         })
-        return res.status(200).json({ status: 'Success', data: result })
+        return res.status(200).json({ status: 'Success', pagination: getPagination(limit, page, totalAmount), data: result })
       }
     } catch (err) {
       next(err)
@@ -160,17 +199,31 @@ const activityController = {
     let connection
     try {
       const { activityId } = req.params
-      const currentUserId = req.user.id
+      const currentUserId = req.user ? req.user.id : 0
       connection = await global.pool.getConnection()
-      const [activity] = await connection.query(`SELECT a.*,  
-      CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin 
-      FROM activities AS a 
-      LEFT JOIN (
-        SELECT *
-        FROM participants
-        WHERE userId = ?
-      ) AS p ON a.id = p.activityId
-      WHERE a.id = ?`, [currentUserId, activityId])
+      let activity = []
+
+      if (currentUserId) {
+        [activity] = await connection.query(`SELECT a.*,  u.nickName AS hostName, u.gender, u.avatar, ar.name AS arenaName, s.name AS shuttlecockName, 
+        CASE WHEN p.userId IS NOT NULL THEN TRUE ELSE FALSE END AS isCurrentUserJoin 
+        FROM activities AS a 
+        JOIN users AS u ON u.id = a.hostId
+        JOIN arenas AS ar ON ar.id = a.arenaId
+                JOIN shuttlecocks AS s ON s.id = a.shuttlecockId
+        LEFT JOIN (
+          SELECT *
+          FROM participants
+          WHERE userId = ?
+        ) AS p ON a.id = p.activityId
+        WHERE a.id = ?`, [currentUserId, activityId])
+      } else {
+        [activity] = await connection.query(`SELECT a.*,  u.nickName AS hostName, u.gender, u.avatar, ar.name AS arenaName, s.name AS shuttlecockName
+        FROM activities AS a 
+        JOIN users AS u ON u.id = a.hostId
+        JOIN arenas AS ar ON ar.id = a.arenaId
+                JOIN shuttlecocks AS s ON s.id = a.shuttlecockId
+        WHERE a.id = ?`, [activityId])
+      }
       // 檢查活動是否存在
       if (!activity || activity.length === 0) {
         const err = new Error('找不到此活動!')
