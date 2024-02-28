@@ -130,9 +130,8 @@ const activityController = {
     const regionId = req.query.regionId || '' // 篩選: 依縣市篩
     const offset = getOffset(limit, page)
     try {
-      const currentUserId = req.user ? req.user.id : 0 // 目前因未通過middleware而無法抓取req.user
+      const currentUserId = req.user ? req.user.id : 0
       connection = await global.pool.getConnection()
-
       // find the total numbers of activities
       const [amount] = await connection.query(`SELECT COUNT(*) AS total FROM activities AS a 
       JOIN arenas AS ar ON a.arenaId = ar.id 
