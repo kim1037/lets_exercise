@@ -1,7 +1,12 @@
 const db = require('../utils/db-mysql.js')
 const config = require('../config/config.json')
 db.init(config.mysql)
-// create user table
+// create region table
+const regionsTable = `CREATE TABLE IF NOT EXISTS regions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  region VARCHAR(20) NOT NULL
+)
+`
 
 // password 因為要加密避免長度不夠設為TEXT
 const usersTable = `CREATE TABLE IF NOT EXISTS users (
@@ -27,7 +32,7 @@ const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
   address VARCHAR(150),
-  region VARCHAR(20),
+  regionId INT,
   image TEXT,
   hasParking BOOLEAN,
   openingHour TEXT,
@@ -35,7 +40,8 @@ const arenasTable = `CREATE TABLE IF NOT EXISTS arenas (
   website TEXT,
   phone VARCHAR(20),
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  FOREIGN KEY (regionId) REFERENCES regions(id)
   )`
 
 // boc = brand-originating countries
@@ -117,7 +123,10 @@ const participantsTable = `CREATE TABLE IF NOT EXISTS participants (
   )`
 
 // 由於有關聯的順序問題，因此用鏈接方式建立table
-db.query(usersTable).then(r => {
+db.query(regionsTable).then(r => {
+  console.log('Table regions created.')
+  return db.query(usersTable)
+}).then(r => {
   console.log('Table users created.')
   return db.query(followshipsTable)
 }).then(r => {
@@ -140,7 +149,4 @@ db.query(usersTable).then(r => {
   return db.query(participantsTable)
 }).then(r => {
   console.log('Table participants created.')
-  return db.end()
-}).then(r => {
-  console.log(r)
-}).catch(err => console.error(err))
+}).catch(err => console.error(err)).finally(() => db.end())

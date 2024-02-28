@@ -4,12 +4,16 @@ const bcrypt = require('bcryptjs')
 const config = require('../config/config.json')
 const branchesJson = require('./seed_data/branches.json')
 const shuttlecocksJson = require('./seed_data/shuttlecocks_data.json')
+const regions = ['臺北市', '新北市', '基隆市', '桃園市', '新竹市', '新竹縣', '宜蘭縣', '臺中市', '苗栗縣', '彰化縣', '南投縣', '雲林縣', '高雄市', '臺南市', '嘉義市', '嘉義縣', '屏東縣', '澎湖縣', '花蓮縣', '臺東縣', '金門縣', '連江縣']
+
 const arenasJson = require('./seed_data/gym_data.json').map(a => {
+  a.region = a.region.length > 3 ? a.region.slice(0, 3) : a.region
+
   return {
     name: a.name,
     image: a.image,
     address: a.address,
-    region: a.region,
+    regionId: regions.indexOf(a.region) + 1 || 1,
     description: a.hasParking.join(', ') + '\n' + a.openingHours.join(', '),
     website: a.website,
     phone: a.phone.replace('tel:', '')
@@ -20,6 +24,8 @@ const USER_AMOUNT = 10
 const ACTIVITY_AMOUNT = 10
 
 db.init(config.mysql)
+
+const regionSQL = 'INSERT INTO regions (region) VALUES (\'臺北市\'), (\'新北市\'), (\'基隆市\'), (\'桃園市\'), (\'新竹市\'), (\'新竹縣\'), (\'宜蘭縣\'), (\'臺中市\'), (\'苗栗縣\'), (\'彰化縣\'), (\'南投縣\'), (\'雲林縣\'), (\'高雄市\'), (\'臺南市\'), (\'嘉義市\'), (\'嘉義縣\'), (\'屏東縣\'), (\'澎湖縣\'), (\'花蓮縣\'), (\'臺東縣\'), (\'金門縣\'), (\'連江縣\')'
 
 function getTimestamp () { // js中沒有指定格式的內建方法
   const now = new Date()
@@ -177,7 +183,7 @@ function activtySeeders (n) {
   const activity = []
 
   for (let i = 0; i < n; i++) {
-    const randomHour = Math.floor(Math.random()*22)
+    const randomHour = Math.floor(Math.random() * 22)
     activity.push({
       hostId: Math.floor(Math.random() * 5 + 1),
       arenaId: Math.floor(Math.random() * arenaAmounts + 1),
@@ -248,8 +254,11 @@ function participantSeeders (num = 1) {
   return partcipants
 }
 
-db.query(usersSeeders(USER_AMOUNT))
+db.query(regionSQL)
   .then(r => {
+    console.log('regions table created!')
+    return db.query(usersSeeders(USER_AMOUNT))
+  }).then(r => {
     console.log('User seeders created!')
     return db.query(sqlInsertFormatter('branches', branchesJson))
   }).then(r => {
