@@ -4,7 +4,7 @@ const branchController = {
     try {
       connection = await global.pool.getConnection()
       const [branches] = await connection.query('SELECT * FROM branches')
-      if (!branch || branch.length === 0) {
+      if (!branches || branches.length === 0) {
         return res.status(200).json({ status: 'Success', message: '目前尚未有任何品牌的資訊' })
       }else{
         return res.status(200).json({ status: 'Success', data: branches })
