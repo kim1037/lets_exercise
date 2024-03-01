@@ -64,7 +64,7 @@ const userController = {
       }
     } catch (err) {
       if (err.message.includes('資料格式錯誤')) {
-        err.status = 400
+        err.status = 422
       } else if (err.message.includes('already exists!')) {
         err.status = 409
       }
