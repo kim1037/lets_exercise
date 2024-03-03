@@ -8,7 +8,7 @@ const branchController = {
     try {
       connection = await global.pool.getConnection()
       // find the total numbers of branches
-      const [amount] = await connection.query(`SELECT COUNT(*) AS total FROM branches `)
+      const [amount] = await connection.query('SELECT COUNT(*) AS total FROM branches ')
       const totalAmount = amount[0].total
       if (offset > totalAmount) {
         const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)
@@ -18,7 +18,7 @@ const branchController = {
       const [branches] = await connection.query(`SELECT * FROM branches LIMIT ${limit} OFFSET ${offset}`)
       if (!branches || branches.length === 0) {
         return res.status(200).json({ status: 'Success', message: '目前尚未有任何品牌的資訊' })
-      }else{
+      } else {
         return res.status(200).json({ status: 'Success', pagination: getPagination(limit, page, totalAmount), data: branches })
       }
     } catch (err) {

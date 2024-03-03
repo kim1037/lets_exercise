@@ -8,7 +8,7 @@ const shuttlecockController = {
     try {
       connection = await global.pool.getConnection()
       // find the total numbers of shuttlecocks
-      const [amount] = await connection.query(`SELECT COUNT(*) AS total FROM shuttlecocks `)
+      const [amount] = await connection.query('SELECT COUNT(*) AS total FROM shuttlecocks ')
       const totalAmount = amount[0].total
       if (offset > totalAmount) {
         const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)

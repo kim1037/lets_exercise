@@ -121,8 +121,8 @@ const userController = {
         connection.release()
       }
     }
-  }, 
-  getParticipants: async (req, res, next) => { 
+  },
+  getParticipants: async (req, res, next) => {
     // 查看某個使用者參加過的活動 => participants.userId = users.id
     // 目前設定僅能查看自己的資料
     let connection
@@ -132,14 +132,14 @@ const userController = {
     try {
       const currentUserId = req.user.id
       const userId = req.params.userId
-      if( currentUserId !== Number(userId)){
+      if (currentUserId !== Number(userId)) {
         const err = new Error('你沒有權限查看其他使用者的資料')
         err.status = 401
         throw err
       }
       connection = await global.pool.getConnection()
       // find the total numbers of participants
-      const [amount] = await connection.query(`SELECT COUNT(*) AS total FROM participants WHERE userId =?`, [userId])
+      const [amount] = await connection.query('SELECT COUNT(*) AS total FROM participants WHERE userId =?', [userId])
       const totalAmount = amount[0].total
       if (offset > totalAmount) {
         const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)
@@ -168,7 +168,7 @@ const userController = {
     }
   },
   getActivities: async (req, res, next) => {
-    // 查看某個使用者開過的活動 => activities.hostId = users.id 
+    // 查看某個使用者開過的活動 => activities.hostId = users.id
     // 目前設定僅能查看自己的資料
     let connection
     const page = Number(req.query.page) || 1 // 初始預設頁
@@ -184,7 +184,7 @@ const userController = {
       }
       connection = await global.pool.getConnection()
       // find the total numbers of activities
-      const [amount] = await connection.query(`SELECT COUNT(*) AS total FROM activities WHERE hostId =?`, [userId])
+      const [amount] = await connection.query('SELECT COUNT(*) AS total FROM activities WHERE hostId =?', [userId])
       const totalAmount = amount[0].total
       if (offset > totalAmount) {
         const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)
@@ -196,13 +196,12 @@ const userController = {
         JOIN arenas AS ar ON ar.id = a.arenaId
         JOIN regions AS r ON ar.regionId = r.id
         JOIN shuttlecocks AS s ON s.id = a.shuttlecockId
-        WHERE p.userId = ? LIMIT ${limit} OFFSET ${offset}`, [userId])
+        WHERE a.hostId = ? LIMIT ${limit} OFFSET ${offset}`, [userId])
       if (!activities || activities.length === 0) {
         return res.status(200).json({ status: 'Success', message: '目前尚未參加過任何活動' })
       } else {
         return res.status(200).json({ status: 'Success', pagination: getPagination(limit, page, totalAmount), data: activities })
       }
-
     } catch (err) {
       next(err)
     } finally {
