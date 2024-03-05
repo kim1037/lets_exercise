@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { getOffset, getPagination } = require('../utils/paginator-helper')
 
 const userController = {
   signup: async (req, res, next) => {
@@ -63,7 +64,7 @@ const userController = {
       }
     } catch (err) {
       if (err.message.includes('資料格式錯誤')) {
-        err.status = 400
+        err.status = 422
       } else if (err.message.includes('already exists!')) {
         err.status = 409
       }
@@ -121,9 +122,98 @@ const userController = {
       }
     }
   },
+  getParticipants: async (req, res, next) => {
+    // 查看某個使用者參加過的活動 => participants.userId = users.id
+    // 目前設定僅能查看自己的資料
+    let connection
+    const page = Number(req.query.page) || 1 // 初始預設頁
+    const limit = Number(req.query.limit) || 10 // default 每頁10筆
+    const offset = getOffset(limit, page)
+    try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限查看其他使用者的資料')
+        err.status = 401
+        throw err
+      }
+      connection = await global.pool.getConnection()
+      // find the total numbers of participants
+      const [amount] = await connection.query('SELECT COUNT(*) AS total FROM participants WHERE userId =?', [userId])
+      const totalAmount = amount[0].total
+      if (offset > totalAmount) {
+        const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)
+        err.status = 404
+        throw err
+      }
+      // get activity data
+      const [participants] = await connection.query(`SELECT a.*, ar.name AS arenaName, s.name AS shuttlecockName, r.region FROM participants AS p 
+        JOIN activities AS a ON a.id = p.activityId
+        JOIN users AS u ON u.id = a.hostId
+        JOIN arenas AS ar ON ar.id = a.arenaId
+        JOIN regions AS r ON ar.regionId = r.id
+        JOIN shuttlecocks AS s ON s.id = a.shuttlecockId
+        WHERE p.userId = ? LIMIT ${limit} OFFSET ${offset}`, [userId])
+      if (!participants || participants.length === 0) {
+        return res.status(200).json({ status: 'Success', message: '目前尚未參加過任何活動' })
+      } else {
+        return res.status(200).json({ status: 'Success', pagination: getPagination(limit, page, totalAmount), data: participants })
+      }
+    } catch (err) {
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  },
+  getActivities: async (req, res, next) => {
+    // 查看某個使用者開過的活動 => activities.hostId = users.id
+    // 目前設定僅能查看自己的資料
+    let connection
+    const page = Number(req.query.page) || 1 // 初始預設頁
+    const limit = Number(req.query.limit) || 10 // default 每頁10筆
+    const offset = getOffset(limit, page)
+    try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限查看其他使用者的資料')
+        err.status = 401
+        throw err
+      }
+      connection = await global.pool.getConnection()
+      // find the total numbers of activities
+      const [amount] = await connection.query('SELECT COUNT(*) AS total FROM activities WHERE hostId =?', [userId])
+      const totalAmount = amount[0].total
+      if (offset > totalAmount) {
+        const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)
+        err.status = 404
+        throw err
+      }
+      // get activity data
+      const [activities] = await connection.query(`SELECT a.*, ar.name AS arenaName, s.name AS shuttlecockName, r.region FROM activities AS a
+        JOIN arenas AS ar ON ar.id = a.arenaId
+        JOIN regions AS r ON ar.regionId = r.id
+        JOIN shuttlecocks AS s ON s.id = a.shuttlecockId
+        WHERE a.hostId = ? LIMIT ${limit} OFFSET ${offset}`, [userId])
+      if (!activities || activities.length === 0) {
+        return res.status(200).json({ status: 'Success', message: '目前尚未參加過任何活動' })
+      } else {
+        return res.status(200).json({ status: 'Success', pagination: getPagination(limit, page, totalAmount), data: activities })
+      }
+    } catch (err) {
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  },
   sample: async (req, res, next) => {
     let connection
     try {
+      connection = await global.pool.getConnection()
     } catch (err) {
       next(err)
     } finally {

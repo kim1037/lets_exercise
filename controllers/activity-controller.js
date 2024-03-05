@@ -7,8 +7,8 @@ const activityController = {
       const currentUserId = req.user.id
       // 需要加入一些條件判斷避免重複創建? 時間地點重複就要，看要不要新增場地數量的欄位
       if (!arenaId || !date || !level || !fee || !numsOfPeople || !totalPeople || !timeStart || !timeEnd) {
-        const err = new Error('請填寫所有必填欄位!')
-        err.status = 400
+        const err = new Error('資料格式錯誤：請填寫所有必填欄位!')
+        err.status = 422
         throw err
       }
       // 輸入欄位格式檢查?
@@ -16,8 +16,8 @@ const activityController = {
       date = new Date(date) // 格式化日期
       const now = new Date()
       if (date < now) {
-        const err = new Error('日期不得早於現在時間!')
-        err.status = 400
+        const err = new Error('資料格式錯誤：日期不得早於現在時間!')
+        err.status = 422
         throw err
       }
       connection = await global.pool.getConnection()
