@@ -1,4 +1,5 @@
 const { getOffset, getPagination } = require('../utils/paginator-helper')
+const dayjs = require('dayjs')
 const activityController = {
   create: async (req, res, next) => {
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
@@ -12,10 +13,11 @@ const activityController = {
         throw err
       }
       // 輸入欄位格式檢查?
-      // 日期不得早於創建日
-      date = new Date(date) // 格式化日期
-      const now = new Date()
-      if (date < now) {
+      // 日期不得早於創建日，時間只能創下一小時的活動 EX: 20:20創 20:30-59分之間都不行，但21:00之後可以
+      // 格式化日期
+      date = dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD')
+      const now = dayjs(new Date(), 'Asia/Taipei').format()
+      if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) < dayjs(now).hour())) {
         const err = new Error('資料格式錯誤：日期不得早於現在時間!')
         err.status = 422
         throw err
@@ -46,6 +48,13 @@ const activityController = {
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
     try {
+      date = dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD')
+      const now = dayjs(new Date(), 'Asia/Taipei').format()
+      if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) < dayjs(now).hour())) {
+        const err = new Error('資料格式錯誤：日期不得早於現在時間!')
+        err.status = 422
+        throw err
+      }
       const currentUserId = req.user.id
       if (!shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
       const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description }
