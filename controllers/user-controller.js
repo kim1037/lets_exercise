@@ -1,10 +1,11 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { getOffset, getPagination } = require('../utils/paginator-helper')
+const dayjs = require('dayjs')
 
 const userController = {
   signup: async (req, res, next) => {
-    const { nationalId, email, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
+    let { nationalId, email, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
     let connection
     try {
       // 檢查必填欄位是否有資料
@@ -27,17 +28,15 @@ const userController = {
       if (email.length > 100) throw new Error('資料格式錯誤：email請勿超過100字元')
       // check phoneNumber === 10
       if (phoneNumber.length !== 10) throw new Error('資料格式錯誤：手機格式輸入錯誤')
-      if (playSince) {
-        // birthday & playSince日期不得為未來日
-        const bd = new Date(birthdate)
-        const pd = new Date(playSince)
-        const now = new Date()
-        if (bd.getTime() > now.getTime() || pd.getTime() > now.getTime()) throw new Error('資料格式錯誤：生日&球齡日期不得晚於今天')
-        // playSince日期不得晚於birthdate
-        if (pd.getTime() < bd.getTime()) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
-        if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
-      }
+      // birthday & playSince日期不得為未來日
+      const bd = new Date(birthdate)
+      const pd = new Date(playSince)
+      const now = new Date()
+      if (bd.getTime() > now.getTime() || (playSince && pd.getTime() > now.getTime())) throw new Error('資料格式錯誤：生日&球齡日期不得晚於今天')
+      // playSince日期不得晚於birthdate
+      if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
 
+      if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
       // 檢查 account, email, nationalId, phoneNumber是否重複
       connection = await global.pool.getConnection()
       if (!connection) throw new Error('DB connection fails.')
@@ -57,6 +56,8 @@ const userController = {
         // 資料庫找不到重複項目才能新增使用者
         const hashedPassword = bcrypt.hashSync(password) // 密碼加密
         const valuePlaceholder = [nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber].map(a => '?').join(', ')
+        birthdate = dayjs(birthdate, 'Asia/Taipei').format('YYYY-MM-DD')
+        playSince = playSince ? dayjs(playSince, 'Asia/Taipei').format('YYYY-MM-DD') : null
         // 儲存使用者資料到資料庫
         await global.pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
 
