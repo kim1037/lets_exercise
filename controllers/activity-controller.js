@@ -1,26 +1,36 @@
 const { getOffset, getPagination } = require('../utils/paginator-helper')
+const dayjs = require('dayjs')
 const activityController = {
   create: async (req, res, next) => {
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
     try {
       const currentUserId = req.user.id
+      connection = await global.pool.getConnection()
       // 需要加入一些條件判斷避免重複創建? 時間地點重複就要，看要不要新增場地數量的欄位
       if (!arenaId || !date || !level || !fee || !numsOfPeople || !totalPeople || !timeStart || !timeEnd) {
         const err = new Error('資料格式錯誤：請填寫所有必填欄位!')
         err.status = 422
         throw err
       }
-      // 輸入欄位格式檢查?
-      // 日期不得早於創建日
-      date = new Date(date) // 格式化日期
-      const now = new Date()
-      if (date < now) {
+      // 無法重複創建活動 => 同地點、同日期、同時間
+      const [activity] = await connection.query('SELECT * FROM activities WHERE arenaId =? AND hostId = ? AND date = ? AND timeStart = ? AND timeEnd =?', [arenaId, currentUserId, date, timeStart, timeEnd])
+      if(activity.length > 0){
+        const err = new Error('無法重複創建活動：你已在同日期、時間及地點建立過活動！')
+        err.status = 409
+        throw err
+      }
+  
+      // 日期不得早於創建日，時間只能創下一小時的活動 EX: 20:20創 20:30-59分之間都不行，但21:00之後可以
+      // 格式化日期
+      date = dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD')
+      const now = dayjs(new Date(), 'Asia/Taipei').format()
+      if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) <= dayjs(now).hour())) {
         const err = new Error('資料格式錯誤：日期不得早於現在時間!')
         err.status = 422
         throw err
       }
-      connection = await global.pool.getConnection()
+
       const [user] = await connection.query('SELECT id FROM users WHERE id = ?', [currentUserId])
       if (!user || user.length === 0) {
         const err = new Error('使用者不存在!')
@@ -46,6 +56,13 @@ const activityController = {
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
     try {
+      date = dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD')
+      const now = dayjs(new Date(), 'Asia/Taipei').format()
+      if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) <= dayjs(now).hour())) {
+        const err = new Error('資料格式錯誤：日期不得早於現在時間!')
+        err.status = 422
+        throw err
+      }
       const currentUserId = req.user.id
       if (!shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
       const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description }
