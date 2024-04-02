@@ -11,7 +11,8 @@
     "createDB": "node ./scripts/createDB.js",
     "createTables": "node ./scripts/createTables.js",
     "seeders": "node ./scripts/seeders.js",
-    "dropDB": "node ./scripts/dropDB.js"
+    "dropDB": "node ./scripts/dropDB.js",
+    "swagger": "node ./swagger.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -31,6 +32,8 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "11.1",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^9.19.2"
+    "eslint-plugin-vue": "^9.19.2",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.0"
   }
 }

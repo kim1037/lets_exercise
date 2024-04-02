@@ -5,6 +5,7 @@ const dayjs = require('dayjs')
 
 const userController = {
   signup: async (req, res, next) => {
+    // #swagger.tags = ['Users']
     let { nationalId, email, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
     let connection
     try {
@@ -77,6 +78,7 @@ const userController = {
     }
   },
   signin: async (req, res, next) => {
+    // #swagger.tags = ['Users']
     try {
       const user = req.user
       // create a token
@@ -94,6 +96,7 @@ const userController = {
     }
   },
   getUserData: async (req, res, next) => {
+    // #swagger.tags = ['Users']
     let connection
     try {
       const id = Number(req.params.userId)
@@ -124,6 +127,7 @@ const userController = {
     }
   },
   getParticipants: async (req, res, next) => {
+    // #swagger.tags = ['Users']
     // 查看某個使用者參加過的活動 => participants.userId = users.id
     // 目前設定僅能查看自己的資料
     let connection

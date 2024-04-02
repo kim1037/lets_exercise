@@ -15,12 +15,12 @@ const activityController = {
       }
       // 無法重複創建活動 => 同地點、同日期、同時間
       const [activity] = await connection.query('SELECT * FROM activities WHERE arenaId =? AND hostId = ? AND date = ? AND timeStart = ? AND timeEnd =?', [arenaId, currentUserId, date, timeStart, timeEnd])
-      if(activity.length > 0){
+      if (activity.length > 0) {
         const err = new Error('無法重複創建活動：你已在同日期、時間及地點建立過活動！')
         err.status = 409
         throw err
       }
-  
+
       // 日期不得早於創建日，時間只能創下一小時的活動 EX: 20:20創 20:30-59分之間都不行，但21:00之後可以
       // 格式化日期
       date = dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD')
