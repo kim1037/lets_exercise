@@ -1,13 +1,15 @@
 # Lets Exercise 專案介紹
 想打球卻找不到朋友陪你一起打嗎？或有人有球技，卻不知道要去哪裡打球嗎？這個運動揪團網通通幫你解決這些問題！
 
-此專案是以前後端分離開發模式進行，前端使用vue.js作為框架，後端則是使用node.js express架設伺服器，搭配MySQL做資料存放。
+此專案是以前後端分離開發模式進行，前端使用vue.js作為框架，後端則是使用node.js express架設伺服器，搭配MySQL做資料存放，並引入swagger彙整API文件檔。
 
 ## Prerequisites - 開發環境
-* node.js - v18.15.0
-* express
-* mysql2 
-* bcryptjs
+* node.js  - v18.15.0
+* express  - v4.18.2
+* mysql2   - v2.3.3
+* bcryptjs - v2.4.3
+* swagger
+
 
 ## Installation and execution - 安裝與執行步驟
 1. 開啟 Terminal, Clone 此專案至本機:
@@ -41,3 +43,6 @@ npm run dev
 ```
 The server is running on http://localhost:3000
 ```
+
+## API Documentation - API文件
+專案啟用後，至 http://localhost:3000/api-docs 查看
