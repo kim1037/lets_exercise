@@ -2,6 +2,7 @@ const { getOffset, getPagination } = require('../utils/paginator-helper')
 const dayjs = require('dayjs')
 const activityController = {
   create: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
     try {
@@ -52,6 +53,7 @@ const activityController = {
     }
   },
   edit: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     const { activityId } = req.params
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
@@ -104,6 +106,7 @@ const activityController = {
     }
   },
   delete: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     const { activityId } = req.params
     let connection
     try {
@@ -139,6 +142,7 @@ const activityController = {
     }
   },
   getAll: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     // 揪團資訊可篩選、排序，預設為日期排序：新->舊
     // 已新增地區篩選、顯示每頁筆數篩選
     let connection
@@ -212,6 +216,7 @@ const activityController = {
     }
   },
   getActivity: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     let connection
     try {
       const { activityId } = req.params
@@ -259,6 +264,8 @@ const activityController = {
     }
   },
   postParticipant: async (req, res, next) => {
+    // #swagger.tags = ['Participants']
+
     let { activityId } = req.params
     let connection
     activityId = Number(activityId)
@@ -323,6 +330,7 @@ const activityController = {
     }
   },
   deleteParticipant: async (req, res, next) => {
+    // #swagger.tags = ['Participants']
     const { activityId } = req.params
     let connection
     try {

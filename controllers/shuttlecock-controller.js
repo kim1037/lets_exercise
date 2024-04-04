@@ -1,6 +1,9 @@
 const { getOffset, getPagination } = require('../utils/paginator-helper')
 const shuttlecockController = {
   getAll: async (req, res, next) => {
+    // #swagger.tags = ['Shuttlecocks']
+    // #swagger.description = '取得所有羽毛球資訊'
+
     let connection
     const page = Number(req.query.page) || 1 // 初始預設頁
     const limit = Number(req.query.limit) || 10 // default 每頁10筆
@@ -30,6 +33,9 @@ const shuttlecockController = {
     }
   },
   getShuttlecock: async (req, res, next) => {
+    // #swagger.tags = ['Shuttlecocks']
+    // #swagger.description = '取得特定一個羽毛球資訊'
+
     let connection
     const { shuttlecockId } = req.params
     try {

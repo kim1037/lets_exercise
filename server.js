@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-global.config = require('./config/config')
+global.config = require('./config/config.json')
 const PORT = global.config.PORT || 3000
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')

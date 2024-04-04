@@ -1,6 +1,9 @@
 const { getOffset, getPagination } = require('../utils/paginator-helper')
 const arenaController = {
   getAll: async (req, res, next) => {
+    // #swagger.tags = ['Arenas']
+    // #swagger.description = '取得所有場地資訊'
+
     let connection
     const page = Number(req.query.page) || 1 // 初始預設頁
     const limit = Number(req.query.limit) || 10 // default 每頁10筆
@@ -32,6 +35,9 @@ const arenaController = {
     }
   },
   getArena: async (req, res, next) => {
+    // #swagger.tags = ['Arenas']
+    // #swagger.description = '取得特定一個場地資訊'
+
     let connection
     const { arenaId } = req.params
     try {

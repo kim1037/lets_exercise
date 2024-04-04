@@ -30,66 +30,97 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": "使用者註冊",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "description": "User data.",
             "schema": {
               "type": "object",
               "properties": {
                 "nationalId": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "H223457572"
                 },
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "testapi05@test.com"
                 },
                 "account": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "test005"
                 },
                 "password": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Test00123"
                 },
                 "checkPassword": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Test00123"
                 },
                 "firstName": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Holly"
                 },
                 "lastName": {
-                  "example": "any"
-                },
-                "nickName": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Shit"
                 },
                 "gender": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "male"
                 },
-                "avatar": {
-                  "example": "any"
-                },
-                "introduction": {
-                  "example": "any"
-                },
+                "avatar": {},
+                "introduction": {},
                 "birthdate": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "2022/01/01"
                 },
                 "playSince": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "2023/10/01"
                 },
                 "phoneNumber": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "0912425355"
                 }
-              }
+              },
+              "required": [
+                "nationalId",
+                "email",
+                "account",
+                "password",
+                "checkPassword",
+                "firstName",
+                "lastName",
+                "gender",
+                "birthdate",
+                "phoneNumber"
+              ]
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "status": "Success",
+            "message": "User registered successfully."
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "409": {
+            "status": "error",
+            "statusCode": 409,
+            "error": "Some column already exists!",
+            "description": "Conflict"
+          },
+          "422": {
+            "status": "error",
+            "statusCode": 422,
+            "error": "資料格式錯誤：錯誤訊息",
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -99,10 +130,46 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": "使用者登入",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User data.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "test005"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Test00123"
+                }
+              },
+              "required": [
+                "account",
+                "password"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "status": "Success",
+            "data": {
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InRlc3QxIiwiZW1haWwiOiJ0ZXN0MUB0ZXN0LmNvbSIsIm5pY2tOYW1lIjoiQXVkcmEgRGlldHJpY2ggSVYiLCJhdmF0YXIiOiJodHRwczovL3hzZ2FtZXMuY28vcmFuZG9tdXNlcnMvYXNzZXRzL2F2YXRhcnMvZmVtYWxlLzE1LmpwZyIsImludHJvZHVjdGlvbiI6IlF1b3MgdmVuaWFtIGRvbG9yIHN1bnQgcXVpLiIsImlhdCI6MTcxMjIyMDE1MCwiZXhwIjoxNzE0ODEyMTUwfQ.B93baS1VsvitMIKEgvYhHTYToeDa0hnbezSbedXa5f8",
+              "user": {
+                "id": 1,
+                "account": "test1",
+                "email": "test1@test.com",
+                "nickName": "Audra Dietrich IV",
+                "avatar": "https://xsgames.co/randomusers/assets/avatars/female/15.jpg",
+                "introduction": "Quos veniam dolor sunt qui."
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -112,6 +179,9 @@
     },
     "/activities/all": {
       "get": {
+        "tags": [
+          "Activities"
+        ],
         "description": "",
         "parameters": [
           {
@@ -142,6 +212,9 @@
     },
     "/activities/{activityId}": {
       "get": {
+        "tags": [
+          "Activities"
+        ],
         "description": "",
         "parameters": [
           {
@@ -161,6 +234,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Activities"
+        ],
         "description": "",
         "parameters": [
           {
@@ -182,6 +258,9 @@
     },
     "/arenas/all": {
       "get": {
+        "tags": [
+          "Arenas"
+        ],
         "description": "",
         "parameters": [
           {
@@ -209,6 +288,9 @@
     },
     "/arenas/{arenaId}": {
       "get": {
+        "tags": [
+          "Arenas"
+        ],
         "description": "",
         "parameters": [
           {
@@ -227,6 +309,9 @@
     },
     "/branches/all": {
       "get": {
+        "tags": [
+          "Branches"
+        ],
         "description": "",
         "parameters": [
           {
@@ -249,6 +334,9 @@
     },
     "/branches/{branchId}": {
       "get": {
+        "tags": [
+          "Branches"
+        ],
         "description": "",
         "parameters": [
           {
@@ -267,6 +355,9 @@
     },
     "/shuttlecocks/all": {
       "get": {
+        "tags": [
+          "Shuttlecocks"
+        ],
         "description": "",
         "parameters": [
           {
@@ -289,6 +380,9 @@
     },
     "/shuttlecocks/{shuttlecockId}": {
       "get": {
+        "tags": [
+          "Shuttlecocks"
+        ],
         "description": "",
         "parameters": [
           {
@@ -310,7 +404,7 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": " 查看某個使用者參加過的活動",
         "parameters": [
           {
             "name": "userId",
@@ -341,7 +435,10 @@
     },
     "/users/activities/{userId}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Activities"
+        ],
+        "description": " 查看某個使用者開過的活動",
         "parameters": [
           {
             "name": "userId",
@@ -375,7 +472,7 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": "取得使用者資訊",
         "parameters": [
           {
             "name": "userId",
@@ -396,6 +493,9 @@
     },
     "/followships/following/{userId}": {
       "get": {
+        "tags": [
+          "Followships"
+        ],
         "description": "",
         "parameters": [
           {
@@ -417,6 +517,9 @@
     },
     "/followships/followed/{userId}": {
       "get": {
+        "tags": [
+          "Followships"
+        ],
         "description": "",
         "parameters": [
           {
@@ -438,6 +541,9 @@
     },
     "/followships/{followingId}": {
       "post": {
+        "tags": [
+          "Followships"
+        ],
         "description": "",
         "parameters": [
           {
@@ -457,6 +563,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Followships"
+        ],
         "description": "",
         "parameters": [
           {
@@ -478,6 +587,9 @@
     },
     "/activities/edit/{activityId}": {
       "put": {
+        "tags": [
+          "Activities"
+        ],
         "description": "",
         "parameters": [
           {
@@ -541,6 +653,9 @@
     },
     "/activities/participant/{activityId}": {
       "post": {
+        "tags": [
+          "Participants"
+        ],
         "description": "",
         "parameters": [
           {
@@ -563,6 +678,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Participants"
+        ],
         "description": "",
         "parameters": [
           {
@@ -584,6 +702,9 @@
     },
     "/activities/create": {
       "post": {
+        "tags": [
+          "Activities"
+        ],
         "description": "",
         "parameters": [
           {
