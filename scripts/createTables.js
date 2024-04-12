@@ -11,9 +11,9 @@ const regionsTable = `CREATE TABLE IF NOT EXISTS regions (
 // password 因為要加密避免長度不夠設為TEXT
 const usersTable = `CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  nationalId CHAR(10) NOT NULL,
+  nationalId CHAR(10),
   email VARCHAR(100) NOT NULL,
-  account VARCHAR(50) NOT NULL,
+  account VARCHAR(50),
   password TEXT NOT NULL,  
   firstName VARCHAR(20) NOT NULL,
   lastName VARCHAR(20) NOT NULL,
@@ -23,7 +23,7 @@ const usersTable = `CREATE TABLE IF NOT EXISTS users (
   introduction VARCHAR(150),
   birthdate DATE NOT NULL,
   playSince DATE,
-  phoneNumber CHAR(10) NOT NULL,
+  phoneNumber CHAR(10) ,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
   )`

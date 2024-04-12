@@ -7,5 +7,7 @@
     "charset": "utf8mb4",
     "collation": "utf8mb4_unicode_ci"
   },
-  "JWT_SECRET": "thisIsJWTsCrEcT123^@$%^GFD"
+  "JWT_SECRET": "thisIsJWTsCrEcT123^@$%^GFD",
+  "FACEBOOK_APP_ID":"",
+  "FACEBOOK_APP_SECRET":""
 }
