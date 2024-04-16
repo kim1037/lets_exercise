@@ -1,6 +1,9 @@
 const { getOffset, getPagination } = require('../utils/paginator-helper')
 const branchController = {
   getAll: async (req, res, next) => {
+    // #swagger.tags = ['Branches']
+    // #swagger.description = '取得所有品牌資訊'
+
     let connection
     const page = Number(req.query.page) || 1 // 初始預設頁
     const limit = Number(req.query.limit) || 10 // default 每頁10筆
@@ -30,6 +33,8 @@ const branchController = {
     }
   },
   getBranch: async (req, res, next) => {
+    // #swagger.tags = ['Branches']
+    // #swagger.description = '取得特定一個品牌資訊'
     let connection
     const { branchId } = req.params
     try {

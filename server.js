@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
-global.config = require('./config/config')
+global.config = require('./config/config.json')
 const PORT = global.config.PORT || 3000
 const cors = require('cors')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json')
 
 // connent database
 const mysql = require('mysql2/promise')
@@ -28,11 +30,15 @@ app.use(require('./config/passport').initialize())
 
 // default
 app.get('/', (req, res) => {
+  // #swagger.ignore = true
   res.send('hi wolrd')
 })
 
 // routes
 app.use(require('./routers'))
+
+// swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.listen(PORT, () => {
   console.log(`Server is listening on http://127.0.0.1:${PORT}`)

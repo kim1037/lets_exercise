@@ -1,0 +1,764 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Lets Exercise API",
+    "description": "Description"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": ""
+    },
+    {
+      "name": "Activities",
+      "description": ""
+    },
+    {
+      "name": "Branches",
+      "description": ""
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "使用者註冊",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User data.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nationalId": {
+                  "type": "string",
+                  "example": "H223457572"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "testapi05@test.com"
+                },
+                "account": {
+                  "type": "string",
+                  "example": "test005"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Test00123"
+                },
+                "checkPassword": {
+                  "type": "string",
+                  "example": "Test00123"
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "Holly"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Shit"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "male"
+                },
+                "avatar": {},
+                "introduction": {},
+                "birthdate": {
+                  "type": "string",
+                  "example": "2022/01/01"
+                },
+                "playSince": {
+                  "type": "string",
+                  "example": "2023/10/01"
+                },
+                "phoneNumber": {
+                  "type": "string",
+                  "example": "0912425355"
+                }
+              },
+              "required": [
+                "nationalId",
+                "email",
+                "account",
+                "password",
+                "checkPassword",
+                "firstName",
+                "lastName",
+                "gender",
+                "birthdate",
+                "phoneNumber"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "status": "Success",
+            "message": "User registered successfully."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "status": "error",
+            "statusCode": 409,
+            "error": "Some column already exists!",
+            "description": "Conflict"
+          },
+          "422": {
+            "status": "error",
+            "statusCode": 422,
+            "error": "資料格式錯誤：錯誤訊息",
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/users/signin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "使用者登入",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User data.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "test005"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Test00123"
+                }
+              },
+              "required": [
+                "account",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "status": "Success",
+            "data": {
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InRlc3QxIiwiZW1haWwiOiJ0ZXN0MUB0ZXN0LmNvbSIsIm5pY2tOYW1lIjoiQXVkcmEgRGlldHJpY2ggSVYiLCJhdmF0YXIiOiJodHRwczovL3hzZ2FtZXMuY28vcmFuZG9tdXNlcnMvYXNzZXRzL2F2YXRhcnMvZmVtYWxlLzE1LmpwZyIsImludHJvZHVjdGlvbiI6IlF1b3MgdmVuaWFtIGRvbG9yIHN1bnQgcXVpLiIsImlhdCI6MTcxMjIyMDE1MCwiZXhwIjoxNzE0ODEyMTUwfQ.B93baS1VsvitMIKEgvYhHTYToeDa0hnbezSbedXa5f8",
+              "user": {
+                "id": 1,
+                "account": "test1",
+                "email": "test1@test.com",
+                "nickName": "Audra Dietrich IV",
+                "avatar": "https://xsgames.co/randomusers/assets/avatars/female/15.jpg",
+                "introduction": "Quos veniam dolor sunt qui."
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/activities/all": {
+      "get": {
+        "tags": [
+          "Activities"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "regionId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/activities/{activityId}": {
+      "get": {
+        "tags": [
+          "Activities"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Activities"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/arenas/all": {
+      "get": {
+        "tags": [
+          "Arenas"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "regionId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/arenas/{arenaId}": {
+      "get": {
+        "tags": [
+          "Arenas"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "arenaId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/branches/all": {
+      "get": {
+        "tags": [
+          "Branches"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/branches/{branchId}": {
+      "get": {
+        "tags": [
+          "Branches"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "branchId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/shuttlecocks/all": {
+      "get": {
+        "tags": [
+          "Shuttlecocks"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/shuttlecocks/{shuttlecockId}": {
+      "get": {
+        "tags": [
+          "Shuttlecocks"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "shuttlecockId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/participant/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": " 查看某個使用者參加過的活動",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/users/activities/{userId}": {
+      "get": {
+        "tags": [
+          "Activities"
+        ],
+        "description": " 查看某個使用者開過的活動",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得使用者資訊",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/followships/following/{userId}": {
+      "get": {
+        "tags": [
+          "Followships"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/followships/followed/{userId}": {
+      "get": {
+        "tags": [
+          "Followships"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/followships/{followingId}": {
+      "post": {
+        "tags": [
+          "Followships"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "followingId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Followships"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "followingId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/activities/edit/{activityId}": {
+      "put": {
+        "tags": [
+          "Activities"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "arenaId": {
+                  "example": "any"
+                },
+                "shuttlecockId": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "timeStart": {
+                  "example": "any"
+                },
+                "timeEnd": {
+                  "example": "any"
+                },
+                "shuttlecockProvide": {
+                  "example": "any"
+                },
+                "level": {
+                  "example": "any"
+                },
+                "fee": {
+                  "example": "any"
+                },
+                "numsOfPeople": {
+                  "example": "any"
+                },
+                "totalPeople": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/activities/participant/{activityId}": {
+      "post": {
+        "tags": [
+          "Participants"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Participants"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/activities/create": {
+      "post": {
+        "tags": [
+          "Activities"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "arenaId": {
+                  "example": "any"
+                },
+                "shuttlecockId": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "timeStart": {
+                  "example": "any"
+                },
+                "timeEnd": {
+                  "example": "any"
+                },
+                "shuttlecockProvide": {
+                  "example": "any"
+                },
+                "level": {
+                  "example": "any"
+                },
+                "fee": {
+                  "example": "any"
+                },
+                "numsOfPeople": {
+                  "example": "any"
+                },
+                "totalPeople": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  }
+}

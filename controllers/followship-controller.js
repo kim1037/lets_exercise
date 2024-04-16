@@ -1,5 +1,8 @@
 const followshipController = {
   postFollowship: async (req, res, next) => {
+    // #swagger.tags = ['Followships']
+    // #swagger.description = '追蹤某個使用者'
+
     const { followingId } = req.params
     const currentUserId = req.user.id
     let connection
@@ -44,6 +47,9 @@ const followshipController = {
     }
   },
   deleteFollowship: async (req, res, next) => {
+    // #swagger.tags = ['Followships']
+    // #swagger.description = '取消追蹤某個使用者'
+
     const { followingId } = req.params
     const currentUserId = req.user.id
     let connection
@@ -83,6 +89,9 @@ const followshipController = {
     }
   },
   getFollowings: async (req, res, next) => {
+    // #swagger.tags = ['Followships']
+    // #swagger.description = '取得所有正在追蹤的使用者'
+
     const { userId } = req.params
     let connection
     try {
@@ -110,6 +119,9 @@ const followshipController = {
     }
   },
   getFollowers: async (req, res, next) => {
+    // #swagger.tags = ['Followships']
+    // #swagger.description = '取得所有粉絲'
+
     const { userId } = req.params
     let connection
     try {

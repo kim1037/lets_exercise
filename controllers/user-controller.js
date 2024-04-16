@@ -5,6 +5,28 @@ const dayjs = require('dayjs')
 
 const userController = {
   signup: async (req, res, next) => {
+    /*  #swagger.tags = ['Users']
+        #swagger.description = '使用者註冊'
+        #swagger.parameters['body'] = {
+          in: 'body',
+          description: 'User data.',
+          schema: {
+            $nationalId: "H223457572",
+            $email: "testapi05@test.com",
+            $account: "test005",
+            $password: "Test00123",
+            $checkPassword: "Test00123",
+            $firstName: "Holly",
+            $lastName: "Shit",
+            $gender: "male",
+            avatar: null,
+            introduction: null,
+            $birthdate: "2022/01/01",
+            playSince: "2023/10/01",
+            $phoneNumber:"0912425355"
+        }
+      }
+    */
     let { nationalId, email, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
     let connection
     try {
@@ -41,7 +63,6 @@ const userController = {
       connection = await global.pool.getConnection()
       if (!connection) throw new Error('DB connection fails.')
       const [existingUser] = await connection.query('SELECT * FROM users WHERE account = ? OR email = ? OR nationalId = ? OR phoneNumber = ?', [account, email, nationalId, phoneNumber])
-      connection.release()
       if (existingUser.length > 0) {
         if (existingUser[0].nationalId === nationalId) {
           throw new Error('National ID already exists!')
@@ -61,12 +82,15 @@ const userController = {
         // 儲存使用者資料到資料庫
         await global.pool.query(`INSERT INTO users (nationalId, email, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber) VALUES (${valuePlaceholder})`, [nationalId, email, account, hashedPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber])
 
+        // #swagger.responses[201] = { status: 'Success', message: 'User registered successfully.' }
         return res.status(201).json({ status: 'Success', message: 'User registered successfully.' })
       }
     } catch (err) {
       if (err.message.includes('資料格式錯誤')) {
+        /* #swagger.responses[422] = { status: "error", statusCode: 422, error: "資料格式錯誤：錯誤訊息"} */
         err.status = 422
       } else if (err.message.includes('already exists!')) {
+        // #swagger.responses[409] = { status: "error", statusCode: 409, error: "Some column already exists!"}
         err.status = 409
       }
       next(err)
@@ -77,11 +101,21 @@ const userController = {
     }
   },
   signin: async (req, res, next) => {
+    /*  #swagger.tags = ['Users']
+        #swagger.description = '使用者登入'
+        #swagger.parameters['body'] = {
+          in: 'body',
+          description: 'User data.',
+          schema: {
+            $account: "test005",
+            $password: "Test00123"
+          }
+        }
+    */
     try {
       const user = req.user
       // create a token
       const token = await jwt.sign(user, global.config.JWT_SECRET, { expiresIn: '30d' })
-
       return res.status(200).json({
         status: 'Success',
         data: {
@@ -94,6 +128,8 @@ const userController = {
     }
   },
   getUserData: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = '取得使用者資訊'
     let connection
     try {
       const id = Number(req.params.userId)
@@ -124,6 +160,8 @@ const userController = {
     }
   },
   getParticipants: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = ' 查看某個使用者參加過的活動'
     // 查看某個使用者參加過的活動 => participants.userId = users.id
     // 目前設定僅能查看自己的資料
     let connection
@@ -169,6 +207,8 @@ const userController = {
     }
   },
   getActivities: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
+    // #swagger.description = ' 查看某個使用者開過的活動'
     // 查看某個使用者開過的活動 => activities.hostId = users.id
     // 目前設定僅能查看自己的資料
     let connection

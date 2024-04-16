@@ -2,6 +2,7 @@ const { getOffset, getPagination } = require('../utils/paginator-helper')
 const dayjs = require('dayjs')
 const activityController = {
   create: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
     try {
@@ -15,12 +16,12 @@ const activityController = {
       }
       // 無法重複創建活動 => 同地點、同日期、同時間
       const [activity] = await connection.query('SELECT * FROM activities WHERE arenaId =? AND hostId = ? AND date = ? AND timeStart = ? AND timeEnd =?', [arenaId, currentUserId, date, timeStart, timeEnd])
-      if(activity.length > 0){
+      if (activity.length > 0) {
         const err = new Error('無法重複創建活動：你已在同日期、時間及地點建立過活動！')
         err.status = 409
         throw err
       }
-  
+
       // 日期不得早於創建日，時間只能創下一小時的活動 EX: 20:20創 20:30-59分之間都不行，但21:00之後可以
       // 格式化日期
       date = dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD')
@@ -52,6 +53,7 @@ const activityController = {
     }
   },
   edit: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     const { activityId } = req.params
     let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
@@ -104,6 +106,7 @@ const activityController = {
     }
   },
   delete: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     const { activityId } = req.params
     let connection
     try {
@@ -139,6 +142,7 @@ const activityController = {
     }
   },
   getAll: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     // 揪團資訊可篩選、排序，預設為日期排序：新->舊
     // 已新增地區篩選、顯示每頁筆數篩選
     let connection
@@ -212,6 +216,7 @@ const activityController = {
     }
   },
   getActivity: async (req, res, next) => {
+    // #swagger.tags = ['Activities']
     let connection
     try {
       const { activityId } = req.params
@@ -259,6 +264,8 @@ const activityController = {
     }
   },
   postParticipant: async (req, res, next) => {
+    // #swagger.tags = ['Participants']
+
     let { activityId } = req.params
     let connection
     activityId = Number(activityId)
@@ -323,6 +330,7 @@ const activityController = {
     }
   },
   deleteParticipant: async (req, res, next) => {
+    // #swagger.tags = ['Participants']
     const { activityId } = req.params
     let connection
     try {
