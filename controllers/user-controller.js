@@ -251,7 +251,34 @@ const userController = {
       }
     }
   },
+  editUser: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = ' 編輯使用者資訊'
+    let connection
+    // 由於有加入第三方認證(通常只會有email)，因此得設計若已有帳號、身分證、手機者不得更改這三個資料
+    let { nationalId, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
+    try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限修改其他使用者的資料')
+        err.status = 401
+        throw err
+      }
+      connection = await global.pool.getConnection()
+      const [user] = await connection.query('SELECT id FROM users WHERE id = ?', [currentUserId])
+
+
+    } catch (err) {
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  },
   sample: async (req, res, next) => {
+    // #swagger.ignore = true
     let connection
     try {
       connection = await global.pool.getConnection()
