@@ -9,5 +9,6 @@
   },
   "JWT_SECRET": "thisIsJWTsCrEcT123^@$%^GFD",
   "FACEBOOK_APP_ID":"",
-  "FACEBOOK_APP_SECRET":""
+  "FACEBOOK_APP_SECRET":"",
+  "IMGUR_CLIENT_ID": ""
 }
