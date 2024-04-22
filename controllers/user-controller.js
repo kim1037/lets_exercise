@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { getOffset, getPagination } = require('../utils/paginator-helper')
+const { imgurFileHandler } = require('../utils/file-helpers')
 const dayjs = require('dayjs')
 
 const userController = {
@@ -254,15 +255,19 @@ const userController = {
       }
     }
   },
-  editUser: async (req, res, next) => {
+  editUserProfile: async (req, res, next) => {
     // #swagger.tags = ['Users']
     // #swagger.description = ' 編輯使用者資訊'
     let connection
     // 由於有加入第三方認證(通常只會有email)，因此若已有帳號、身分證、手機者不得更改這三個資料，性別也要驗證
-    let { nationalId, account, password, checkPassword, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber } = req.body
+    let { nationalId, account, password, checkPassword, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber } = req.body
+    const { file } = req
+
     try {
       const currentUserId = req.user.id
       const userId = req.params.userId
+      const avatar = file?.avatar ? await imgurFileHandler(file.avatar[0]) : null
+
       if (currentUserId !== Number(userId)) {
         const err = new Error('你沒有權限修改其他使用者的資料')
         err.status = 401
@@ -341,7 +346,7 @@ const userController = {
         }
       } else {
         password = bcrypt.hashSync(password) // 密碼加密
-        const columnsObj = { nationalId, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber}
+        const columnsObj = { nationalId, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber }
         const columnLength = Object.keys(columnsObj).length
         // 過濾出存在的屬性
         let count = 0
