@@ -260,7 +260,7 @@ const userController = {
     // #swagger.description = '編輯使用者資訊，修改密碼、大頭貼請用另一支api'
     let connection
     // 由於有加入第三方認證(通常只會有email)，因此若已有帳號、身分證、手機者不得更改這三個資料，性別也要驗證
-    let { nationalId, account, password, checkPassword, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber } = req.body
+    let { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber } = req.body
     try {
       const currentUserId = req.user.id
       const userId = req.params.userId
@@ -329,14 +329,6 @@ const userController = {
 
       if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
 
-      if (password) {
-        // check password
-        if (password !== checkPassword) throw new Error('資料格式錯誤：確認密碼輸入不一致!')
-        if (password.length > 20) throw new Error('資料格式錯誤：密碼不得超過20字元')
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
-        if (!passwordRegex.test(password)) throw new Error('資料格式錯誤：密碼必須包含至少一個大寫英文及一個小寫英文和數字的組合，且最少為8字元')
-      }
-
       // 檢查 account, nationalId, phoneNumber是否重複
       const [existingUser] = await connection.query('SELECT * FROM users WHERE account = ? OR nationalId = ? OR phoneNumber = ?', [account, nationalId, phoneNumber])
       if (existingUser.length > 0) {
@@ -348,8 +340,8 @@ const userController = {
           throw new Error('Phone number already exists!')
         }
       } else {
-        password = bcrypt.hashSync(password) // 密碼加密
-        const columnsObj = { nationalId, account, password, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber }
+        
+        const columnsObj = { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber }
         const columnLength = Object.keys(columnsObj).length
         // 過濾出存在的屬性
         let count = 0
@@ -423,8 +415,44 @@ const userController = {
     // #swagger.tags = ['Users']
     // #swagger.description = '編輯使用者密碼'
     let connection
+    let { oldPassword, newPassword, checkPassword } = req.body
     try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限修改其他使用者的資料')
+        err.status = 401
+        throw err
+      }
       connection = await global.pool.getConnection()
+      if (!connection) throw new Error('DB connection fails.')
+
+      // 找出使用者資料
+      const [user] = await connection.query('SELECT password FROM users WHERE id = ?', [currentUserId])
+      if (!user || user.length === 0) {
+        const err = new Error('使用者不存在!')
+        err.status = 404
+        throw err
+      }
+    
+      if (!bcrypt.compareSync(oldPassword, user[0].password)){
+        const err = new Error('舊密碼輸入錯誤，請重新輸入')
+        err.status = 401
+        throw err
+      }
+      
+      // check password
+      if (newPassword !== checkPassword) throw new Error('資料格式錯誤：確認密碼輸入不一致!')
+      if (newPassword.length > 20) throw new Error('資料格式錯誤：密碼不得超過20字元')
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+      if (!passwordRegex.test(newPassword)) throw new Error('資料格式錯誤：密碼必須包含至少一個大寫英文及一個小寫英文和數字的組合，且最少為8字元')
+
+      const password = bcrypt.hashSync(newPassword) // 密碼加密
+      await connection.query(`UPDATE users SET password = ? WHERE id = ?`, [password, currentUserId])
+
+      return res.status(200).json({ status: 'Success', message: 'User password update successfully.' })
+
     } catch (err) {
       next(err)
     } finally {
