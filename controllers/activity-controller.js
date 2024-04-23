@@ -78,8 +78,8 @@ const activityController = {
       }
 
       date = date ? dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD') : dayjs(activity[0].date, 'Asia/Taipei').format('YYYY-MM-DD')
-      timeStart = timeStart ? timeStart : activity[0].timeStart
-      timeEnd = timeEnd ? timeEnd : activity[0].timeEnd
+      timeStart = timeStart || activity[0].timeStart
+      timeEnd = timeEnd || activity[0].timeEnd
 
       const now = dayjs(new Date(), 'Asia/Taipei').format()
       if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) <= dayjs(now).hour())) {
@@ -88,7 +88,7 @@ const activityController = {
         throw err
       }
 
-      if (!shuttlecockProvide || !activity[0].shuttlecockProvide ) shuttlecockId = null // 若不提供球, 羽球型號則為null
+      if ((shuttlecockProvide === false) || !activity[0].shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
       const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description }
       const updateStr = updateSQLFomatter(columnsObj)
       const sql = `UPDATE activities SET ${updateStr} WHERE id = ?`

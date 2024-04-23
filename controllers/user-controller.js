@@ -259,7 +259,7 @@ const userController = {
   editUserProfile: async (req, res, next) => {
     // #swagger.tags = ['Users']
     // #swagger.description = '編輯使用者資訊，修改密碼、大頭貼請用另一支api'
-    
+
     let connection
     // 由於有加入第三方認證(通常只會有email)，因此若已有帳號、身分證、手機者不得更改這三個資料，性別也要驗證
     let { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber } = req.body
@@ -371,7 +371,7 @@ const userController = {
         connection.release()
       }
     }
-  }, 
+  },
   editUserAvatar: async (req, res, next) => {
     // #swagger.tags = ['Users']
     // #swagger.description = 'Edit user avatar. Remember to add enctype attribute to the form and the input type of avatar should be file.'
@@ -386,7 +386,7 @@ const userController = {
         err.status = 401
         throw err
       }
-      
+
       connection = await global.pool.getConnection()
       const [user] = await connection.query('SELECT id, avatar FROM users WHERE id = ?', [currentUserId])
       if (!user || user.length === 0) {
@@ -395,10 +395,9 @@ const userController = {
         throw err
       }
       const avatar = file ? await imgurFileHandler(file) : user[0].avatar
-      await connection.query(`UPDATE users SET avatar = ? WHERE id = ?`, [avatar, currentUserId])
+      await connection.query('UPDATE users SET avatar = ? WHERE id = ?', [avatar, currentUserId])
 
       return res.status(200).json({ status: 'Success', message: 'User avatar update successfully.' })
-
     } catch (err) {
       next(err)
     } finally {
@@ -411,7 +410,7 @@ const userController = {
     // #swagger.tags = ['Users']
     // #swagger.description = '編輯使用者密碼'
     let connection
-    let { oldPassword, newPassword, checkPassword } = req.body
+    const { oldPassword, newPassword, checkPassword } = req.body
     try {
       const currentUserId = req.user.id
       const userId = req.params.userId
@@ -431,13 +430,13 @@ const userController = {
         err.status = 404
         throw err
       }
-    
-      if (!bcrypt.compareSync(oldPassword, user[0].password)){
+
+      if (!bcrypt.compareSync(oldPassword, user[0].password)) {
         const err = new Error('舊密碼輸入錯誤，請重新輸入')
         err.status = 401
         throw err
       }
-      
+
       // check password
       if (newPassword !== checkPassword) throw new Error('資料格式錯誤：確認密碼輸入不一致!')
       if (newPassword.length > 20) throw new Error('資料格式錯誤：密碼不得超過20字元')
@@ -445,15 +444,14 @@ const userController = {
       if (!passwordRegex.test(newPassword)) throw new Error('資料格式錯誤：密碼必須包含至少一個大寫英文及一個小寫英文和數字的組合，且最少為8字元')
 
       const password = bcrypt.hashSync(newPassword) // 密碼加密
-      await connection.query(`UPDATE users SET password = ? WHERE id = ?`, [password, currentUserId])
+      await connection.query('UPDATE users SET password = ? WHERE id = ?', [password, currentUserId])
 
       return res.status(200).json({ status: 'Success', message: 'User password update successfully.' })
-
     } catch (err) {
       if (err.message.includes('資料格式錯誤')) {
         /* #swagger.responses[422] = { status: "error", statusCode: 422, error: "資料格式錯誤：錯誤訊息"} */
         err.status = 422
-      } 
+      }
       next(err)
     } finally {
       if (connection) {
