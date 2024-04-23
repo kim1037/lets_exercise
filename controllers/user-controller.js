@@ -258,23 +258,24 @@ const userController = {
   editUserProfile: async (req, res, next) => {
     // #swagger.tags = ['Users']
     // #swagger.description = '編輯使用者資訊，修改密碼、大頭貼請用另一支api'
+    
     let connection
     // 由於有加入第三方認證(通常只會有email)，因此若已有帳號、身分證、手機者不得更改這三個資料，性別也要驗證
     let { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber } = req.body
     try {
       const currentUserId = req.user.id
       const userId = req.params.userId
-
       if (currentUserId !== Number(userId)) {
         const err = new Error('你沒有權限修改其他使用者的資料')
         err.status = 401
         throw err
       }
+
       connection = await global.pool.getConnection()
       if (!connection) throw new Error('DB connection fails.')
 
       // 找出使用者資料
-      const [user] = await connection.query('SELECT * FROM users WHERE id = ?', [currentUserId])
+      const [user] = await connection.query('SELECT nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber FROM users WHERE id = ?', [currentUserId])
       if (!user || user.length === 0) {
         const err = new Error('使用者不存在!')
         err.status = 404
@@ -284,6 +285,13 @@ const userController = {
       if ((user[0].nationalId && nationalId) || (user[0].account && account) || (user[0].phoneNumber && phoneNumber)) {
         const err = new Error('身分證、帳號、手機號碼若已存在則無法修改!')
         err.status = 409
+        throw err
+      }
+
+      // nationalId, account, firstName, lastName, gender, birthdate, phoneNumber 為必填欄位，若本來沒有設定則不得為空白
+      if ((!user[0].nationalId && !nationalId) || (!user[0].account && !account) || (!user[0].phoneNumber && !phoneNumber) || (!user[0].firstName && !firstName) || (!user[0].lastName && !lastName) || (!user[0].gender && !gender) || (!user[0].birthdate && !birthdate)) {
+        const err = new Error('請確實填寫必填欄位，不得為空白！')
+        err.status = 422
         throw err
       }
 
@@ -340,21 +348,17 @@ const userController = {
           throw new Error('Phone number already exists!')
         }
       } else {
-        
         const columnsObj = { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber }
-        const columnLength = Object.keys(columnsObj).length
         // 過濾出存在的屬性
-        let count = 0
-        let updateColumns = ''
+        let updateColumns = []
         for (const [key, value] of Object.entries(columnsObj)) {
-          count += 1
           if (key && value !== undefined) {
-            updateColumns += `${key} = ${typeof value === 'number' ? value : typeof value === 'string' ? `'${value}'` : value}${count < columnLength ? ',' : ''}`
+            updateColumns.push(`${key} = ${typeof value === 'number' ? value : typeof value === 'string' ? `'${value}'` : value}`)
           }
         }
 
         // 更新使用者資料
-        const sql = `UPDATE users SET ${updateColumns} WHERE id = ?`
+        const sql = `UPDATE users SET ${updateColumns.join(', ')} WHERE id = ?`
         console.log(sql)
         await connection.query(sql, [currentUserId])
 
@@ -378,7 +382,7 @@ const userController = {
   }, 
   editUserAvatar: async (req, res, next) => {
     // #swagger.tags = ['Users']
-    // #swagger.description = '編輯使用者大頭照'
+    // #swagger.description = 'Edit user avatar. Remember to add enctype attribute to the form and the input type of avatar should be file.'
     let connection
     const { file } = req
     try {
@@ -454,6 +458,10 @@ const userController = {
       return res.status(200).json({ status: 'Success', message: 'User password update successfully.' })
 
     } catch (err) {
+      if (err.message.includes('資料格式錯誤')) {
+        /* #swagger.responses[422] = { status: "error", statusCode: 422, error: "資料格式錯誤：錯誤訊息"} */
+        err.status = 422
+      } 
       next(err)
     } finally {
       if (connection) {
