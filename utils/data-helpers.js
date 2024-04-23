@@ -24,5 +24,16 @@ module.exports = {
     }
 
     return nationalId
+  },
+  updateSQLFomatter: (obj = {} )=> {
+    // 過濾出存在的屬性
+    let updateArray = []
+    for (const [key, value] of Object.entries(obj)) {
+      if (key && value !== undefined) {
+        updateArray.push(`${key} = ${typeof value === 'number' ? value : typeof value === 'string' ? `'${value}'` : value}`)
+      }
+    }
+
+    return updateArray.join(', ')
   }
 }

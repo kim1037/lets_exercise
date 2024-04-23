@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { getOffset, getPagination } = require('../utils/paginator-helper')
 const { imgurFileHandler } = require('../utils/file-helpers')
+const { updateSQLFomatter } = require('../utils/data-helpers')
 const dayjs = require('dayjs')
 
 const userController = {
@@ -60,7 +61,7 @@ const userController = {
       const now = new Date()
       if (bd.getTime() > now.getTime() || (playSince && pd.getTime() > now.getTime())) throw new Error('資料格式錯誤：生日&球齡日期不得晚於今天')
       // playSince日期不得晚於birthdate
-      if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
+      if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得早於出生年月日')
 
       if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
       // 檢查 account, email, nationalId, phoneNumber是否重複
@@ -318,7 +319,6 @@ const userController = {
       // check phoneNumber === 10
       if (phoneNumber && phoneNumber.length !== 10) throw new Error('資料格式錯誤：手機格式輸入錯誤')
 
-      if (!birthdate && !user[0].birthdate) throw new Error('資料格式錯誤：生日為必填資訊!')
       // birthday & playSince日期不得為未來日
       const now = new Date()
       const bd = birthdate ? new Date(birthdate) : new Date(user[0].birthdate)
@@ -331,7 +331,7 @@ const userController = {
         const pd = new Date(playSince)
         if (playSince && pd.getTime() > now.getTime()) throw new Error('資料格式錯誤：球齡日期不得晚於今天')
         // playSince日期不得晚於birthdate
-        if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
+        if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得早於出生年月日')
         playSince = playSince ? dayjs(playSince, 'Asia/Taipei').format('YYYY-MM-DD') : null
       }
 
@@ -349,17 +349,9 @@ const userController = {
         }
       } else {
         const columnsObj = { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber }
-        // 過濾出存在的屬性
-        let updateColumns = []
-        for (const [key, value] of Object.entries(columnsObj)) {
-          if (key && value !== undefined) {
-            updateColumns.push(`${key} = ${typeof value === 'number' ? value : typeof value === 'string' ? `'${value}'` : value}`)
-          }
-        }
-
+        const updateStr = updateSQLFomatter(columnsObj)
         // 更新使用者資料
-        const sql = `UPDATE users SET ${updateColumns.join(', ')} WHERE id = ?`
-        console.log(sql)
+        const sql = `UPDATE users SET ${updateStr} WHERE id = ?`
         await connection.query(sql, [currentUserId])
 
         // #swagger.responses[200] = { status: 'Success', message: 'User registered successfully.' }
