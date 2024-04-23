@@ -257,16 +257,13 @@ const userController = {
   },
   editUserProfile: async (req, res, next) => {
     // #swagger.tags = ['Users']
-    // #swagger.description = ' 編輯使用者資訊'
+    // #swagger.description = '編輯使用者資訊，修改密碼、大頭貼請用另一支api'
     let connection
     // 由於有加入第三方認證(通常只會有email)，因此若已有帳號、身分證、手機者不得更改這三個資料，性別也要驗證
     let { nationalId, account, password, checkPassword, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber } = req.body
-    const { file } = req
-
     try {
       const currentUserId = req.user.id
       const userId = req.params.userId
-      const avatar = file?.avatar ? await imgurFileHandler(file.avatar[0]) : null
 
       if (currentUserId !== Number(userId)) {
         const err = new Error('你沒有權限修改其他使用者的資料')
@@ -277,7 +274,13 @@ const userController = {
       if (!connection) throw new Error('DB connection fails.')
 
       // 找出使用者資料
-      const [user] = await connection.query('SELECT id FROM users WHERE id = ?', [currentUserId])
+      const [user] = await connection.query('SELECT * FROM users WHERE id = ?', [currentUserId])
+      if (!user || user.length === 0) {
+        const err = new Error('使用者不存在!')
+        err.status = 404
+        throw err
+      }
+
       if ((user[0].nationalId && nationalId) || (user[0].account && account) || (user[0].phoneNumber && phoneNumber)) {
         const err = new Error('身分證、帳號、手機號碼若已存在則無法修改!')
         err.status = 409
@@ -292,7 +295,7 @@ const userController = {
 
       // 驗證性別
       if (gender) {
-        const checkGender = nationalId ? (nationalId[1] === '1' ? 'male' : 'female') : (user[0] === '1' ? 'male' : 'female')
+        const checkGender = nationalId ? (nationalId[1] === '1' ? 'male' : 'female') : (user[0].nationalId[1] === '1' ? 'male' : 'female')
         if (gender !== checkGender) throw new Error('資料格式錯誤：性別與身分證不相符')
       }
 
@@ -346,7 +349,7 @@ const userController = {
         }
       } else {
         password = bcrypt.hashSync(password) // 密碼加密
-        const columnsObj = { nationalId, account, password, firstName, lastName, nickName, gender, avatar, introduction, birthdate, playSince, phoneNumber }
+        const columnsObj = { nationalId, account, password, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber }
         const columnLength = Object.keys(columnsObj).length
         // 過濾出存在的屬性
         let count = 0
@@ -360,6 +363,7 @@ const userController = {
 
         // 更新使用者資料
         const sql = `UPDATE users SET ${updateColumns} WHERE id = ?`
+        console.log(sql)
         await connection.query(sql, [currentUserId])
 
         // #swagger.responses[200] = { status: 'Success', message: 'User registered successfully.' }
@@ -373,6 +377,55 @@ const userController = {
         // #swagger.responses[409] = { status: "error", statusCode: 409, error: "Some column already exists!"}
         err.status = 409
       }
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  }, 
+  editUserAvatar: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = '編輯使用者大頭照'
+    let connection
+    const { file } = req
+    try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限修改其他使用者的資料')
+        err.status = 401
+        throw err
+      }
+      
+      connection = await global.pool.getConnection()
+      const [user] = await connection.query('SELECT id, avatar FROM users WHERE id = ?', [currentUserId])
+      if (!user || user.length === 0) {
+        const err = new Error('使用者不存在!')
+        err.status = 404
+        throw err
+      }
+      const avatar = file ? await imgurFileHandler(file) : user[0].avatar
+      await connection.query(`UPDATE users SET avatar = ? WHERE id = ?`, [avatar, currentUserId])
+
+      return res.status(200).json({ status: 'Success', message: 'User avatar update successfully.' })
+
+    } catch (err) {
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  },
+  editPassword: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = '編輯使用者密碼'
+    let connection
+    try {
+      connection = await global.pool.getConnection()
+    } catch (err) {
       next(err)
     } finally {
       if (connection) {

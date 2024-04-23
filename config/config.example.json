@@ -7,5 +7,8 @@
     "charset": "utf8mb4",
     "collation": "utf8mb4_unicode_ci"
   },
-  "JWT_SECRET": ""
+  "JWT_SECRET": "",
+  "FACEBOOK_APP_ID": "",
+  "FACEBOOK_APP_SECRET": "",
+  "IMGUR_CLIENT_ID": ""
 }
