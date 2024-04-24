@@ -285,11 +285,6 @@ const userController = {
 
       // 找出使用者資料
       const [user] = await connection.query('SELECT nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber FROM users WHERE id = ?', [currentUserId])
-      if (!user || user.length === 0) {
-        const err = new Error('使用者不存在!')
-        err.status = 404
-        throw err
-      }
 
       if ((user[0].nationalId && nationalId) || (user[0].account && account) || (user[0].phoneNumber && phoneNumber)) {
         const err = new Error('身分證、帳號、手機號碼若已存在則無法修改!')
