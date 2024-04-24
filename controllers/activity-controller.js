@@ -1,5 +1,7 @@
 const { getOffset, getPagination } = require('../utils/paginator-helper')
+const { updateSQLFomatter } = require('../utils/data-helpers')
 const dayjs = require('dayjs')
+
 const activityController = {
   create: async (req, res, next) => {
     // #swagger.tags = ['Activities']
@@ -54,30 +56,10 @@ const activityController = {
   },
   edit: async (req, res, next) => {
     // #swagger.tags = ['Activities']
-    const { activityId } = req.params
-    let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
+    let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
+    const { activityId } = req.params
     try {
-      date = dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD')
-      const now = dayjs(new Date(), 'Asia/Taipei').format()
-      if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) <= dayjs(now).hour())) {
-        const err = new Error('資料格式錯誤：日期不得早於現在時間!')
-        err.status = 422
-        throw err
-      }
-      const currentUserId = req.user.id
-      if (!shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
-      const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description }
-      const columnLength = Object.keys(columnsObj).length
-      // 過濾出存在的屬性
-      let count = 0
-      let updateColumns = ''
-      for (const [key, value] of Object.entries(columnsObj)) {
-        count += 1
-        if (key && value !== undefined) {
-          updateColumns += `${key} = ${typeof value === 'number' ? value : typeof value === 'string' ? `'${value}'` : value}${count < columnLength ? ',' : ''}`
-        }
-      }
       connection = await global.pool.getConnection()
       // 檢查活動是否存在
       const [activity] = await connection.query('SELECT * FROM activities WHERE id = ?', [activityId])
@@ -86,16 +68,31 @@ const activityController = {
         err.status = 404
         throw err
       }
+
       // 只能編輯自己建立的活動
+      const currentUserId = req.user.id
       if (activity[0].hostId !== currentUserId) {
         const err = new Error('你無權編輯此活動!')
         err.status = 401
         throw err
       }
 
-      const sql = `UPDATE activities SET ${updateColumns} WHERE id = ?`
-      await connection.query(sql, [activityId])
+      date = date ? dayjs(date, 'Asia/Taipei').format('YYYY-MM-DD') : dayjs(activity[0].date, 'Asia/Taipei').format('YYYY-MM-DD')
+      timeStart = timeStart || activity[0].timeStart
+      timeEnd = timeEnd || activity[0].timeEnd
 
+      const now = dayjs(new Date(), 'Asia/Taipei').format()
+      if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) <= dayjs(now).hour())) {
+        const err = new Error('資料格式錯誤：日期不得早於現在時間!')
+        err.status = 422
+        throw err
+      }
+
+      if ((shuttlecockProvide === false) || !activity[0].shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
+      const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description }
+      const updateStr = updateSQLFomatter(columnsObj)
+      const sql = `UPDATE activities SET ${updateStr} WHERE id = ?`
+      await connection.query(sql, [activityId])
       return res.status(200).json({ status: 'Success', message: '成功修改活動!' })
     } catch (err) {
       next(err)

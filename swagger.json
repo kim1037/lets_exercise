@@ -157,19 +157,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "status": "Success",
-            "data": {
-              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InRlc3QxIiwiZW1haWwiOiJ0ZXN0MUB0ZXN0LmNvbSIsIm5pY2tOYW1lIjoiQXVkcmEgRGlldHJpY2ggSVYiLCJhdmF0YXIiOiJodHRwczovL3hzZ2FtZXMuY28vcmFuZG9tdXNlcnMvYXNzZXRzL2F2YXRhcnMvZmVtYWxlLzE1LmpwZyIsImludHJvZHVjdGlvbiI6IlF1b3MgdmVuaWFtIGRvbG9yIHN1bnQgcXVpLiIsImlhdCI6MTcxMjIyMDE1MCwiZXhwIjoxNzE0ODEyMTUwfQ.B93baS1VsvitMIKEgvYhHTYToeDa0hnbezSbedXa5f8",
-              "user": {
-                "id": 1,
-                "account": "test1",
-                "email": "test1@test.com",
-                "nickName": "Audra Dietrich IV",
-                "avatar": "https://xsgames.co/randomusers/assets/avatars/female/15.jpg",
-                "introduction": "Quos veniam dolor sunt qui."
-              }
-            }
+            "description": "OK"
           },
           "401": {
             "description": "Unauthorized"
@@ -256,12 +244,75 @@
         }
       }
     },
+    "/auth/facebook": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/facebook/callback": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/github": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/github/callback": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/arenas/all": {
       "get": {
         "tags": [
           "Arenas"
         ],
-        "description": "",
+        "description": "取得所有場地資訊",
         "parameters": [
           {
             "name": "page",
@@ -291,7 +342,7 @@
         "tags": [
           "Arenas"
         ],
-        "description": "",
+        "description": "取得特定一個場地資訊",
         "parameters": [
           {
             "name": "arenaId",
@@ -312,7 +363,7 @@
         "tags": [
           "Branches"
         ],
-        "description": "",
+        "description": "取得所有品牌資訊",
         "parameters": [
           {
             "name": "page",
@@ -337,7 +388,7 @@
         "tags": [
           "Branches"
         ],
-        "description": "",
+        "description": "取得特定一個品牌資訊",
         "parameters": [
           {
             "name": "branchId",
@@ -358,7 +409,7 @@
         "tags": [
           "Shuttlecocks"
         ],
-        "description": "",
+        "description": "取得所有羽毛球資訊",
         "parameters": [
           {
             "name": "page",
@@ -383,7 +434,7 @@
         "tags": [
           "Shuttlecocks"
         ],
-        "description": "",
+        "description": "取得特定一個羽毛球資訊",
         "parameters": [
           {
             "name": "shuttlecockId",
@@ -467,7 +518,148 @@
         }
       }
     },
+    "/users/avatar/{userId}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "編輯使用者大頭照",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/users/password/{userId}": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "編輯使用者密碼",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "oldPassword": {
+                  "example": "any"
+                },
+                "newPassword": {
+                  "example": "any"
+                },
+                "checkPassword": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/users/{userId}": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "編輯使用者資訊，修改密碼、大頭貼請用另一支api",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nationalId": {
+                  "example": "any"
+                },
+                "account": {
+                  "example": "any"
+                },
+                "firstName": {
+                  "example": "any"
+                },
+                "lastName": {
+                  "example": "any"
+                },
+                "nickName": {
+                  "example": "any"
+                },
+                "gender": {
+                  "example": "any"
+                },
+                "introduction": {
+                  "example": "any"
+                },
+                "birthdate": {
+                  "example": "any"
+                },
+                "playSince": {
+                  "example": "any"
+                },
+                "phoneNumber": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "status": "Success",
+            "message": "User registered successfully."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "status": "error",
+            "statusCode": 409,
+            "error": "Some column already exists!",
+            "description": "Conflict"
+          },
+          "422": {
+            "status": "error",
+            "statusCode": 422,
+            "error": "資料格式錯誤：錯誤訊息",
+            "description": "Unprocessable Entity"
+          }
+        }
+      },
       "get": {
         "tags": [
           "Users"
@@ -496,7 +688,7 @@
         "tags": [
           "Followships"
         ],
-        "description": "",
+        "description": "取得所有正在追蹤的使用者",
         "parameters": [
           {
             "name": "userId",
@@ -520,7 +712,7 @@
         "tags": [
           "Followships"
         ],
-        "description": "",
+        "description": "取得所有粉絲",
         "parameters": [
           {
             "name": "userId",
@@ -544,7 +736,7 @@
         "tags": [
           "Followships"
         ],
-        "description": "",
+        "description": "追蹤某個使用者",
         "parameters": [
           {
             "name": "followingId",
@@ -566,7 +758,7 @@
         "tags": [
           "Followships"
         ],
-        "description": "",
+        "description": "取消追蹤某個使用者",
         "parameters": [
           {
             "name": "followingId",

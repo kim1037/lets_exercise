@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { getOffset, getPagination } = require('../utils/paginator-helper')
+const { imgurFileHandler } = require('../utils/file-helpers')
+const { updateSQLFomatter } = require('../utils/data-helpers')
 const dayjs = require('dayjs')
 
 const userController = {
@@ -50,13 +52,16 @@ const userController = {
       if (email.length > 100) throw new Error('資料格式錯誤：email請勿超過100字元')
       // check phoneNumber === 10
       if (phoneNumber.length !== 10) throw new Error('資料格式錯誤：手機格式輸入錯誤')
+      // 驗證性別
+      if (gender && ((gender === 'male' && nationalId[1] !== '1') || (gender === 'female' && nationalId[1] !== '2'))) throw new Error('資料格式錯誤：性別與身分證不相符')
+
       // birthday & playSince日期不得為未來日
       const bd = new Date(birthdate)
       const pd = new Date(playSince)
       const now = new Date()
       if (bd.getTime() > now.getTime() || (playSince && pd.getTime() > now.getTime())) throw new Error('資料格式錯誤：生日&球齡日期不得晚於今天')
       // playSince日期不得晚於birthdate
-      if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得大於出生年月日')
+      if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得早於出生年月日')
 
       if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
       // 檢查 account, email, nationalId, phoneNumber是否重複
@@ -251,7 +256,211 @@ const userController = {
       }
     }
   },
+  editUserProfile: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = '編輯使用者資訊，修改密碼、大頭貼請用另一支api'
+
+    let connection
+    // 由於有加入第三方認證(通常只會有email)，因此若已有帳號、身分證、手機者不得更改這三個資料，性別也要驗證
+    let { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber } = req.body
+    try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限修改其他使用者的資料')
+        err.status = 401
+        throw err
+      }
+
+      connection = await global.pool.getConnection()
+      if (!connection) throw new Error('DB connection fails.')
+
+      // 找出使用者資料
+      const [user] = await connection.query('SELECT nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber FROM users WHERE id = ?', [currentUserId])
+      if (!user || user.length === 0) {
+        const err = new Error('使用者不存在!')
+        err.status = 404
+        throw err
+      }
+
+      if ((user[0].nationalId && nationalId) || (user[0].account && account) || (user[0].phoneNumber && phoneNumber)) {
+        const err = new Error('身分證、帳號、手機號碼若已存在則無法修改!')
+        err.status = 409
+        throw err
+      }
+
+      // nationalId, account, firstName, lastName, gender, birthdate, phoneNumber 為必填欄位，若本來沒有設定則不得為空白
+      if ((!user[0].nationalId && !nationalId) || (!user[0].account && !account) || (!user[0].phoneNumber && !phoneNumber) || (!user[0].firstName && !firstName) || (!user[0].lastName && !lastName) || (!user[0].gender && !gender) || (!user[0].birthdate && !birthdate)) {
+        const err = new Error('請確實填寫必填欄位，不得為空白！')
+        err.status = 422
+        throw err
+      }
+
+      if (nationalId) {
+        // 檢查身分證字號是否正確
+        const nationalIdRegex = /^[A-Z]{1}[1-2]{1}[0-9]{8}$/
+        if (!nationalIdRegex.test(nationalId) || nationalId.length !== 10) throw new Error('資料格式錯誤：身分證字號輸入錯誤')
+      }
+
+      // 驗證性別
+      if (gender) {
+        const checkGender = nationalId ? (nationalId[1] === '1' ? 'male' : 'female') : (user[0].nationalId[1] === '1' ? 'male' : 'female')
+        if (gender !== checkGender) throw new Error('資料格式錯誤：性別與身分證不相符')
+      }
+
+      // check account 字數 <= 50
+      if (account && account.length > 50) throw new Error('資料格式錯誤：帳號請勿超過50字元')
+
+      // check names 字數 <= 20
+      if (firstName && firstName.length > 20) throw new Error('資料格式錯誤：名字請勿超過20字元')
+      if (lastName && lastName.length > 20) throw new Error('資料格式錯誤：姓氏請勿超過20字元')
+      if (nickName && nickName.length > 20) throw new Error('資料格式錯誤：暱稱請勿超過20字元')
+
+      // check phoneNumber === 10
+      if (phoneNumber && phoneNumber.length !== 10) throw new Error('資料格式錯誤：手機格式輸入錯誤')
+
+      // birthday & playSince日期不得為未來日
+      const now = new Date()
+      const bd = birthdate ? new Date(birthdate) : new Date(user[0].birthdate)
+      if (birthdate) {
+        if (bd.getTime() > now.getTime()) throw new Error('資料格式錯誤：生日日期不得晚於今天')
+        birthdate = dayjs(birthdate, 'Asia/Taipei').format('YYYY-MM-DD')
+      }
+
+      if (playSince) {
+        const pd = new Date(playSince)
+        if (playSince && pd.getTime() > now.getTime()) throw new Error('資料格式錯誤：球齡日期不得晚於今天')
+        // playSince日期不得晚於birthdate
+        if (playSince && (pd.getTime() < bd.getTime())) throw new Error('資料格式錯誤：球齡不得早於出生年月日')
+        playSince = playSince ? dayjs(playSince, 'Asia/Taipei').format('YYYY-MM-DD') : null
+      }
+
+      if (introduction && introduction.length > 150) throw new Error('資料格式錯誤：簡介請勿超過150字元')
+
+      // 檢查 account, nationalId, phoneNumber是否重複
+      const [existingUser] = await connection.query('SELECT * FROM users WHERE account = ? OR nationalId = ? OR phoneNumber = ?', [account, nationalId, phoneNumber])
+      if (existingUser.length > 0) {
+        if (existingUser[0].nationalId === nationalId) {
+          throw new Error('National ID already exists!')
+        } else if (existingUser[0].account === account) {
+          throw new Error('Account already exists!')
+        } else if (existingUser[0].phoneNumber === phoneNumber) {
+          throw new Error('Phone number already exists!')
+        }
+      } else {
+        const columnsObj = { nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber }
+        const updateStr = updateSQLFomatter(columnsObj)
+        // 更新使用者資料
+        const sql = `UPDATE users SET ${updateStr} WHERE id = ?`
+        await connection.query(sql, [currentUserId])
+
+        // #swagger.responses[200] = { status: 'Success', message: 'User registered successfully.' }
+        return res.status(200).json({ status: 'Success', message: 'User data update successfully.' })
+      }
+    } catch (err) {
+      if (err.message.includes('資料格式錯誤')) {
+        /* #swagger.responses[422] = { status: "error", statusCode: 422, error: "資料格式錯誤：錯誤訊息"} */
+        err.status = 422
+      } else if (err.message.includes('already exists!')) {
+        // #swagger.responses[409] = { status: "error", statusCode: 409, error: "Some column already exists!"}
+        err.status = 409
+      }
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  },
+  editUserAvatar: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = 'Edit user avatar. Remember to add enctype attribute to the form and the input type of avatar should be file.'
+    let connection
+    const { file } = req
+    try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限修改其他使用者的資料')
+        err.status = 401
+        throw err
+      }
+
+      connection = await global.pool.getConnection()
+      const [user] = await connection.query('SELECT id, avatar FROM users WHERE id = ?', [currentUserId])
+      if (!user || user.length === 0) {
+        const err = new Error('使用者不存在!')
+        err.status = 404
+        throw err
+      }
+      const avatar = file ? await imgurFileHandler(file) : user[0].avatar
+      await connection.query('UPDATE users SET avatar = ? WHERE id = ?', [avatar, currentUserId])
+
+      return res.status(200).json({ status: 'Success', message: 'User avatar update successfully.' })
+    } catch (err) {
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  },
+  editPassword: async (req, res, next) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = '編輯使用者密碼'
+    let connection
+    const { oldPassword, newPassword, checkPassword } = req.body
+    try {
+      const currentUserId = req.user.id
+      const userId = req.params.userId
+
+      if (currentUserId !== Number(userId)) {
+        const err = new Error('你沒有權限修改其他使用者的資料')
+        err.status = 401
+        throw err
+      }
+      connection = await global.pool.getConnection()
+      if (!connection) throw new Error('DB connection fails.')
+
+      // 找出使用者資料
+      const [user] = await connection.query('SELECT password FROM users WHERE id = ?', [currentUserId])
+      if (!user || user.length === 0) {
+        const err = new Error('使用者不存在!')
+        err.status = 404
+        throw err
+      }
+
+      if (!bcrypt.compareSync(oldPassword, user[0].password)) {
+        const err = new Error('舊密碼輸入錯誤，請重新輸入')
+        err.status = 401
+        throw err
+      }
+
+      // check password
+      if (newPassword !== checkPassword) throw new Error('資料格式錯誤：確認密碼輸入不一致!')
+      if (newPassword.length > 20) throw new Error('資料格式錯誤：密碼不得超過20字元')
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+      if (!passwordRegex.test(newPassword)) throw new Error('資料格式錯誤：密碼必須包含至少一個大寫英文及一個小寫英文和數字的組合，且最少為8字元')
+
+      const password = bcrypt.hashSync(newPassword) // 密碼加密
+      await connection.query('UPDATE users SET password = ? WHERE id = ?', [password, currentUserId])
+
+      return res.status(200).json({ status: 'Success', message: 'User password update successfully.' })
+    } catch (err) {
+      if (err.message.includes('資料格式錯誤')) {
+        /* #swagger.responses[422] = { status: "error", statusCode: 422, error: "資料格式錯誤：錯誤訊息"} */
+        err.status = 422
+      }
+      next(err)
+    } finally {
+      if (connection) {
+        connection.release()
+      }
+    }
+  },
   sample: async (req, res, next) => {
+    // #swagger.ignore = true
     let connection
     try {
       connection = await global.pool.getConnection()
