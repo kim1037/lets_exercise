@@ -134,15 +134,23 @@ const userController = {
   },
   getUserData: async (req, res, next) => {
     // #swagger.tags = ['Users']
-    // #swagger.description = '取得使用者資訊'
+    // #swagger.description = '取得使用者資訊，包含粉絲人數、追蹤人數、參加過的活動次數以及創立過的活動數量'
     let connection
     try {
       const id = Number(req.params.userId)
       connection = await global.pool.getConnection()
 
-      // 待新增 -- 增加追蹤人數與粉絲的數量、rating平均值、參加過的活動次數
+      // 待新增 -- rating平均值
 
-      const [user] = await connection.query('SELECT id, account, nickname, avatar, introduction, birthdate, playSince FROM users WHERE id = ?', [id])
+      const sql = `SELECT u.id, u.account, u.nickname, u.avatar, u.introduction, u.birthdate, u.playSince , COUNT(p.userId) AS participationCount, 
+      (SELECT COUNT(*) FROM followships WHERE followerId = u.id) AS followingCount,
+      (SELECT COUNT(*) FROM followships WHERE followingId = u.id) AS followerCount,
+      (SELECT COUNT(*) FROM activities WHERE hostId = u.id) AS activityHostCount
+      FROM users as u
+      LEFT JOIN participants as p ON u.id = p.userId
+      WHERE u.id = ?
+      GROUP BY u.id`
+      const [user] = await connection.query(sql, [id])
       connection.release()
       if (!user || user.length === 0) {
         const err = new Error('使用者不存在!')
@@ -277,11 +285,6 @@ const userController = {
 
       // 找出使用者資料
       const [user] = await connection.query('SELECT nationalId, account, firstName, lastName, nickName, gender, introduction, birthdate, playSince, phoneNumber FROM users WHERE id = ?', [currentUserId])
-      if (!user || user.length === 0) {
-        const err = new Error('使用者不存在!')
-        err.status = 404
-        throw err
-      }
 
       if ((user[0].nationalId && nationalId) || (user[0].account && account) || (user[0].phoneNumber && phoneNumber)) {
         const err = new Error('身分證、帳號、手機號碼若已存在則無法修改!')

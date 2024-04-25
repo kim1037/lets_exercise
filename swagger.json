@@ -519,11 +519,11 @@
       }
     },
     "/users/avatar/{userId}": {
-      "post": {
+      "put": {
         "tags": [
           "Users"
         ],
-        "description": "編輯使用者大頭照",
+        "description": "Edit user avatar. Remember to add enctype attribute to the form and the input type of avatar should be file.",
         "parameters": [
           {
             "name": "userId",
@@ -580,6 +580,12 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "422": {
+            "status": "error",
+            "statusCode": 422,
+            "error": "資料格式錯誤：錯誤訊息",
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -664,7 +670,7 @@
         "tags": [
           "Users"
         ],
-        "description": "取得使用者資訊",
+        "description": "取得使用者資訊，包含粉絲人數、追蹤人數、參加過的活動次數以及創立過的活動數量",
         "parameters": [
           {
             "name": "userId",
