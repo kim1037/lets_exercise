@@ -88,11 +88,12 @@ const followshipController = {
       }
     }
   },
+  // 新增屬性: 目前登入的使用者是否已追蹤
   getFollowings: async (req, res, next) => {
     // #swagger.tags = ['Followships']
     // #swagger.description = '取得所有正在追蹤的使用者'
-
     const { userId } = req.params
+    const currentUserId = req.user.id
     let connection
     try {
       connection = await global.pool.getConnection()
@@ -104,11 +105,27 @@ const followshipController = {
         throw err
       }
       // find following user list
-      const [followings] = await connection.query('SELECT users.id, account, nickname, avatar FROM users JOIN followships ON followships.followerId = ? WHERE followingId = users.id', [userId])
+      const [followings] = await connection.query(`SELECT users.id, account, nickname, avatar, 
+          CASE
+            WHEN EXISTS(
+              SELECT *
+              FROM followships
+              WHERE followingId = users.id AND followerId = ?
+            ) THEN true
+            ELSE false
+          END AS currentUserFollowing
+        FROM users 
+        JOIN followships 
+        ON followships.followerId = ? 
+        WHERE followingId = users.id`, [currentUserId, userId])
       if (!followings || followings.length === 0) {
         return res.status(200).json({ status: 'Success', message: '目前尚未追蹤其他人唷!' })
       } else {
-        return res.status(200).json({ status: 'Success', data: followings })
+        const result = followings.map(f => {
+          f.currentUserFollowing = !!f.currentUserFollowing
+          return f
+        })
+        return res.status(200).json({ status: 'Success', data: result })
       }
     } catch (err) {
       next(err)
@@ -118,11 +135,13 @@ const followshipController = {
       }
     }
   },
+  // 新增屬性: 目前登入的使用者是否已追蹤
   getFollowers: async (req, res, next) => {
     // #swagger.tags = ['Followships']
     // #swagger.description = '取得所有粉絲'
 
     const { userId } = req.params
+    const currentUserId = req.user.id
     let connection
     try {
       connection = await global.pool.getConnection()
@@ -134,11 +153,28 @@ const followshipController = {
         throw err
       }
       // find followers list
-      const [followers] = await connection.query('SELECT users.id, account, nickname, avatar FROM users JOIN followships ON followships.followingId = ? WHERE followerId = users.id', [userId])
+      const [followers] = await connection.query(`SELECT users.id, account, nickname, avatar,
+         CASE
+            WHEN EXISTS(
+              SELECT *
+              FROM followships
+              WHERE followingId = users.id AND followerId = ?
+            ) THEN true
+            ELSE false
+          END AS currentUserFollowing
+        FROM users 
+        JOIN followships 
+        ON followships.followingId = ? 
+        WHERE followerId = users.id`, [currentUserId, userId])
+
       if (!followers || followers.length === 0) {
         return res.status(200).json({ status: 'Success', message: '目前尚未被追蹤唷!' })
       } else {
-        return res.status(200).json({ status: 'Success', data: followers })
+        const result = followers.map(f => {
+          f.currentUserFollowing = !!f.currentUserFollowing
+          return f
+        })
+        return res.status(200).json({ status: 'Success', data: result })
       }
     } catch (err) {
       next(err)
