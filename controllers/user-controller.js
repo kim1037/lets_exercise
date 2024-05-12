@@ -42,8 +42,8 @@ const userController = {
       // 檢查身分證字號是否正確
       const nationalIdRegex = /^[A-Z]{1}[1-2]{1}[0-9]{8}$/
       if (!nationalIdRegex.test(nationalId) || nationalId.length !== 10) throw new Error('資料格式錯誤：身分證字號輸入錯誤')
-      // check account 字數 <= 50
-      if (account.length > 50) throw new Error('資料格式錯誤：帳號請勿超過50字元')
+      // check account 字數 <= 50, >= 5
+      if (account.length > 50 || account.length < 5) throw new Error('資料格式錯誤：帳號長度請設在5~50字元內')
       // check names 字數 <= 20
       if (firstName.length > 20) throw new Error('資料格式錯誤：名字請勿超過20字元')
       if (lastName.length > 20) throw new Error('資料格式錯誤：姓氏請勿超過20字元')
@@ -312,7 +312,7 @@ const userController = {
       }
 
       // check account 字數 <= 50
-      if (account && account.length > 50) throw new Error('資料格式錯誤：帳號請勿超過50字元')
+      if (account.length > 50 || account.length < 5) throw new Error('資料格式錯誤：帳號長度請設在5~50字元內')
 
       // check names 字數 <= 20
       if (firstName && firstName.length > 20) throw new Error('資料格式錯誤：名字請勿超過20字元')
