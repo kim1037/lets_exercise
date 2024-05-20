@@ -43,8 +43,7 @@ const userController = {
       const nationalIdRegex = /^[A-Z]{1}[1-2]{1}[0-9]{8}$/
       if (!nationalIdRegex.test(nationalId) || nationalId.length !== 10) throw new Error('資料格式錯誤：身分證字號輸入錯誤')
       // check account 字數 <= 50, >= 5, 只能為英數、底線
-      // if (account.length > 50 || account.length < 5) 
-      const accountRegex = /^[a-zA-Z0-9_]{5,50}$/;
+      const accountRegex = /^[a-zA-Z0-9_]{5,50}$/; 
       if (!accountRegex.test(account)) throw new Error('資料格式錯誤：帳號只能包含英文、數字和下底線，且長度請設在5~50字元內')
       // check names 字數 <= 20
       if (firstName.length > 20) throw new Error('資料格式錯誤：名字請勿超過20字元')
@@ -314,7 +313,8 @@ const userController = {
       }
 
       // check account 字數 <= 50
-      if (account.length > 50 || account.length < 5) throw new Error('資料格式錯誤：帳號長度請設在5~50字元內')
+      const accountRegex = /^[a-zA-Z0-9_]{5,50}$/;
+      if (!accountRegex.test(account)) throw new Error('資料格式錯誤：帳號只能包含英文、數字和下底線，且長度請設在5~50字元內')
 
       // check names 字數 <= 20
       if (firstName && firstName.length > 20) throw new Error('資料格式錯誤：名字請勿超過20字元')
