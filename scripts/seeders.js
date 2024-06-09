@@ -190,7 +190,7 @@ function activtySeeders (n) {
       timeStart: `${randomHour.toString()}:00`,
       timeEnd: `${(randomHour + 2).toString()}:00`,
       shuttlecockProvide: 1,
-      levelId: Math.floor(Math.random() * levels.length),
+      levelId: Math.floor(Math.random() * levels.length + 1),
       fee: 100 + Math.floor(Math.random() * 80 + 1),
       numsOfPeople: people,
       totalPeople: 8,
