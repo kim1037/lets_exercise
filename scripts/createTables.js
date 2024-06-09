@@ -75,7 +75,7 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   timeStart TIME NOT NULL,
   timeEnd TIME NOT NULL,
   shuttlecockProvide BOOLEAN,
-  level VARCHAR(30) NOT NULL,
+  levelId INT NOT NULL,
   fee INT NOT NULL,
   numsOfPeople INT NOT NULL,
   currentJoinNums INT DEFAULT 0 NOT NULL,
@@ -85,6 +85,7 @@ const activitiesTable = `CREATE TABLE IF NOT EXISTS activities (
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (hostId) REFERENCES users(id),
   FOREIGN KEY (arenaId) REFERENCES arenas(id),
+  FOREIGN KEY (levelId) REFERENCES levels(id),
   FOREIGN KEY (shuttlecockId) REFERENCES shuttlecocks(id)
   )`
 
@@ -122,9 +123,21 @@ const participantsTable = `CREATE TABLE IF NOT EXISTS participants (
   FOREIGN KEY (activityId) REFERENCES activities(id)
   )`
 
+const levelsTable = `CREATE TABLE IF NOT EXISTS levels (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  level VARCHAR(10) NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (activityId) REFERENCES activities(id)
+  )`
+
 // 由於有關聯的順序問題，因此用鏈接方式建立table
 db.query(regionsTable).then(r => {
   console.log('Table regions created.')
+  return db.query(levelsTable)
+}).then(r => {
+  console.log('Table levels created.')
   return db.query(usersTable)
 }).then(r => {
   console.log('Table users created.')
