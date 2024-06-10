@@ -5,7 +5,9 @@ const config = require('../config/config.json')
 const branchesJson = require('./seed_data/branches.json')
 const shuttlecocksJson = require('./seed_data/shuttlecocks_data.json')
 const regions = ['臺北市', '新北市', '基隆市', '桃園市', '新竹市', '新竹縣', '宜蘭縣', '臺中市', '苗栗縣', '彰化縣', '南投縣', '雲林縣', '高雄市', '臺南市', '嘉義市', '嘉義縣', '屏東縣', '澎湖縣', '花蓮縣', '臺東縣', '金門縣', '連江縣']
-
+const levels = [{ level: '新手' }, { level: '初階' }, { level: '初中階' }, { level: '中階' }, { level: '中高階' }, { level: '高階' }, { level: '職業級' }, { level: '不限' }]
+const USER_AMOUNT = 10
+const ACTIVITY_AMOUNT = 10
 const arenasJson = require('./seed_data/gym_data.json').map(a => {
   a.region = a.region.length > 3 ? a.region.slice(0, 3) : a.region
 
@@ -19,9 +21,6 @@ const arenasJson = require('./seed_data/gym_data.json').map(a => {
     phone: a.phone.replace('tel:', '')
   }
 })
-
-const USER_AMOUNT = 10
-const ACTIVITY_AMOUNT = 10
 
 db.init(config.mysql)
 
@@ -178,7 +177,6 @@ function sqlInsertFormatter (table = '', jsonFile = []) {
 
 function activtySeeders (n) {
   const arenaAmounts = arenasJson.length
-  const levelList = ['新手', '初階', '初中階', '中階', '中高階', '高階', '不限']
   const people = Math.floor(Math.random() * 7 + 1)
   const activity = []
 
@@ -192,7 +190,7 @@ function activtySeeders (n) {
       timeStart: `${randomHour.toString()}:00`,
       timeEnd: `${(randomHour + 2).toString()}:00`,
       shuttlecockProvide: 1,
-      level: levelList[Math.floor(Math.random() * levelList.length)],
+      levelId: Math.floor(Math.random() * levels.length + 1),
       fee: 100 + Math.floor(Math.random() * 80 + 1),
       numsOfPeople: people,
       totalPeople: 8,
@@ -257,6 +255,9 @@ function participantSeeders (num = 1) {
 db.query(regionSQL)
   .then(r => {
     console.log('regions table created!')
+    return db.query(sqlInsertFormatter('levels', levels))
+  }).then(r => {
+    console.log('levels table created!')
     return db.query(usersSeeders(USER_AMOUNT))
   }).then(r => {
     console.log('User seeders created!')

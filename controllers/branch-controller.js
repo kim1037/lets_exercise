@@ -3,7 +3,6 @@ const branchController = {
   getAll: async (req, res, next) => {
     // #swagger.tags = ['Branches']
     // #swagger.description = '取得所有品牌資訊'
-
     let connection
     const page = Number(req.query.page) || 1 // 初始預設頁
     const limit = Number(req.query.limit) || 10 // default 每頁10筆

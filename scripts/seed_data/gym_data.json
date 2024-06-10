@@ -42,27 +42,6 @@
     "phone": "tel:0224511339,30"
   },
   {
-    "name": "七堵國小活動中心",
-    "region": "基隆市",
-    "address": "基隆市七堵區明德一路184號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140611151900_P1011173.JPG",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙昇降設備：1",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "七堵國小游泳池(館) : 每天開放",
-      "開放時間 : 09:00~21:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "羽球場(館) : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.cdps.kl.edu.tw",
-    "phone": "tel:02-24567116#31"
-  },
-  {
     "name": "羽球場館",
     "region": "基隆市",
     "address": "基隆市中正區中船路36巷4號",
@@ -84,26 +63,6 @@
     "phone": "tel:02-24223064#31"
   },
   {
-    "name": "建德國中活動中心",
-    "region": "基隆市",
-    "address": "基隆市安樂區安和一街29號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140609113406_RF93EDSI1X97GF9NRB58.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "籃球場(羽球場) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.jdjh.kl.edu.tw",
-    "phone": "tel:02-24321234#31"
-  },
-  {
     "name": "臺北市士林區文昌國小活動中心",
     "region": "臺北市",
     "address": "臺北市士林區文林路615巷20號",
@@ -120,23 +79,6 @@
     "description": "",
     "website": "http://www.wces.tp.edu.tw",
     "phone": "tel:0228365411,123"
-  },
-  {
-    "name": "陽明山國小活動中心",
-    "region": "臺北市",
-    "address": "臺北市士林區新安里仰德大道3段61號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20160822102226_YPZOHSLXQ4FRYX7GR8NA.jpg",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.ymps.tp.edu.tw",
-    "phone": "tel:0228616366"
   },
   {
     "name": "至善公園羽球場",
@@ -566,24 +508,6 @@
     "phone": "tel:0222368225,83078"
   },
   {
-    "name": "中國科技大學體育館",
-    "region": "臺北市",
-    "address": "臺北市文山區興隆路三段56號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140603141742_3.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.cute.edu.tw/",
-    "phone": "tel:0229313416,2149"
-  },
-  {
     "name": "木柵高工活動中心",
     "region": "臺北市",
     "address": "臺北市文山區萬芳里木柵路4段77號",
@@ -615,23 +539,9 @@
       "無障礙淋浴間：2"
     ],
     "openingHours": [
-      "籃球場 : 週末開放",
-      "開放時間 : 08:00~21:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場 : 週末開放",
-      "開放時間 : 08:00~21:00",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場 : 週末開放",
       "開放時間 : 08:00~21:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球室 : 週末開放",
-      "開放時間 : 08:00~21:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "舞蹈教室 : 不開放",
-      "綜合教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "重訓室 : 不開放",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": "http://sports.nccu.edu.tw/",
@@ -665,43 +575,6 @@
     "phone": "tel:0282377500,9441"
   },
   {
-    "name": "石牌國中活動中心3樓綜合球場",
-    "region": "臺北市",
-    "address": "臺北市北投區吉利里石牌路1段139號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20200810093820_9DGZH3ER0PDS5289PDBP.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：3",
-      "無障礙坡道：2",
-      "無障礙昇降設備：1",
-      "無障礙廁所：4"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.spjh.tp.edu.tw",
-    "phone": "tel:0228224682,253"
-  },
-  {
-    "name": "逸仙國小活動中心",
-    "region": "臺北市",
-    "address": "臺北市北投區中心里新民路2號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20190724091556_YRKJQLE02AKBUYV64CIN.jpg",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www2.ysps.tp.edu.tw",
-    "phone": "tel:0228914537,123"
-  },
-  {
     "name": "臺北市北投區立農公園",
     "region": "臺北市",
     "address": "臺北市北投區承德路7段378號",
@@ -710,13 +583,7 @@
       "無"
     ],
     "openingHours": [
-      "籃球場 : 每天開放",
-      "開放時間 : 08:00",
-      "租借資訊 : 免費對外場地租借 ",
       "羽球場(館) : 每天開放",
-      "開放時間 : 08:00",
-      "租借資訊 : 免費對外場地租借 ",
-      "滑輪場(直排輪場) : 每天開放",
       "開放時間 : 08:00",
       "租借資訊 : 免費對外場地租借 ",
       "以官方網站資訊為主"
@@ -768,30 +635,6 @@
     "description": "",
     "website": "http://web.spps.tp.edu.tw",
     "phone": "tel:0228227484,225"
-  },
-  {
-    "name": "臺北護理健康大學體育館",
-    "region": "臺北市",
-    "address": "臺北市北投區明德路365號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140714122228_S__4046900.jpg",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場 : 不開放",
-      "健身教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "韻律教室 : 不開放",
-      "攀岩場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.ntunhs.edu.tw/bin/home.php",
-    "phone": "tel:0228227101,2901"
   },
   {
     "name": "敦化國小學生活動中心羽球場",
@@ -1262,7 +1105,6 @@
       "羽球場(館) : 每天開放",
       "開放時間 : 17:00~21:00",
       "租借資訊 : 付費對外場地租借 ",
-      "體操室/館 : 不開放",
       "以官方網站資訊為主"
     ],
     "description": "",
@@ -1312,24 +1154,6 @@
     "phone": "tel:0229755352,732"
   },
   {
-    "name": "中華高中守善堂",
-    "region": "新北市",
-    "address": "新北市土城區城林路2號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140616102217_IMAG3926.jpg",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.chsh.ntpc.edu.tw",
-    "phone": "tel:0222693641,151"
-  },
-  {
     "name": "清水高中綜合體育館",
     "region": "新北市",
     "address": "新北市土城區明德路一段72號",
@@ -1376,39 +1200,7 @@
       "無障礙健身器材(體適能區)：2"
     ],
     "openingHours": [
-      "幼兒體能教室 : 每天開放",
-      "開放時間 : 6:0~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球室 : 特定時間開放",
-      "飛輪教室 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "韻律教室 : 每天開放",
-      "開放時間 : 6:0~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "體適能中心 : 每天開放",
-      "開放時間 : 6:0~22:00",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場 : 特定時間開放",
-      "壁球室 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "攀岩場 : 每天開放",
-      "開放時間 : 6:0~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "綜合球場 : 特定時間開放",
-      "直排輪曲棍球場 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "游泳池 : 特定時間開放",
-      "多功能教室 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 6:0~22:00",
-      "重訓教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "撞球室 : 每天開放",
-      "開放時間 : 6:0~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場館 : 特定時間開放",
-      "飛輪室 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
       "以官方網站資訊為主"
     ],
     "description": "",
@@ -1434,23 +1226,6 @@
     "phone": "tel:02-22234747#831"
   },
   {
-    "name": "自強國小活動中心",
-    "region": "新北市",
-    "address": "新北市中和區莒光路200號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140620164557_DSC_6219.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.jcps.ntpc.edu.tw",
-    "phone": "tel:0229557936"
-  },
-  {
     "name": "積穗國小活動中心",
     "region": "新北市",
     "address": "新北市中和區員山路154號",
@@ -1467,30 +1242,6 @@
     "description": "",
     "website": "http://www.tjsps.ntpc.edu.tw",
     "phone": "tel:02-22225533#822"
-  },
-  {
-    "name": "華夏科技大學綜合體育館",
-    "region": "新北市",
-    "address": "新北市中和區工專路111號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140605152124_C:\\Documents and Settings\\user\\My Documents\\華夏場館照片\\以處理\\體育館外觀1.GIF",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "桌球場 : 每天開放",
-      "開放時間 : 00:00~00:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "羽球場 : 不開放",
-      "武道教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "重訓教室 : 不開放",
-      "韻律教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.hwh.edu.tw",
-    "phone": "tel:0289415116"
   },
   {
     "name": "平溪國中活動中心",
@@ -1615,31 +1366,6 @@
     "phone": "tel:02-26941817"
   },
   {
-    "name": "秀峰高中體育館",
-    "region": "新北市",
-    "address": "新北市汐止區忠孝東路201號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140617113117_DSC_1253.jpg",
-    "hasParking": [
-      "無障礙坡道：2",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "體育館 : 週末開放",
-      "開放時間 : 08:00~17:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "體育館 : 週末開放",
-      "開放時間 : 08:00~17:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "棒、壘球打擊練習場 : 不開放",
-      "跆拳道場/館 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.sfhs.ntpc.edu.tw",
-    "phone": "tel:0226412134"
-  },
-  {
     "name": "海山高中活動中心",
     "region": "新北市",
     "address": "新北市板橋區漢生東路215號",
@@ -1648,9 +1374,6 @@
       "無"
     ],
     "openingHours": [
-      "籃球場 : 不開放",
-      "活動中心1樓 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場(館) : 週末開放",
       "開放時間 : 08:00~17:00",
       "租借資訊 : 付費對外場地租借 ",
@@ -1659,27 +1382,6 @@
     "description": "",
     "website": "http://www.hshs.ntpc.edu.tw",
     "phone": "tel:0229517475,223"
-  },
-  {
-    "name": "泰山國小活動中心",
-    "region": "新北市",
-    "address": "新北市泰山區泰林路二段255號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140616090101_20140616_082215.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.tses.ntpc.edu.tw",
-    "phone": "tel:02-29098842#140"
   },
   {
     "name": "泰山國中活動中心",
@@ -1699,24 +1401,6 @@
     "description": "",
     "website": "http://www.ttcjh.ntpc.edu.tw",
     "phone": "tel:02-22962519#152"
-  },
-  {
-    "name": "黎明技術學院體育館",
-    "region": "新北市",
-    "address": "新北市泰山區泰林路三段22號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140530104617_DSC_0295.jpg",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.lit.edu.tw",
-    "phone": "tel:0229097811,1251"
   },
   {
     "name": "淡水國中中正堂-活動中心",
@@ -1767,31 +1451,6 @@
     "phone": "tel:0226262141"
   },
   {
-    "name": "淡江大學紹謨紀念體育館",
-    "region": "新北市",
-    "address": "新北市淡水區英專路151號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140529154254_紹謨紀念體育館.jpg",
-    "hasParking": [
-      "無障礙廁所：3"
-    ],
-    "openingHours": [
-      "籃球場 : 平日開放",
-      "開放時間 : 08:15~18:15",
-      "租借資訊 : 付費對外場地租借 ",
-      "羽球場(館) : 不開放",
-      "桌球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場(館) : 不開放",
-      "舞蹈教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "跆拳道場/館 : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.tku.edu.tw",
-    "phone": "tel:0226230985"
-  },
-  {
     "name": "東南科技大學夢初體育館",
     "region": "新北市",
     "address": "新北市深坑區北深路三段152號",
@@ -1829,46 +1488,11 @@
       "羽球場館 : 每天開放",
       "租借資訊 : 付費對外場地租借 ",
       "籃球場館 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "多功能健身房/體適能中心（此空間中具有兩種以上之阻力運動器材設備） : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "飛輪室 : 不開放",
-      "韻律體操室 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : ",
-      "撞球場館 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球場館 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "TRX室 : 不開放",
-      "游泳池 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : ",
       "以官方網站資訊為主"
     ],
     "description": "",
     "website": "http://www.xdsports.com.tw/",
     "phone": "tel:02-66371800"
-  },
-  {
-    "name": "文山國中綜合大樓體育館",
-    "region": "新北市",
-    "address": "新北市新店區文中路38號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140612111729_20140612_155546.jpg",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙昇降設備：1"
-    ],
-    "openingHours": [
-      "綜合大樓體育館 : 週末開放",
-      "開放時間 : 00:00~00:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "綜合大樓體育館 : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.wsjh.ntpc.edu.tw",
-    "phone": "tel:0229134300,639"
   },
   {
     "name": "北新國小體育館",
@@ -2304,7 +1928,6 @@
       "無障礙廁所：2"
     ],
     "openingHours": [
-      "排球場(館) : 不開放",
       "羽球場(館) : 平日開放",
       "租借資訊 : 付費對外場地租借 ",
       "開放時間 : 18:30~21:30",
@@ -2368,25 +1991,6 @@
     "phone": "tel:034523202"
   },
   {
-    "name": "平興國小活動中心",
-    "region": "桃園縣平鎮市",
-    "address": "桃園縣平鎮市廣泰路168號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20190312113726_HCCJZX53GXGOP46HYY20.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：2",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.psees.tyc.edu.tw",
-    "phone": "tel:034029323"
-  },
-  {
     "name": "文昌國中活動中心",
     "region": "桃園市",
     "address": "桃園市桃園區信光里10鄰大連二街188號",
@@ -2442,25 +2046,6 @@
     "phone": "tel:033822364,51"
   },
   {
-    "name": "頭洲國小羽球場館",
-    "region": "桃園市",
-    "address": "桃園市新屋區校前路72號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140702153818_W1PCXL076S3HXGZAS8AP.JPG",
-    "hasParking": [
-      "無障礙昇降設備：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "排球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.tjes.tyc.edu.tw",
-    "phone": "tel:03-4901204"
-  },
-  {
     "name": "童曦館",
     "region": "桃園市",
     "address": "桃園市新屋區中山西路一段474號",
@@ -2485,45 +2070,6 @@
     "phone": "tel:034772500,510"
   },
   {
-    "name": "新屋國小活動中心",
-    "region": "桃園市",
-    "address": "桃園市新屋區新生村中正路196號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140620112617_7018.jpg",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙昇降設備：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.snwes.tyc.edu.tw",
-    "phone": "tel:034772016,311"
-  },
-  {
-    "name": "仁美國中體育活動中心",
-    "region": "桃園市",
-    "address": "桃園市楊梅區高榮里11鄰東高山頂9-8號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20200422135103_EI2RVZZUJH47CWSGKNUQ.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場 : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.zmjhs.tyc.edu.tw",
-    "phone": "tel:034641123,316"
-  },
-  {
     "name": "大同國小活動中心",
     "region": "桃園市",
     "address": "桃園市楊梅區新農街85號",
@@ -2536,33 +2082,13 @@
     ],
     "openingHours": [
       "羽球場(館) : 平日開放",
-      "開放時間 : 7:0~16:00",
+      "開放時間 : 7:00~16:00",
       "租借資訊 : 付費對外場地租借 ",
-      "柔道場/館 : 不開放",
       "以官方網站資訊為主"
     ],
     "description": "",
     "website": "http://www.ttps.tyc.edu.tw",
     "phone": "tel:034782249,321"
-  },
-  {
-    "name": "瑞梅國小活動中心",
-    "region": "桃園市",
-    "address": "桃園市楊梅區梅溪里三元街99號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20190423124045_EM31SMSKV03TE40P7GH7.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場(館) : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": null,
-    "phone": "tel:03-4825284#520"
   },
   {
     "name": "富岡國小活動中心",
@@ -2575,13 +2101,7 @@
       "無障礙廁所：1"
     ],
     "openingHours": [
-      "室內籃球場 : 平日開放",
-      "開放時間 : 15:30~17:00",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場(館) : 平日開放",
-      "開放時間 : 15:30~17:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "躲避球場 : 平日開放",
       "開放時間 : 15:30~17:00",
       "租借資訊 : 付費對外場地租借 ",
       "以官方網站資訊為主"
@@ -2744,23 +2264,6 @@
     "phone": "tel:03-3520922"
   },
   {
-    "name": "頂社國小活動中心",
-    "region": "桃園市",
-    "address": "桃園市蘆竹區山林路三段232號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140710121334_PhotoCap_01.jpg",
-    "hasParking": [
-      "無障礙坡道：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.dises.tyc.edu.tw",
-    "phone": "tel:033241182,510"
-  },
-  {
     "name": "學生活動中心",
     "region": "桃園市",
     "address": "桃園市蘆竹區光明路一段123號",
@@ -2813,7 +2316,6 @@
       "羽球場(館) : 每天開放",
       "開放時間 : 18:00~21:00",
       "租借資訊 : 免費對外場地租借 ",
-      "籃球場館 : 不開放",
       "以官方網站資訊為主"
     ],
     "description": "",
@@ -2884,26 +2386,6 @@
     "phone": "tel:034981286,310"
   },
   {
-    "name": "觀音國小活動中心",
-    "region": "桃園市",
-    "address": "桃園市觀音區觀音村四鄰文化路2號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140606170126_DSC_0033.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：2",
-      "無障礙坡道：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "足球場 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 5:0~21:00",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.gies.tyc.edu.tw",
-    "phone": "tel:034732009,311"
-  },
-  {
     "name": "新竹市立竹光國民運動中心",
     "region": "新竹市",
     "address": "新竹市北區竹光路325號",
@@ -2919,21 +2401,8 @@
       "泳池專用輪椅(游泳池)：1"
     ],
     "openingHours": [
-      "綜合球場 : 特定時間開放",
-      "健身房(含重量訓練室) : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "游泳池 : 特定時間開放",
-      "桌球場館 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "多功能舞蹈運動教室（含舞蹈教室/韻律教室/瑜珈教室等類型空間） : 特定時間開放",
-      "籃球場館 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 6:00-22:00",
       "羽球場館 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "飛輪室 : 特定時間開放",
-      "TRX室 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
+      "開放時間 : 6:00-22:00",
       "以官方網站資訊為主"
     ],
     "description": "",
@@ -3036,25 +2505,6 @@
     "phone": "tel:036583517"
   },
   {
-    "name": "中國科技大學體育館",
-    "region": "新竹縣",
-    "address": "新竹縣湖口鄉中山路三段530號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140605141103_P1040993.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場 : 不開放",
-      "籃球場 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 09:00~22:00",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.cute.edu.tw/",
-    "phone": "tel:036991111,1616"
-  },
-  {
     "name": "山崎國小活動中心",
     "region": "新竹縣",
     "address": "新竹縣新豐鄉新興路291號",
@@ -3086,33 +2536,10 @@
       "無障礙昇降設備：1",
       "無障礙廁所：1"
     ],
-    "openingHours": [
-      "桌球場(館) : 不開放",
-      "風雨操場 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 16:00~21:00",
-      "以官方網站資訊為主"
-    ],
+    "openingHours": [],
     "description": "",
     "website": "http://www.clps.hcc.edu.tw/front/bin/home.phtml",
     "phone": "tel:03-5573601#831"
-  },
-  {
-    "name": "關西國小活動中心",
-    "region": "新竹縣",
-    "address": "新竹縣關西鎮西安里中山路126號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140530112818_DSC03360.JPG",
-    "hasParking": [
-      "無障礙坡道：2"
-    ],
-    "openingHours": [
-      "活動中心 : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.gses.hcc.edu.tw",
-    "phone": "tel:035872028,301"
   },
   {
     "name": "卓蘭國小活動中心",
@@ -3127,7 +2554,6 @@
       "羽球場(館) : 週末開放",
       "開放時間 : 08:00~17:00",
       "租借資訊 : 付費對外場地租借 ",
-      "排球場(館) : 不開放",
       "以官方網站資訊為主"
     ],
     "description": "",
@@ -3136,7 +2562,7 @@
   },
   {
     "name": "苗栗農工中正堂",
-    "region": "苗栗縣苗栗市",
+    "region": "苗栗縣",
     "address": "苗栗縣苗栗市經國路二段491號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140617113152_P1130199.JPG",
     "hasParking": [
@@ -3157,23 +2583,6 @@
     "description": "",
     "website": "http://www.mlaivs.mlc.edu.tw",
     "phone": "tel:0928319835"
-  },
-  {
-    "name": "僑育國小活動中心",
-    "region": "苗栗縣苗栗維新里市",
-    "address": "苗栗縣苗栗維新里市僑育街131號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140616172013_DSC05904.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://web.chiauyues.mlc.edu.tw",
-    "phone": "tel:037335582"
   },
   {
     "name": "聯合大學第一(二坪山)校區活動中心3F體育館",
@@ -3200,29 +2609,6 @@
     "description": "",
     "website": "http://www.nuu.edu.tw",
     "phone": "tel:037381273"
-  },
-  {
-    "name": "協和館",
-    "region": "苗栗縣",
-    "address": "苗栗縣頭份鎮信東路285號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20190307085530_W51317GT2T5PNBCVUI3J.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：2",
-      "無障礙昇降設備：1",
-      "無障礙廁所：2",
-      "無障礙淋浴間：2"
-    ],
-    "openingHours": [
-      "籃球場 : 平日開放",
-      "開放時間 : 08:00~17:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "羽球場(館) : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.pans.mlc.edu.tw",
-    "phone": "tel:037685410,17"
   },
   {
     "name": "六合國小活動中心",
@@ -3260,24 +2646,6 @@
     "description": "",
     "website": "http://www.tfes.mlc.edu.tw/index1.php",
     "phone": "tel:037663020,24"
-  },
-  {
-    "name": "大安國小體育館",
-    "region": "臺中市",
-    "address": "臺中市大安區中庄里中山南路296號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140722105813_P1090338.JPG",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙廁所：2"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.daes.tc.edu.tw",
-    "phone": "tel:0426713166"
   },
   {
     "name": "海墘國小活動中心",
@@ -3320,44 +2688,6 @@
     "phone": "tel:0424211136,730"
   },
   {
-    "name": "陳平國小活動中心羽球場館",
-    "region": "臺中市",
-    "address": "臺中市北屯區陳平路58號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140721120255_IMG_7037.JPG",
-    "hasParking": [
-      "無障礙昇降設備：1",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.cpes.tc.edu.tw",
-    "phone": "tel:04-22973558"
-  },
-  {
-    "name": "四維國小活動中心",
-    "region": "臺中市",
-    "address": "臺中市北屯區文心路四段956號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140718142049_1.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：2",
-      "無障礙坡道：1",
-      "無障礙昇降設備：2",
-      "無障礙廁所：3"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "https://swes.tc.edu.tw/",
-    "phone": "tel:04-2302319#723"
-  },
-  {
     "name": "五權國中至賢館活動中心",
     "region": "臺中市",
     "address": "臺中市北區英才路1號",
@@ -3380,7 +2710,7 @@
     "phone": "tel:0422012180"
   },
   {
-    "name": "臺中市（西屯區）朝馬國民運動中心",
+    "name": "朝馬國民運動中心",
     "region": "臺中市",
     "address": "臺中市西屯區朝貴路199號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20161212140900_TZMSL7L2XO98NEELODEZ.jpg",
@@ -3410,23 +2740,6 @@
     "description": "",
     "website": "https://cmcsc.cyc.org.tw/",
     "phone": "tel:04-22536789"
-  },
-  {
-    "name": "臺中高農活水堂",
-    "region": "臺中市",
-    "address": "臺中市東區台中路283號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140617155218_0YWGT1RW667VV6MC3RE0.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.tcavs.tc.edu.tw",
-    "phone": "tel:0422810010,303"
   },
   {
     "name": "臺中家商活動中心",
@@ -3506,24 +2819,6 @@
     "phone": "tel:04-25873843#128"
   },
   {
-    "name": "崇倫國中崇倫堂",
-    "region": "臺中市",
-    "address": "臺中市南區忠明南路653號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140804175956_22298.jpg",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.cljh.tc.edu.tw",
-    "phone": "tel:0423712324,731"
-  },
-  {
     "name": "臺中市潭子國民運動中心",
     "region": "臺中市",
     "address": "臺中市潭子區勝利路140號",
@@ -3545,26 +2840,6 @@
     "description": "",
     "website": "https://tzcsc.com.tw/",
     "phone": "tel:04-25325580"
-  },
-  {
-    "name": "潭子國中活動中心",
-    "region": "臺中市",
-    "address": "臺中市潭子區潭興路二段419巷1號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140827100508_2.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：2",
-      "無障礙坡道：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.ttjhs.tc.edu.tw",
-    "phone": "tel:04-25376192#303"
   },
   {
     "name": "豐原高中活動中心",
@@ -3697,7 +2972,6 @@
       "羽球場(館) : 每天開放",
       "開放時間 : 16:00~22:00",
       "租借資訊 : 付費對外場地租借 ",
-      "桌球場(館) : 不開放",
       "以官方網站資訊為主"
     ],
     "description": "",
@@ -3736,7 +3010,6 @@
       "羽球場(館) : 每天開放",
       "開放時間 : 6:30~20:30",
       "租借資訊 : 付費對外場地租借 ",
-      "舞蹈教室 : 不開放",
       "以官方網站資訊為主"
     ],
     "description": "",
@@ -3763,24 +3036,6 @@
     "phone": "tel:048291494,104"
   },
   {
-    "name": "忠孝國小活動中心",
-    "region": "彰化縣彰化市",
-    "address": "彰化縣彰化市忠誠路61號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140707150635_縮圖03.jpg",
-    "hasParking": [
-      "無障礙坡道：2"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.jsps.chc.edu.tw",
-    "phone": "tel:047523944,13"
-  },
-  {
     "name": "名間國中活動中心",
     "region": "南投縣",
     "address": "南投縣名間鄉中山村彰南路237號",
@@ -3801,24 +3056,6 @@
     "description": "",
     "website": "http://www.mjjh.ntct.edu.tw",
     "phone": "tel:0492732046"
-  },
-  {
-    "name": "雲林國小活動中心",
-    "region": "南投縣",
-    "address": "南投縣竹山鎮雲林里大明路666號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140606140736_IMG_7967.jpg",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 免費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://ms1.ylps.ntct.edu.tw",
-    "phone": "tel:0492643321"
   },
   {
     "name": "營北國中操場",
@@ -3846,24 +3083,6 @@
     "description": "",
     "website": "http://163.22.185.1",
     "phone": "tel:0492392683"
-  },
-  {
-    "name": "新豐國小活動中心",
-    "region": "南投縣南投市",
-    "address": "南投縣南投市彰南路三段221號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140610140528_DSC_0139.JPG",
-    "hasParking": [
-      "無障礙坡道：1"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://ms1.sfes.ntct.edu.tw",
-    "phone": "tel:0492251804"
   },
   {
     "name": "鹿谷國小活動中心",
@@ -3903,44 +3122,6 @@
     "description": "",
     "website": "http://www.fwps.ntct.edu.tw",
     "phone": "tel:0492752214"
-  },
-  {
-    "name": "永昌國小活動中心",
-    "region": "南投縣",
-    "address": "南投縣集集鎮永昌里東昌巷4號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140612161709_IMAG0804.jpg",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://163.22.59.2",
-    "phone": "tel:0492762524"
-  },
-  {
-    "name": "集集國中活動中心",
-    "region": "南投縣",
-    "address": "南投縣集集鎮集集里成功路200號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140611150102_DSC_0083.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：12",
-      "無障礙坡道：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.chijhs.ntct.edu.tw",
-    "phone": "tel:0492762013,13"
   },
   {
     "name": "雲林縣立體育館",
@@ -4052,25 +3233,6 @@
     "phone": "tel:056322806"
   },
   {
-    "name": "嘉義國中活動中心",
-    "region": "嘉義市",
-    "address": "嘉義市東區王田里圓福街86號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140617171030_G:\\體育館.jpg",
-    "hasParking": [
-      "無障礙坡道：1"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場(館) : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.cyjh.cy.edu.tw",
-    "phone": "tel:052762625,230"
-  },
-  {
     "name": "蘭潭國小風雨操場",
     "region": "嘉義市",
     "address": "嘉義市東區蘭潭里小雅路419號",
@@ -4103,26 +3265,6 @@
     "phone": "tel:052763492"
   },
   {
-    "name": "林森國小活動中心",
-    "region": "嘉義市",
-    "address": "嘉義市東區林森東路346號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140611162346_活動中心外側.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：1",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "桌球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.lses.cy.edu.tw",
-    "phone": "tel:052762063,114"
-  },
-  {
     "name": "民族國小活動中心",
     "region": "嘉義市",
     "address": "嘉義市東區民族路235號",
@@ -4141,26 +3283,6 @@
     "description": "",
     "website": "http://www.mtes.cy.edu.tw",
     "phone": "tel:052222113,631"
-  },
-  {
-    "name": "宣信國小活動中心",
-    "region": "嘉義市",
-    "address": "嘉義市東區宣信街266號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140606143042_DSC_1166.JPG",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙昇降設備：1"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "躲避球場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "羽球場(館) : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.sses.cy.edu.tw",
-    "phone": "tel:052223904,2921"
   },
   {
     "name": "嘉義大學附小活動中心",
@@ -4238,27 +3360,6 @@
     "phone": "tel:05-2782421#330"
   },
   {
-    "name": "大林國中羽球場(館)",
-    "region": "嘉義縣",
-    "address": "嘉義縣大林鎮大糖里中學路1號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140611094832_DSCN6832.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：2",
-      "無障礙昇降設備：1",
-      "無障礙廁所：2",
-      "無障礙淋浴間：2"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.tljh.cyc.edu.tw",
-    "phone": "tel:052652014,116"
-  },
-  {
     "name": "大林國小育英堂",
     "region": "嘉義縣",
     "address": "嘉義縣大林鎮西林里中正路423號",
@@ -4288,31 +3389,9 @@
       "無障礙廁所：3"
     ],
     "openingHours": [
-      "籃球場 : 每天開放",
-      "開放時間 : 8:30~18:00",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場 : 平日開放",
       "開放時間 : 8:30~18:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場 : 平日開放",
-      "開放時間 : 8:30~18:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "柔道教室 : 不開放",
-      "桌球教室 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 8:30~18:00",
-      "韻律教室 : 平日開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 8:30~18:00",
-      "攀岩場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "健身中心 : 平日開放",
-      "開放時間 : 17:30~20:30",
-      "租借資訊 : 付費對外場地租借 ",
-      "足球場 : 平日開放",
-      "開放時間 : 8:30~18:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": "http://www.wfu.edu.tw/wufeng/",
@@ -4457,63 +3536,6 @@
     "phone": "tel:06-2986111"
   },
   {
-    "name": "羽球場館",
-    "region": "臺南市",
-    "address": "臺南市永康區文賢街68巷1號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140610163244_J3V9E0FCWBZHNVASTQL0.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：2",
-      "無障礙廁所：2"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.dwhs.tnc.edu.tw",
-    "phone": "tel:06-2714223#69"
-  },
-  {
-    "name": "安定國小學生活動中心",
-    "region": "臺南市",
-    "address": "臺南市安定區安定里1號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140724090638_IMG_2800.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：1",
-      "無障礙廁所：2"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.adps.tn.edu.tw",
-    "phone": "tel:065922024,822"
-  },
-  {
-    "name": "東光國小東光館",
-    "region": "臺南市",
-    "address": "臺南市東區東光路一段39號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140714155230_2014-07-14_15-43-32_317.jpg",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.tkes.tn.edu.tw",
-    "phone": "tel:062376534,714"
-  },
-  {
     "name": "德光高中體育館",
     "region": "臺南市",
     "address": "臺南市東區德光街106號",
@@ -4522,84 +3544,13 @@
       "無"
     ],
     "openingHours": [
-      "游泳池(館) : 每天開放",
-      "開放時間 : 6:30~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "籃球場 : 每天開放",
-      "開放時間 : 6:30~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "排球場(館) : 每天開放",
-      "開放時間 : 6:30~22:00",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場(館) : 每天開放",
       "開放時間 : 6:30~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球場(館) : 每天開放",
-      "開放時間 : 6:30~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": "http://www.tkgsh.tn.edu.tw",
     "phone": "tel:062894560"
-  },
-  {
-    "name": "大成國中樂群館",
-    "region": "臺南市",
-    "address": "臺南市南區西門路一段306號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140730162503_DSC09280.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：2",
-      "無障礙坡道：1",
-      "無障礙廁所：2"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.tcjhs.tn.edu.tw",
-    "phone": "tel:062630011,310"
-  },
-  {
-    "name": "新興國中活動中心",
-    "region": "臺南市",
-    "address": "臺南市南區新孝路87號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140717115626_DSCN0458.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "游泳池(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.hhjh.tn.edu.tw",
-    "phone": "tel:062633171"
-  },
-  {
-    "name": "羽球場",
-    "region": "臺南市",
-    "address": "臺南市柳營區義士路二段2號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140707180401_D:\\103年工程\\103年度活動中心整修工程\\損壞現況照片\\DSCN1890(001).jpg",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1",
-      "其他：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.cxes.tn.edu.tw",
-    "phone": "tel:066231824"
   },
   {
     "name": "新營體育園區",
@@ -4612,21 +3563,9 @@
       "無障礙廁所：2"
     ],
     "openingHours": [
-      "籃板 : 特定時間開放",
-      "壘球場 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "網球場館 : 每天開放",
-      "開放時間 : 06:00~08:00, 15:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場館 : 每天開放",
       "開放時間 : 05:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "槌球場 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "田徑場 : 每天開放",
-      "開放時間 : 05:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": "http://www.sports.tn.edu.tw/html/main",
@@ -4653,24 +3592,6 @@
     "description": "",
     "website": "http://www.smjh.kh.edu.tw",
     "phone": "tel:073227751,332"
-  },
-  {
-    "name": "東光國小活動中心",
-    "region": "高雄市",
-    "address": "高雄市三民區黃興路206號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20170711110507_B06NY797LJKFWJSVRHJU.JPG",
-    "hasParking": [
-      "無障礙昇降設備：1",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.dgps.kh.edu.tw/",
-    "phone": "tel:073839350,31"
   },
   {
     "name": "國立岡山農工學生活動中心",
@@ -4877,61 +3798,13 @@
       "無障礙坡道：1"
     ],
     "openingHours": [
-      "健身房(含重量訓練室) : 平日開放",
-      "開放時間 : 08:00~17:00",
-      "租借資訊 : 付費對外場地租借 ",
       "羽球場(館) : 週末開放",
       "開放時間 : 08:00~13:0",
-      "租借資訊 : 付費對外場地租借 ",
-      "拳擊場/館 : 平日開放",
-      "開放時間 : 08:00~17:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球場(館) : 不開放",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": "http://www.lchs.ks.edu.tw",
     "phone": "tel:07-6963008#133"
-  },
-  {
-    "name": "活動中心",
-    "region": "高雄市",
-    "address": "高雄市鼓山區明德路2號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20180312144534_GADQBQMED7QBA4DBV1U6.JPG",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙坡道：1",
-      "無障礙昇降設備：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "排球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.kusjh.kh.edu.tw",
-    "phone": "tel:075213258"
-  },
-  {
-    "name": "龍華國小活動中心",
-    "region": "高雄市",
-    "address": "高雄市鼓山區大順一路858號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140613125432_C:\\Users\\office\\Desktop\\活動中心外.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：2",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.lhps.kh.edu.tw",
-    "phone": "tel:075553086,29"
   },
   {
     "name": "鼓山國小羽球場(館)",
@@ -4989,24 +3862,6 @@
     "phone": "tel:076113549"
   },
   {
-    "name": "崇文國中活動中心",
-    "region": "屏東縣",
-    "address": "屏東縣內埔鄉龍潭村昭勝路438號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140612074729_10411899_896831157010190_6356547166067070915_n[1].jpg",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙廁所：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 免費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://163.24.70.10/school/web/index.php",
-    "phone": "tel:087701864"
-  },
-  {
     "name": "屏東科技大學孟祥體育館",
     "region": "屏東縣",
     "address": "屏東縣內埔鄉學府路1號",
@@ -5015,29 +3870,9 @@
       "無"
     ],
     "openingHours": [
-      "健身房(含重量訓練室) : 平日開放",
-      "開放時間 : 17:30~20:30",
-      "租借資訊 : 付費對外場地租借 ",
-      "舞蹈教室 : 不開放",
-      "桌球場(館) : 平日開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 17:30~20:30",
-      "攀岩場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "田徑場 : 不開放",
-      "拳擊場/館 : 平日開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 17:30~20:30",
       "羽球場(館) : 平日開放",
       "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 17:30~20:30",
-      "籃球場 : 平日開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 17:30~20:30",
-      "排球場(館) : 平日開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : 17:30~20:30",
-      "以官方網站資訊為主"
+      "開放時間 : 17:30~20:30"
     ],
     "description": "",
     "website": "http://www.npust.edu.tw",
@@ -5118,14 +3953,7 @@
     "openingHours": [
       "羽球場(館) : 平日開放",
       "開放時間 : 7:30~100:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "瑜珈教室 : 不開放",
-      "桌球教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "撞球場 : 不開放",
-      "健身房(含重量訓練室) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": null,
@@ -5133,8 +3961,8 @@
   },
   {
     "name": "屏東市瑞光公園羽球場",
-    "region": "屏東市",
-    "address": "屏東市建豐路與瑞光路交叉口",
+    "region": "屏東縣",
+    "address": "屏東縣屏東市建豐路與瑞光路交叉口",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140817212859_瑞光(羽球).jpg",
     "hasParking": [
       "無"
@@ -5150,8 +3978,8 @@
   },
   {
     "name": "屏東市上興公園羽球場",
-    "region": "屏東市",
-    "address": "屏東市興豐街152巷",
+    "region": "屏東縣",
+    "address": "屏東縣屏東市興豐街152巷",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140817211801_上興(羽球).jpg",
     "hasParking": [
       "無"
@@ -5221,23 +4049,6 @@
     "description": "",
     "website": "http://www.chyps.ptc.edu.tw/bin/home.php",
     "phone": "tel:088892141,14"
-  },
-  {
-    "name": "萬巒國中活動中心",
-    "region": "屏東縣",
-    "address": "屏東縣萬巒鄉萬和村褒忠路5號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140617120605_C:\\Documents and Settings\\user\\桌面\\學校場地\\高度拍攝羽球館.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.wljh.ptc.edu.tw",
-    "phone": "tel:087812537,18"
   },
   {
     "name": "滿州國中學生活動中心",
@@ -5380,23 +4191,6 @@
     "phone": "tel:089226389,2250"
   },
   {
-    "name": "吉安國小活動中心",
-    "region": "花蓮縣",
-    "address": "花蓮縣吉安鄉吉安路二段97號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140616160159_活動中心外側.jpg",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.gaps.hlc.edu.tw",
-    "phone": "tel:03-8523984"
-  },
-  {
     "name": "宜昌國中活動中心",
     "region": "花蓮縣",
     "address": "花蓮縣吉安鄉宜昌1街41號",
@@ -5485,75 +4279,17 @@
       "入水升降座椅(游泳池)：1"
     ],
     "openingHours": [
-      "籃球場 : 每天開放",
-      "開放時間 : 8:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "游泳池(館) : 每天開放",
-      "開放時間 : 6:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "健身房(含重量訓練室) : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "多功能教室 : 不開放",
-      "韻律教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
       "綜合球場（籃羽球） : 每天開放",
       "開放時間 : 6:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球場(館) : 每天開放",
-      "開放時間 : 6:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "社區教室 : 每天開放",
-      "開放時間 : 6:00~22:00",
-      "租借資訊 : 付費對外場地租借 ",
-      "多功能健身房/體適能中心（此空間中具有兩種以上之阻力運動器材設備） : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": "https://yilansports.com.tw",
     "phone": "tel:03-9254566"
   },
   {
-    "name": "員山國小體育館",
-    "region": "宜蘭縣",
-    "address": "宜蘭縣員山鄉員山村復興路39號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140611084922_IMG_2292.JPG",
-    "hasParking": [
-      "無障礙坡道：1",
-      "無障礙廁所：2"
-    ],
-    "openingHours": [
-      "籃球場 : 不開放",
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.yeses.ilc.edu.tw",
-    "phone": "tel:039224061,300"
-  },
-  {
-    "name": "澎湖縣馬公市文澳國民小學多功能體育館",
-    "region": "澎湖縣馬公市",
-    "address": "澎湖縣馬公市西文里文學路221號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20160711103930_13632789_1212950968728512_2091545253_o.jpg",
-    "hasParking": [
-      "無障礙汽車停車格：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 付費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.wops.phc.edu.tw",
-    "phone": "tel:069212412"
-  },
-  {
     "name": "澎湖縣立羽球館",
-    "region": "澎湖縣馬公市",
+    "region": "澎湖縣",
     "address": "澎湖縣馬公市民生路38-1號",
     "image": "https://iplay.sa.gov.tw/Upload/photogym/20140915153711_羽球館2.jpg",
     "hasParking": [
@@ -5571,48 +4307,6 @@
     "phone": "tel:06-9272803"
   },
   {
-    "name": "金沙國小活動中心",
-    "region": "金門縣",
-    "address": "金門縣金沙鎮汶沙里后浦頭117號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140606104323_P1140713.JPG",
-    "hasParking": [
-      "無"
-    ],
-    "openingHours": [
-      "羽球場(館) : 不開放",
-      "租借資訊 : 免費對外場地租借",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.kses.km.edu.tw",
-    "phone": "tel:082-352569"
-  },
-  {
-    "name": "金門高中體育館",
-    "region": "金門縣",
-    "address": "金門縣金城鎮光前路94號",
-    "image": "https://iplay.sa.gov.tw/Upload/photogym/20140619155828_體育館.JPG",
-    "hasParking": [
-      "無障礙坡道：2",
-      "無障礙昇降設備：1",
-      "無障礙廁所：1",
-      "無障礙淋浴間：1"
-    ],
-    "openingHours": [
-      "健身房(含重量訓練室) : 不開放",
-      "舞蹈教室 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球場(館) : 不開放",
-      "籃球場 : 不開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "羽球場(館) : 不開放",
-      "以官方網站資訊為主"
-    ],
-    "description": "",
-    "website": "http://www.kmsh.km.edu.tw",
-    "phone": "tel:082-325450#213"
-  },
-  {
     "name": "金門縣立體育場",
     "region": "金門縣",
     "address": "金門縣金城鎮民族路261號",
@@ -5626,27 +4320,8 @@
       "入水升降座椅(游泳池)：1"
     ],
     "openingHours": [
-      "籃球場 : 特定時間開放",
       "羽球場 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "桌球室 : 特定時間開放",
-      "舞蹈教室 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "田徑場 : 特定時間開放",
-      "游泳館 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "多功能健身房/體適能中心（此空間中具有兩種以上之阻力運動器材設備） : 特定時間開放",
-      "戶外籃球場 : 每天開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "開放時間 : ",
-      "壘球場 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "網球場館 : 特定時間開放",
-      "飛輪室 : 特定時間開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "棒球場 : 平日開放",
-      "租借資訊 : 付費對外場地租借 ",
-      "以官方網站資訊為主"
+      "租借資訊 : 付費對外場地租借 "
     ],
     "description": "",
     "website": "https://sport.kinmen.gov.tw/Default.aspx",

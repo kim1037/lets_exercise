@@ -4,6 +4,7 @@ const followships = require('./modules/followships')
 const activities = require('./modules/activities')
 const arenas = require('./modules/arenas')
 const branches = require('./modules/branches')
+const others = require('./modules/others')
 const auth = require('./modules/auth')
 const shuttlecocks = require('./modules/shuttlecocks')
 const userController = require('../controllers/user-controller')
@@ -15,6 +16,7 @@ const { strictAuthenticated, easingAuthenticated } = require('../middleware/auth
 router.post('/users/signup', userController.signup)
 router.post('/users/signin', passport.authenticate('local', { session: false }), userController.signin)
 router.use('/auth', auth)
+router.use(others)
 
 // 寬鬆驗證模式
 router.get('/activities/all', easingAuthenticated, activityController.getAll) // 取得所有活動資料

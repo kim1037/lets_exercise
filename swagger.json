@@ -307,6 +307,32 @@
         }
       }
     },
+    "/levels/all": {
+      "get": {
+        "tags": [
+          "Levels"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/regions/all": {
+      "get": {
+        "tags": [
+          "Regions"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/arenas/all": {
       "get": {
         "tags": [
