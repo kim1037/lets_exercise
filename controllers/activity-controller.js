@@ -5,17 +5,24 @@ const dayjs = require('dayjs')
 const activityController = {
   create: async (req, res, next) => {
     // #swagger.tags = ['Activities']
-    let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
+    let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, levelId, fee, numsOfPeople, totalPeople, description } = req.body
     let connection
     try {
       const currentUserId = req.user.id
       connection = await global.pool.getConnection()
       // 需要加入一些條件判斷避免重複創建? 時間地點重複就要，看要不要新增場地數量的欄位
-      if (!arenaId || !date || !level || !fee || !numsOfPeople || !totalPeople || !timeStart || !timeEnd) {
+      if (!arenaId || !date || !levelId || (!fee && typeof fee !== 'number') || !numsOfPeople || !totalPeople || !timeStart || !timeEnd) {
         const err = new Error('資料格式錯誤：請填寫所有必填欄位!')
         err.status = 422
         throw err
       }
+
+      if (fee < 0) {
+        const err = new Error('資料格式錯誤：費用不得小於0')
+        err.status = 422
+        throw err
+      }
+
       // 無法重複創建活動 => 同地點、同日期、同時間
       const [activity] = await connection.query('SELECT * FROM activities WHERE arenaId =? AND hostId = ? AND date = ? AND timeStart = ? AND timeEnd =?', [arenaId, currentUserId, date, timeStart, timeEnd])
       if (activity.length > 0) {
@@ -40,10 +47,10 @@ const activityController = {
         err.status = 404
         throw err
       }
-      const values = [currentUserId, arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description]
+      const values = [currentUserId, arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, levelId, fee, numsOfPeople, totalPeople, description]
       const valuesPlacholder = values.map(c => '?').join(', ')
       // create activity
-      await connection.query(`INSERT INTO activities (hostId, arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description) VALUES(${valuesPlacholder})`, values)
+      await connection.query(`INSERT INTO activities (hostId, arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, levelId, fee, numsOfPeople, totalPeople, description) VALUES(${valuesPlacholder})`, values)
 
       return res.status(201).json({ status: 'Success', message: '成功建立活動!' })
     } catch (err) {
@@ -57,7 +64,7 @@ const activityController = {
   edit: async (req, res, next) => {
     // #swagger.tags = ['Activities']
     let connection
-    let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description } = req.body
+    let { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, levelId, fee, numsOfPeople, totalPeople, description } = req.body
     const { activityId } = req.params
     try {
       connection = await global.pool.getConnection()
@@ -89,7 +96,7 @@ const activityController = {
       }
 
       if ((shuttlecockProvide === false) || !activity[0].shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
-      const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, level, fee, numsOfPeople, totalPeople, description }
+      const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, levelId, fee, numsOfPeople, totalPeople, description }
       const updateStr = updateSQLFomatter(columnsObj)
       const sql = `UPDATE activities SET ${updateStr} WHERE id = ?`
       await connection.query(sql, [activityId])
