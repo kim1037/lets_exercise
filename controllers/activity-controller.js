@@ -95,6 +95,12 @@ const activityController = {
         throw err
       }
 
+      if (fee && fee < 0) {
+        const err = new Error('資料格式錯誤：費用不得小於0')
+        err.status = 422
+        throw err
+      }
+
       if ((shuttlecockProvide === false) || !activity[0].shuttlecockProvide) shuttlecockId = null // 若不提供球, 羽球型號則為null
       const columnsObj = { arenaId, shuttlecockId, date, timeStart, timeEnd, shuttlecockProvide, levelId, fee, numsOfPeople, totalPeople, description }
       const updateStr = updateSQLFomatter(columnsObj)

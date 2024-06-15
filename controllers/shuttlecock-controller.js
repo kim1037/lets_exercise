@@ -5,14 +5,14 @@ const shuttlecockController = {
     // #swagger.description = '取得所有羽毛球資訊'
 
     let connection
-    const page = Number(req.query.page) || 1 // 初始預設頁
-    const limit = Number(req.query.limit) || 10 // default 每頁10筆
-    const offset = getOffset(limit, page)
     try {
       connection = await global.pool.getConnection()
       // find the total numbers of shuttlecocks
       const [amount] = await connection.query('SELECT COUNT(*) AS total FROM shuttlecocks ')
       const totalAmount = amount[0].total
+      let limit = Number(req.query.limit) || totalAmount // default totalAmount
+      const page = Number(req.query.page) || 1 // 初始預設頁
+      const offset = getOffset(limit, page)
       if (offset > totalAmount) {
         const err = new Error(`資料頁碼超過範圍，此條件只有${Math.ceil(totalAmount / limit)}頁`)
         err.status = 404
