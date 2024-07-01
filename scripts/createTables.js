@@ -121,6 +121,7 @@ const participantsTable = `CREATE TABLE IF NOT EXISTS participants (
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id),
   FOREIGN KEY (activityId) REFERENCES activities(id)
+    ON DELETE CASCADE
   )`
 
 const levelsTable = `CREATE TABLE IF NOT EXISTS levels (

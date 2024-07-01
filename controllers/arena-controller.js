@@ -21,7 +21,6 @@ const arenaController = {
       }
       // get arenas data
       const [arenas] = await connection.query(`SELECT a.*, r.region FROM arenas AS a JOIN regions AS r ON a.regionId = r.id ${regionId ? 'WHERE a.regionId = ?' : ''} LIMIT ${limit} OFFSET ${offset}`, (regionId ? [regionId] : []))
-      console.log(arenas.length)
       if (!arenas || arenas.length === 0) {
         return res.status(200).json({ status: 'Success', message: '此條件查無場地' })
       } else {

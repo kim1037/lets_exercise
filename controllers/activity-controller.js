@@ -11,11 +11,18 @@ const activityController = {
       const currentUserId = req.user.id
       connection = await global.pool.getConnection()
       // 需要加入一些條件判斷避免重複創建? 時間地點重複就要，看要不要新增場地數量的欄位
-      if (!arenaId || !date || !levelId || !fee || !numsOfPeople || !totalPeople || !timeStart || !timeEnd) {
+      if (!arenaId || !date || !levelId || (!fee && typeof fee !== 'number') || !numsOfPeople || !totalPeople || !timeStart || !timeEnd) {
         const err = new Error('資料格式錯誤：請填寫所有必填欄位!')
         err.status = 422
         throw err
       }
+
+      if (fee < 0) {
+        const err = new Error('資料格式錯誤：費用不得小於0')
+        err.status = 422
+        throw err
+      }
+
       // 無法重複創建活動 => 同地點、同日期、同時間
       const [activity] = await connection.query('SELECT * FROM activities WHERE arenaId =? AND hostId = ? AND date = ? AND timeStart = ? AND timeEnd =?', [arenaId, currentUserId, date, timeStart, timeEnd])
       if (activity.length > 0) {
@@ -84,6 +91,12 @@ const activityController = {
       const now = dayjs(new Date(), 'Asia/Taipei').format()
       if ((date < dayjs(now).format('YYYY-MM-DD')) || (date === dayjs(now).format('YYYY-MM-DD') && Number(timeStart.slice(0, 2)) <= dayjs(now).hour())) {
         const err = new Error('資料格式錯誤：日期不得早於現在時間!')
+        err.status = 422
+        throw err
+      }
+
+      if (fee && fee < 0) {
+        const err = new Error('資料格式錯誤：費用不得小於0')
         err.status = 422
         throw err
       }
